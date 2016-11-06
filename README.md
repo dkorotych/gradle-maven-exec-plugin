@@ -1,34 +1,37 @@
 # gradle-maven-exec-plugin
 
 Gradle plugin which provides an Maven exec task
+[![Build Status](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin.svg?branch=master)](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin)
+[![Coverage Status](https://coveralls.io/repos/github/dkorotych/gradle-maven-exec-plugin/badge.svg?branch=master)](https://coveralls.io/github/dkorotych/gradle-maven-exec-plugin?branch=master)
 
 ## Installing
 
 Releases of this plugin are hosted on [Gradle's Plugin Repository](https://login.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec).
 Apply the plugin to your project using one of the two methods below.
 
-### Gradle 2.0 and older
+#### Build script snippet for use in all Gradle versions:
 
 ```groovy
 buildscript {
-	repositories {
-		maven {
-			url "https://plugins.gradle.org/m2/"
-		}
-	}
-	dependencies {
-		classpath 'gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:0.1'
-	}
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:0.1-SNAPSHOT"
+    }
 }
 
-apply plugin: 'com.github.dkorotych.gradle-maven-exec'
+apply plugin: "com.github.dkorotych.gradle-maven-exec"
 ```
 
-### Gradle 2.1 and newer
+#### Gradle 2.1 and newer
+Build script snippet for new, incubating, plugin mechanism introduced in Gradle 2.1:
 
 ```groovy
 plugins {
-	id 'com.github.dkorotych.gradle-maven-exec' version '0.1'
+    id "com.github.dkorotych.gradle-maven-exec" version "0.1-SNAPSHOT"
 }
 ```
 
