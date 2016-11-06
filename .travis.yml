@@ -11,5 +11,6 @@ before_script:
 script:
   - ./gradlew check
   - ./gradlew cobertura
+  - ./gradlew sonarqube
 after_success:
   - bash <(curl -s https://codecov.io/bash)
