@@ -10,6 +10,6 @@ before_script:
   - chmod +x gradlew
 script:
   - ./gradlew check
-  - ./gradlew jacocoTestReport
+  - ./gradlew cobertura
 after_success:
   - bash <(curl -s https://codecov.io/bash)
