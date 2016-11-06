@@ -2,7 +2,6 @@
 
 Gradle plugin which provides an Maven exec task
 [![Build Status](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin.svg?branch=master)](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin)
-[![Coverage Status](https://coveralls.io/repos/github/dkorotych/gradle-maven-exec-plugin/badge.svg?branch=master)](https://coveralls.io/github/dkorotych/gradle-maven-exec-plugin?branch=master)
 
 ## Installing
 
@@ -19,7 +18,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:0.1-SNAPSHOT"
+        classpath "gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:0.2"
     }
 }
 
@@ -31,7 +30,7 @@ Build script snippet for new, incubating, plugin mechanism introduced in Gradle 
 
 ```groovy
 plugins {
-    id "com.github.dkorotych.gradle-maven-exec" version "0.1-SNAPSHOT"
+    id "com.github.dkorotych.gradle-maven-exec" version "0.2"
 }
 ```
 
