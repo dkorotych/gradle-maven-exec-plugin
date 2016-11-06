@@ -1,0 +1,51 @@
+plugins {
+    id 'net.saliman.cobertura' version '2.3.2'
+}
+
+group 'com.github.dkorotych.gradle.maven.exec'
+version '0.1-SNAPSHOT'
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'codenarc'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4', {
+        exclude module: 'groovy-all'
+    }
+}
+
+codenarc {
+    configFile = rootProject.file('config/codenarc/codenarc.groovy')
+}
+codenarcTest.enabled = false
+
+cobertura {
+    coverageFormats = ['html', 'xml']
+    coverageSourceDirs = sourceSets.main.allSource.srcDirs
+}
+
+//pluginBundle {
+//    website = 'https://github.com/dkorotych/gradle-maven-exec-plugin'
+//    vcsUrl = 'https://github.com/dkorotych/gradle-maven-exec-plugin'
+//    description = 'Gradle plugin which provides an Maven exec task'
+//    tags = ['gradle', 'plugin', 'maven', 'exec', 'cross-platform']
+//
+//    plugins {
+//        mavenExecPlugin {
+//            id = 'com.github.dkorotych.gradle-maven-exec'
+//            displayName = 'Gradle Maven Exec Plugin'
+//        }
+//    }
+//}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.13'
+}
