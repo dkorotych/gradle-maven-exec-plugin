@@ -1,4 +1,4 @@
-# gradle-maven-exec-plugin
+# [gradle-maven-exec-plugin](https://plugins.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec)
 
 Gradle plugin which provides an Maven exec task
 [![Build Status](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin.svg?branch=master)](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin)
