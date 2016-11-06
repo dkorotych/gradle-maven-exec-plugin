@@ -46,11 +46,11 @@ crashlytics-build.properties
 fabric.properties
 
 ### Intellij+iml Patch ###
-# Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023 
+# Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
 *.iml
 modules.xml
-.idea/misc.xml 
+.idea/misc.xml
 *.ipr
 
 
@@ -208,7 +208,7 @@ buildNumber.properties
 
 # *.iml
 # modules.xml
-# .idea/misc.xml 
+# .idea/misc.xml
 # *.ipr
 
 
@@ -293,10 +293,3 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
-Будет удалено README.md
-Будет удалено config/
-Будет удалено gradle/
-Будет удалено gradlew
-Будет удалено gradlew.bat
-Будет удалено settings.gradle
-Будет удалено src/
