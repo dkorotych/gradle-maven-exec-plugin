@@ -1,5 +1,6 @@
 plugins {
     id 'net.saliman.cobertura' version '2.3.2'
+    id 'net.researchgate.release' version '2.3.5'
 }
 
 group 'com.github.dkorotych.gradle.maven.exec'
