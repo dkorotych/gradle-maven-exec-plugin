@@ -13,6 +13,6 @@ before_script:
 script:
   - ./gradlew check
   - ./gradlew cobertura
-  - ./gradlew sonarqube
+  - ./gradlew sonarqube -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_login
 after_success:
   - bash <(curl -s https://codecov.io/bash)
