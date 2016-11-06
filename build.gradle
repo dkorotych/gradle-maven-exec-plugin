@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
+    }
+}
+
 plugins {
     id 'net.saliman.cobertura' version '2.3.2'
     id 'net.researchgate.release' version '2.3.5'
@@ -9,6 +20,7 @@ version '0.1-SNAPSHOT'
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'codenarc'
+apply plugin: "com.gradle.plugin-publish"
 
 repositories {
     mavenCentral()
@@ -33,19 +45,19 @@ cobertura {
     coverageSourceDirs = sourceSets.main.allSource.srcDirs
 }
 
-//pluginBundle {
-//    website = 'https://github.com/dkorotych/gradle-maven-exec-plugin'
-//    vcsUrl = 'https://github.com/dkorotych/gradle-maven-exec-plugin'
-//    description = 'Gradle plugin which provides an Maven exec task'
-//    tags = ['gradle', 'plugin', 'maven', 'exec', 'cross-platform']
-//
-//    plugins {
-//        mavenExecPlugin {
-//            id = 'com.github.dkorotych.gradle-maven-exec'
-//            displayName = 'Gradle Maven Exec Plugin'
-//        }
-//    }
-//}
+pluginBundle {
+    website = 'https://github.com/dkorotych/gradle-maven-exec-plugin'
+    vcsUrl = 'https://github.com/dkorotych/gradle-maven-exec-plugin'
+    description = 'Gradle plugin which provides an Maven exec task'
+    tags = ['maven', 'exec', 'cross-platform']
+
+    plugins {
+        mavenExecPlugin {
+            id = 'com.github.dkorotych.gradle-maven-exec'
+            displayName = 'Gradle Maven Exec Plugin'
+        }
+    }
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.13'
