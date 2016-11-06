@@ -20,6 +20,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'codenarc'
 apply plugin: "com.gradle.plugin-publish"
+apply plugin: 'jacoco'
 
 repositories {
     mavenCentral()
@@ -42,6 +43,12 @@ codenarcTest.enabled = false
 cobertura {
     coverageFormats = ['html', 'xml']
     coverageSourceDirs = sourceSets.main.allSource.srcDirs
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
 }
 
 pluginBundle {
