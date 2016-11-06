@@ -15,7 +15,6 @@ plugins {
 }
 
 group 'com.github.dkorotych.gradle.maven.exec'
-version '0.1-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
@@ -62,3 +61,5 @@ pluginBundle {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.13'
 }
+
+afterReleaseBuild.dependsOn publishPlugins
