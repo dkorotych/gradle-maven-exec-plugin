@@ -80,7 +80,7 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         MavenCommandLineOptionsKeeper keeper = new MavenCommandLineOptionsKeeper()
 
         when:
-        keeper.addOption(option, value)
+        keeper.addOption(option, value as Boolean)
 
         then:
         commandLine == keeper.toCommandLine()
@@ -91,6 +91,7 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         '--offline' | false         | []
         '--debug'   | Boolean.TRUE  | ['--debug']
         '--debug'   | Boolean.FALSE | []
+        '--debug'   | null          | []
     }
 
     def "addOption with Boolean value. Remove option if this option already exists and new value is False"() {
@@ -119,7 +120,7 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         MavenCommandLineOptionsKeeper keeper = new MavenCommandLineOptionsKeeper()
 
         when:
-        keeper.addOption(option, value)
+        keeper.addOption(option, value as String)
 
         then:
         commandLine == keeper.toCommandLine()
@@ -128,6 +129,8 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         option    | value         | commandLine
         '--debug' | "    \n\n   " | []
         '--debug' | "parameter"   | ['--debug', 'parameter']
+        '--debug' | null          | []
+        '--debug' | ''            | []
     }
 
     def "addOption with String value. Replace existing option"() {
@@ -201,6 +204,8 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         '--offline' | ['first']                                 | ['--offline', 'first']
         '--offline' | ['first', 'second', 'test']               | ['--offline', 'first,second,test']
         '--debug'   | ['one', null, "", '       ', 'two', '\n'] | ['--debug', 'one,two']
+        '--empty'   | null                                      | []
+        '--empty'   | []                                        | []
     }
 
     def "addOption with String[] value. Replace existing option"() {
@@ -244,7 +249,7 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         MavenCommandLineOptionsKeeper keeper = new MavenCommandLineOptionsKeeper()
 
         when:
-        keeper.addOption(option, value)
+        keeper.addOption(option, value as Map)
 
         then:
         commandLine == keeper.toCommandLine()
@@ -256,6 +261,8 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         '--define' | ['first': 'value', 'second': '    \t'] | ['-Dfirst=value']
         '--define' | ['  ': 'value', 'second': 'test']      | ['-Dsecond=test']
         '--define' | [' \t ': 'value']                      | []
+        '--define' | null                                   | []
+        '--define' | []                                     | []
     }
 
     def "addOption with Map value. Replace existing option"() {

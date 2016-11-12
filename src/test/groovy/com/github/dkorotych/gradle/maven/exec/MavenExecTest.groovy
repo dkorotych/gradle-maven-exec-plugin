@@ -168,6 +168,18 @@ class MavenExecTest extends Specification {
         MavenExec task = task {}
 
         when:
+        task.goals((String[]) null)
+
+        then:
+        task.commandLine == ['mvn']
+
+        when:
+        task.goals((Iterable) null)
+
+        then:
+        task.commandLine == ['mvn']
+
+        when:
         task.goals = ['package']
 
         then:
