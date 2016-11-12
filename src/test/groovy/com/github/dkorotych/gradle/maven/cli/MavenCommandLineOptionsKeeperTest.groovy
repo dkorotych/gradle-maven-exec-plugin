@@ -30,14 +30,16 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         keeper.addOption(option, "   ")
         keeper.addOption(option, "test")
         keeper.addOption(option, new File(userHome))
+        keeper.addOption(option, ['first', 'second'] as String[])
         keeper.addOption(option, ['first', 'second'])
         keeper.addOption(option, [:])
+        keeper.addOption(option, ['first': 'second'])
 
         then:
         keeper.toCommandLine() == []
 
         where:
-        option << [null, '', "", '  ', '\t\n', '\t    \n   ']
+        option << [null, '', "", '  ', '\t\n', '\t    \n   ', "  " , "\t\n", "\t    \n   "]
     }
 
     def "any method addOption not support null or empty value"() {
@@ -262,7 +264,7 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         '--define' | ['  ': 'value', 'second': 'test']      | ['-Dsecond=test']
         '--define' | [' \t ': 'value']                      | []
         '--define' | null                                   | []
-        '--define' | []                                     | []
+        '--define' | [:]                                    | []
     }
 
     def "addOption with Map value. Replace existing option"() {

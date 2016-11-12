@@ -1,7 +1,6 @@
 package com.github.dkorotych.gradle.maven.exec
 
 import com.github.dkorotych.gradle.maven.cli.MavenCli
-import groovy.transform.Memoized
 import groovy.transform.TypeChecked
 import org.gradle.api.tasks.AbstractExecTask
 import org.gradle.api.tasks.TaskAction
@@ -30,8 +29,7 @@ class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecSpec {
     @TaskAction
     protected void exec() {
         // build correct command line
-        List<String> line = commandLine
-        logger.debug('command line {}', line)
+        prepareCommandLine()
         super.exec()
     }
 
@@ -118,11 +116,7 @@ class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecSpec {
 
     @Override
     List<String> getCommandLine() {
-        List<String> parameters = []
-        parameters.addAll(executableCommandLine())
-        parameters.addAll(mavenCli.toCommandLine())
-        parameters.addAll(goals)
-        super.setCommandLine(parameters)
+        prepareCommandLine()
         super.commandLine
     }
 
@@ -133,19 +127,23 @@ class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecSpec {
         this
     }
 
-    @Memoized
-    private GString command() {
-        "${mavenDir ? mavenDir.absolutePath + '/' : ''}mvn${windows ? '.cmd' : ''}"
-    }
-
-    @Memoized
-    private List<String> executableCommandLine() {
-        List<String> commandLine = []
+    private List<String> prepareCommandLine() {
+        List<String> parameters = []
         if (windows) {
-            commandLine << 'cmd'
-            commandLine << '/c'
+            parameters << 'cmd'
+            parameters << '/c'
         }
-        commandLine << command()
-        commandLine
+        String command = ''
+        if (mavenDir != null) {
+            command = mavenDir.absolutePath + '/'
+        }
+        command += 'mvn'
+        if (windows) {
+            command += '.cmd'
+        }
+        parameters << command
+        parameters.addAll(mavenCli.toCommandLine())
+        parameters.addAll(goals)
+        super.setCommandLine(parameters)
     }
 }

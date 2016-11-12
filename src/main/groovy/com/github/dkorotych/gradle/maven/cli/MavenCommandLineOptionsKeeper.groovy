@@ -26,10 +26,10 @@ class MavenCommandLineOptionsKeeper {
     void addOption(String option, Boolean value) {
         if (isNotBlank(option)) {
             if (value != null) {
-                if (Boolean.FALSE == value) {
-                    options.remove(option)
-                } else {
+                if (value) {
                     options[option] = ''
+                } else {
+                    options.remove(option)
                 }
             }
         }
@@ -57,7 +57,7 @@ class MavenCommandLineOptionsKeeper {
      * @see #addOption(java.lang.String, java.lang.String)
      */
     void addOption(String option, List<String> value) {
-        if (value && !value.isEmpty()) {
+        if (value != null) {
             addOption(option, value.findAll { isNotBlank(it) }.join(','))
         }
     }
@@ -70,7 +70,7 @@ class MavenCommandLineOptionsKeeper {
      * @see #addOption(java.lang.String, java.util.List)
      */
     void addOption(String option, String[] value) {
-        if (value) {
+        if (value != null) {
             addOption(option, Arrays.asList(value))
         }
     }
@@ -82,7 +82,7 @@ class MavenCommandLineOptionsKeeper {
      * @param value Option value. Should be not null
      */
     void addOption(String option, File value) {
-        if (value) {
+        if (value != null) {
             addOption(option, value.absolutePath)
         }
     }
@@ -94,11 +94,13 @@ class MavenCommandLineOptionsKeeper {
      * @param value Option value. Should be not empty
      */
     void addOption(String option, Map<String, String> value) {
-        if (value && !value.isEmpty()) {
+        if (isNotBlank(option)) {
             if (option == DEFINE_OPTION) {
-                Map<String, String> properties = value.findAll { isNotBlank(it.key) && isNotBlank(it.value) }
-                systemProperties.clear()
-                systemProperties.putAll(properties)
+                if (value != null) {
+                    Map<String, String> properties = value.findAll { isNotBlank(it.key) && isNotBlank(it.value) }
+                    systemProperties.clear()
+                    systemProperties.putAll(properties)
+                }
             } else {
                 throw new IllegalArgumentException("Only support '${DEFINE_OPTION}' option with multiple values")
             }
