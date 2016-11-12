@@ -3,12 +3,17 @@ package com.github.dkorotych.gradle.maven.cli
 import groovy.transform.PackageScope
 
 /**
+ * Converter between internal property names and command line options for Maven.
+ *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 @PackageScope
 class MavenOptionsMapper {
     private final Map<String, String> optionsMapper
 
+    /**
+     * Create new converter.
+     */
     @SuppressWarnings('SpaceAroundMapEntryColon')
     MavenOptionsMapper() {
         optionsMapper = [
@@ -34,6 +39,12 @@ class MavenOptionsMapper {
         ]
     }
 
+    /**
+     * Convert internal property name to Maven command line option.
+     *
+     * @param propertyName Property name
+     * @return Command line option
+     */
     String getOptionName(String propertyName) {
         if (propertyName) {
             String name = propertyName.trim()

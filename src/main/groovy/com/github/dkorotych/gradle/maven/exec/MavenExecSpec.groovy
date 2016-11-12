@@ -4,29 +4,31 @@ import com.github.dkorotych.gradle.maven.cli.MavenCli
 import org.gradle.process.BaseExecSpec
 
 /**
+ * Specifies options for launching a Maven process.
+ *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 interface MavenExecSpec extends BaseExecSpec {
     /**
-     * Returns the Maven directory for the process. Defaults to the project directory.
+     * Returns the Maven directory for the process.
      *
-     * @return The Maven directory. Never returns null.
+     * @return The Maven directory
      */
     File getMavenDir()
 
     /**
-     * Sets the Maven directory for the process. The supplied argument is evaluated as per {@link
-     * org.gradle.api.Project # file ( Object )}.
+     * Sets the Maven directory for the process. The supplied argument is evaluated as per
+     * {@link org.gradle.api.Project#file(Object)}.
      *
-     * @param dir The Maven directory. Must not be null.
+     * @param dir The Maven directory
      */
     void setMavenDir(File dir)
 
     /**
-     * Sets the Maven directory for the process. The supplied argument is evaluated as per {@link
-     * org.gradle.api.Project # file ( Object )}.
+     * Sets the Maven directory for the process. The supplied argument is evaluated as per
+     * {@link org.gradle.api.Project#file(Object)}.
      *
-     * @param dir The Maven directory. Must not be null.
+     * @param dir The Maven directory
      * @return this
      */
     MavenExecSpec mavenDir(File dir)
@@ -57,9 +59,16 @@ interface MavenExecSpec extends BaseExecSpec {
 
     /**
      * Returns the goals for the Maven. Defaults to an empty list.
+     *
      * @return goals for the Maven
      */
     Set<String> getGoals()
 
+    /**
+     * Command line options.
+     *
+     * @param options Options closure
+     * @return this
+     */
     MavenExecSpec options(@DelegatesTo(MavenCli) Closure<MavenCli> options)
 }

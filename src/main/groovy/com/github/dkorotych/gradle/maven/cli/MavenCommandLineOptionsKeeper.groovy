@@ -4,6 +4,8 @@ import groovy.transform.PackageScope
 import groovy.transform.ToString
 
 /**
+ * Storage for command line options.
+ *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 @PackageScope
@@ -14,6 +16,13 @@ class MavenCommandLineOptionsKeeper {
     private final Map<String, String> options = [:]
     private final Map<String, String> systemProperties = [:]
 
+    /**
+     * Add command-line option. If the option is already exists in the storage and the new value is {@code false},
+     * then the option will be deleted from the list
+     *
+     * @param option Command-line option. Should be not blank
+     * @param value Option value
+     */
     void addOption(String option, Boolean value) {
         if (isNotBlank(option)) {
             if (value != null) {
@@ -26,6 +35,12 @@ class MavenCommandLineOptionsKeeper {
         }
     }
 
+    /**
+     * Add command-line option.
+     *
+     * @param option Command-line option. Should be not blank
+     * @param value Option value. Should be not blank
+     */
     void addOption(String option, String value) {
         if (isNotBlank(option)) {
             if (isNotBlank(value)) {
@@ -34,24 +49,50 @@ class MavenCommandLineOptionsKeeper {
         }
     }
 
+    /**
+     * Add command-line option.
+     *
+     * @param option Command-line option. Should be not blank
+     * @param value Option value. Should be not empty
+     * @see #addOption(java.lang.String, java.lang.String)
+     */
     void addOption(String option, List<String> value) {
         if (value && !value.isEmpty()) {
             addOption(option, value.findAll { isNotBlank(it) }.join(','))
         }
     }
 
+    /**
+     * Add command-line option.
+     *
+     * @param option Command-line option. Should be not blank
+     * @param value Option value. Should be not empty
+     * @see #addOption(java.lang.String, java.util.List)
+     */
     void addOption(String option, String[] value) {
         if (value) {
             addOption(option, Arrays.asList(value))
         }
     }
 
+    /**
+     * Add command-line option.
+     *
+     * @param option Command-line option. Should be not blank
+     * @param value Option value. Should be not null
+     */
     void addOption(String option, File value) {
         if (value) {
             addOption(option, value.absolutePath)
         }
     }
 
+    /**
+     * Add command-line option.
+     *
+     * @param option Command-line option. Should be not blank
+     * @param value Option value. Should be not empty
+     */
     void addOption(String option, Map<String, String> value) {
         if (value && !value.isEmpty()) {
             if (option == DEFINE_OPTION) {
@@ -64,11 +105,22 @@ class MavenCommandLineOptionsKeeper {
         }
     }
 
+    /**
+     * Add command-line option. This method always generate {@code UnsupportedOperationException}
+     *
+     * @param option Command-line option
+     * @param value Option value
+     */
     @SuppressWarnings('UnusedMethodParameter')
     void addOption(String option, Object value) {
         throw new UnsupportedOperationException()
     }
 
+    /**
+     * Build command line options.
+     *
+     * @return Command line options list
+     */
     List<String> toCommandLine() {
         List<String> value = []
         systemProperties.each {

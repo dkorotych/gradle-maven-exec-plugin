@@ -8,6 +8,8 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.os.OperatingSystem
 
 /**
+ * Implementation of the task to support the launch Maven.
+ *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecSpec {
@@ -16,6 +18,9 @@ class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecSpec {
     private final Set<String> goalSet = []
     private File installDir
 
+    /**
+     * Create implementation of the task.
+     */
     MavenExec() {
         super(MavenExec)
         windows = OperatingSystem.current().isWindows()

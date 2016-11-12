@@ -8,6 +8,8 @@ import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
 
 /**
+ * The Maven command line builder.
+ *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 @ToString(includeNames = true, ignoreNulls = true)
@@ -141,6 +143,9 @@ class MavenCli {
     private final MavenCommandLineOptionsKeeper options
     private final MavenOptionsMapper mapper
 
+    /**
+     * Create command line builder.
+     */
     MavenCli() {
         options = new MavenCommandLineOptionsKeeper()
         mapper = new MavenOptionsMapper()
@@ -153,6 +158,11 @@ class MavenCli {
         })
     }
 
+    /**
+     * Build command line options.
+     *
+     * @return Command line options list
+     */
     List<String> toCommandLine() {
         options.toCommandLine()
     }
