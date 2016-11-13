@@ -227,6 +227,33 @@ class MavenExecTest extends Specification {
         task.commandLine == ['mvn', '-DgroupId=com.github.application', '-DartifactId=parent',
                              '--threads', '1C', '--offline', '--activate-profiles', 'development,site',
                              'clean', 'package', 'site']
+
+        cleanup:
+        cleanupProject()
+    }
+
+    @Unroll
+    def "getCommandLine. #path, #os.familyName"() {
+        setup:
+        if (WINDOWS == os) {
+            asWindows()
+        } else {
+            asUnix()
+        }
+        MavenExec task = task {}
+
+        when:
+        task.goals 'clean', 'package'
+        task.mavenDir path
+
+        then:
+        task.commandLine == commandLine(path, os, 'clean', 'package')
+
+        cleanup:
+        cleanupProject()
+
+        where:
+        [path, os] << setMavenDirDataProvider()
     }
 
     private void asWindows() {
