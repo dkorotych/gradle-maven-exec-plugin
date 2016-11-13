@@ -2,7 +2,9 @@ package com.github.dkorotych.gradle.maven.exec
 
 import org.gradle.api.Project
 import org.gradle.internal.os.OperatingSystem
+import org.gradle.process.internal.ExecAction
 import org.gradle.testfixtures.ProjectBuilder
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -247,13 +249,13 @@ class MavenExecTest extends Specification {
         task.mavenDir path
 
         then:
-        task.commandLine == commandLine(path, os, 'clean', 'package')
+        task.commandLine == commandLine
 
         cleanup:
         cleanupProject()
 
         where:
-        [path, os] << setMavenDirDataProvider()
+        [path, os, commandLine] << setMavenDirDataProvider()
     }
 
     private void asWindows() {

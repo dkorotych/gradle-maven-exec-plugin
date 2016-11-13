@@ -2,6 +2,7 @@ package com.github.dkorotych.gradle.maven.cli
 
 import groovy.transform.PackageScope
 import groovy.transform.ToString
+import org.apache.commons.lang.StringUtils
 
 /**
  * Storage for command line options.
@@ -24,7 +25,7 @@ class MavenCommandLineOptionsKeeper {
      * @param value Option value
      */
     void addOption(String option, Boolean value) {
-        if (isNotBlank(option)) {
+        if (StringUtils.isNotBlank(option)) {
             if (value != null) {
                 if (value) {
                     options[option] = ''
@@ -42,8 +43,8 @@ class MavenCommandLineOptionsKeeper {
      * @param value Option value. Should be not blank
      */
     void addOption(String option, String value) {
-        if (isNotBlank(option)) {
-            if (isNotBlank(value)) {
+        if (StringUtils.isNotBlank(option)) {
+            if (StringUtils.isNotBlank(value)) {
                 options[option] = value
             }
         }
@@ -58,7 +59,7 @@ class MavenCommandLineOptionsKeeper {
      */
     void addOption(String option, List<String> value) {
         if (value != null) {
-            addOption(option, value.findAll { isNotBlank(it) }.join(','))
+            addOption(option, value.findAll { StringUtils.isNotBlank(it) }.join(','))
         }
     }
 
@@ -94,10 +95,12 @@ class MavenCommandLineOptionsKeeper {
      * @param value Option value. Should be not empty
      */
     void addOption(String option, Map<String, String> value) {
-        if (isNotBlank(option)) {
+        if (StringUtils.isNotBlank(option)) {
             if (option == DEFINE_OPTION) {
                 if (value != null) {
-                    Map<String, String> properties = value.findAll { isNotBlank(it.key) && isNotBlank(it.value) }
+                    Map<String, String> properties = value.findAll {
+                        StringUtils.isNotBlank(it.key) && StringUtils.isNotBlank(it.value)
+                    }
                     systemProperties.clear()
                     systemProperties.putAll(properties)
                 }
@@ -130,14 +133,10 @@ class MavenCommandLineOptionsKeeper {
         }
         options.each {
             value << it.key
-            if (isNotBlank(it.value)) {
+            if (StringUtils.isNotBlank(it.value)) {
                 value << it.value
             }
         }
         value
-    }
-
-    private boolean isNotBlank(String option) {
-        option != null ? !option.trim().isEmpty() : false
     }
 }
