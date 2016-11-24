@@ -21,6 +21,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'codenarc'
 apply plugin: "com.gradle.plugin-publish"
+apply plugin: 'idea'
 
 repositories {
     mavenCentral()
@@ -72,3 +73,25 @@ task wrapper(type: Wrapper) {
 }
 
 afterReleaseBuild.dependsOn publishPlugins
+
+idea {
+    project {
+        vcs = 'Git'
+        module {
+            downloadJavadoc = true
+            downloadSources = true
+        }
+        ipr {
+            withXml {
+                def node = it.asNode()
+
+                def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
+                vcsConfig.mapping[0].'@vcs' = 'Git'
+            }
+        }
+    }
+}
+
+cleanIdea.doLast {
+    delete file('.idea')
+}
