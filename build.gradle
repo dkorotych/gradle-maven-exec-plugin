@@ -23,6 +23,9 @@ apply plugin: 'codenarc'
 apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'idea'
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
 repositories {
     mavenCentral()
     jcenter()
