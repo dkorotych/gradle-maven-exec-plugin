@@ -6,13 +6,15 @@ buildscript {
     }
     dependencies {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
+        if ((System.getProperty('java.version').replaceFirst(/^1\.(\d+).+$/, '$1') as Integer) >= 8) {
+            classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+        }
     }
 }
 
 plugins {
     id 'net.saliman.cobertura' version '2.3.2'
     id 'net.researchgate.release' version '2.3.5'
-    id "org.sonarqube" version "2.2"
 }
 
 group 'com.github.dkorotych.gradle.maven.exec'
