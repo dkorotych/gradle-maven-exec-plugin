@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
 
 ./gradlew check
 if [ -z "$ONLY_CHECK" ]; then

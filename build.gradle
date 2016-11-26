@@ -24,6 +24,9 @@ apply plugin: 'maven'
 apply plugin: 'codenarc'
 apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'idea'
+if (buildscript.configurations.classpath.find { it.name =~ /^sonarqube-gradle-plugin.+$/ } != null) {
+    apply plugin: "org.sonarqube"
+}
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
