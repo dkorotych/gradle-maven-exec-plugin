@@ -23,7 +23,7 @@ before_script:
   - (curl -s https://codecov.io/bash) > codecov.sh
   - chmod +x codecov.sh
 script: ./travis/script.sh
-before_deploy: ./gradlew assembly
+before_deploy: ./gradlew assemble
 deploy:
   provider: releases
   api_key:
