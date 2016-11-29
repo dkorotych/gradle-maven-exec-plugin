@@ -1,4 +1,5 @@
 .idea/
+codecov.sh
 
 # Created by https://www.gitignore.io/api/intellij+iml,maven,gradle,netbeans,eclipse,git,java,jetbrains,sonar,sublimetext,linux,windows,macos
 
