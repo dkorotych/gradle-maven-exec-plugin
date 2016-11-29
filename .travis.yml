@@ -20,6 +20,7 @@ jdk:
 before_script:
   - chmod +x gradlew
   - chmod +x travis/script.sh
+  - chmod +x travis/deploy-gh-pages.sh
   - (curl -s https://codecov.io/bash) > codecov.sh
   - chmod +x codecov.sh
 script: ./travis/script.sh
