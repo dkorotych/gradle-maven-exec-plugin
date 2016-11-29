@@ -35,7 +35,7 @@ deploy:
     repo: dkorotych/gradle-maven-exec-plugin
     tags: true
     all_branches: true
-    condition: $TRAVIS_JDK_VERSION == openjdk7 && $TRAVIS_BRANCH == 'master'
+    jdk: openjdk7
 after_deploy:
   - ./travis/deploy-gh-pages.sh
   - ./gradlew publishPlugins
