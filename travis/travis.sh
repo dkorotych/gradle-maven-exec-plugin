@@ -2,6 +2,8 @@
 
 set -e
 
+cd ..
+
 ./gradlew check
 if [ -z "$ONLY_CHECK" ]; then
     ./gradlew cobertura
