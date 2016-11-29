@@ -23,18 +23,17 @@ before_script:
   - (curl -s https://codecov.io/bash) > codecov.sh
   - chmod +x codecov.sh
 script: ./travis/script.sh
-before_deploy:
-  - ./gradlew assemble
-  - export FILES=$(ls build/libs/gradle-maven-exec-plugin-*.jar)
+before_deploy: ./gradlew assemble
 deploy:
   provider: releases
   api_key:
     secure: FprQ6Y5f2JZjXAWD0d33ym6GqRVZq+houNP2KJoGfK4ZMAkxQlu62J5HDCKPe7b/WiFwry10vkNP4gHu/d/tTKVfrXv7hXDD6u/FM8OZgMhBB+5KT6VE1CXxwcVMJ1xSYzrnNomRHuIFinHPAB2NfPARXko4WrhbxP1936Cv8+W7hJvcj/EY68M9n3WC7Zk3HW6NkqcV8CaLJic9kc0w0jMCDwSQOptT4N5mz6gx1N4Zm9Cfaa+hxKNeqNbhBgnmFWpltD2N/n9oVdUHy16o5OloMZlb2H6eKENB5XbIDiOSwxFHzT7siegO1Ye13qzWgTzV3RHdHx1K/AInA3BabS5J+8JhLdlxAAYgO1/XSYLC/GDVvkTUZolF34Mw8qfGimrBMYOSRgHq5HL215+PLjjL2xryBUw8Vwg33zrjUjkQGoukWgy2Fkd4kHb0n0A+pS0TWdzZwZ6O3Wk+4Q2+PU41E9OJgUK7RM59gM1VyPl6BwrtlEoIerQSnh/jix+wN7JGyivIebWOGn6P55CQduvsa/D4cPFEF18fubqtIfnsrMx9f6ljhAGVrAuowd+jFO6xpkBHMoGcTHH0WDownIfnQyIaqB7iijG0hozNPNB5i1Xi57+dfSUGn0R95Off//kguIVAcSySd477KJcsXJYRprUOzrixkNF8Z5VG/7E=
-  file: ${FILES}
+  file: "build/libs/gradle-maven-exec-plugin-*.jar"
+  file_glob: true
   on:
     repo: dkorotych/gradle-maven-exec-plugin
 #    tags: true
     condition: $TRAVIS_JDK_VERSION == openjdk7 && $TRAVIS_BRANCH == 'master'
 #after_deploy:
-#  - ./gradlew publishPlugins
 #  - ./travis/deploy-gh-pages.sh
+#  - ./gradlew publishPlugins
