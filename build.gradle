@@ -80,8 +80,6 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.13'
 }
 
-afterReleaseBuild.dependsOn publishPlugins
-
 idea {
     project {
         vcs = 'Git'
