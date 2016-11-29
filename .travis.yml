@@ -2,13 +2,13 @@ language: groovy
 sudo: false
 env:
   global:
-    secure: cPGP7bk5IiUZ27Zl1g4o6MbI/TmixXy9jzvCeK+jzUXP6RTghd9Qp4NrO04UgbR8mrT+T9GFE3cqLsaCzc2oGYKwzom+Zn8HkOUqZH3Z5eaFhraGCHDwV8WUtTBFzL2fOXwphn4hB4msSh+6CIFUIzzkuAldXekb7YcnzsPRmEyMzBmisYo0ZY3O2m1zS7A1XOeZ6VbEhyCuz4Sm5MzL1elFFPzEAYh8/HcKbVhJb3mL+vv9aVg0HAoEem/szreYU8fa7GGiTZ1XsWqor7TnE8zOyO1dWeogNCDfHbN7wRJixziABjF4sr6iF9LJdahwlcZwQ15iAzPVtdjpOcKZ51wLn3YrhApGO0+qHfOXORrBMdi/cXsyfz1HgxrBj8AjobqlrgMcYfg0PMfSR+e8wNIXdp/TNBLJNY4sBO/WoGglDj1FC4xOPrNtFueNpvHLmo4rtWc2XVBA7MhwEMmMZ3Njr1vYqm1gbMWI568udEez1BEne1XSsbO30Wjq/JI1NPKlNLiABmFr44SdpS3LHYgXt52onNUwj3BciZPnVd89XdnbUjfq4fbYWWCCUMA6L2AqOYr9pWWdL5IYug45WTDSZrwkREJ1kBKs8AwyNoJWhJLmRP7DNy3tgGgoSP0RdBgMawZ+yOrB9H3zC169IFD1EFsx8WCs8KwdOgChCmE=
+  - secure: mrSage3RnfkrOHn82NuYMvd3p+iybJYWQPWTN52TU8W8YavvywgD0cGdQtYNhrLuN3KUbqfG57Yt0Ee2TKAAwDfAd7J8j2PaK/AmZVIdm62I9zMRj516F0gNSDy3k2KWlTlQK/lC5xO5Ecl14iDB9Q5tDaVLzHOGqwKOGNESG9ILdpnONeZ7GMOwV9hTSawQjBzG8dm3YJMd3phUUA9A/hy+pIKkjHEzA4cwG3HZAjLvgMMp7c1GcolMjVxt+igQmjEK+MlWutbS7vOkJfgzl+arcY7iZPJS+oMbLQh/ivA0OoqDSOEXT9Vz3ZfQ0QeZFnzP+xDkAjCiawq7iSQmU4uLPWlRc17KQXF0mCsHfzCGRPmy3lnxkhIy8CIFV4Zfwp1nzCuUlKRK+wAV9PRxFIHSxcj7sF9q77RHaOOhn6Zk8BJDtTS5Ir/eTtKLs/L/UStBqjKU1sQUhnduKReKGEuuQnbpqq0cb8lpw+DRCelD7NzGuqblNlGdCakM/rJr3iQp4uZGJWPr/As5Gu3vGJSJXdNuzgTWSFsHOalT91BomACfXaOHFkuBr0U2wWrE81tP/wUjl6RiewaBhdno/tq3GpOHyJfpGDD6y/Czg2w3Nq7Imendq2I/RhxXzYbuarK5wsxa95A4LxN6Bi+iLWl7MxMvKFXOm6SBrzDZN+A=
 before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
 matrix:
   include:
   - jdk: openjdk7
@@ -16,13 +16,13 @@ matrix:
   - jdk: oraclejdk7
     env: ONLY_CHECK='true'
 jdk:
-  - oraclejdk8
+- oraclejdk8
 before_script:
-  - chmod +x gradlew
-  - chmod +x travis/script.sh
-  - chmod +x travis/deploy-gh-pages.sh
-  - (curl -s https://codecov.io/bash) > codecov.sh
-  - chmod +x codecov.sh
+- chmod +x gradlew
+- chmod +x travis/script.sh
+- chmod +x travis/deploy-gh-pages.sh
+- (curl -s https://codecov.io/bash) > codecov.sh
+- chmod +x codecov.sh
 script: ./travis/script.sh
 before_deploy: ./gradlew assemble
 deploy:
@@ -30,7 +30,7 @@ deploy:
   api_key:
     secure: FprQ6Y5f2JZjXAWD0d33ym6GqRVZq+houNP2KJoGfK4ZMAkxQlu62J5HDCKPe7b/WiFwry10vkNP4gHu/d/tTKVfrXv7hXDD6u/FM8OZgMhBB+5KT6VE1CXxwcVMJ1xSYzrnNomRHuIFinHPAB2NfPARXko4WrhbxP1936Cv8+W7hJvcj/EY68M9n3WC7Zk3HW6NkqcV8CaLJic9kc0w0jMCDwSQOptT4N5mz6gx1N4Zm9Cfaa+hxKNeqNbhBgnmFWpltD2N/n9oVdUHy16o5OloMZlb2H6eKENB5XbIDiOSwxFHzT7siegO1Ye13qzWgTzV3RHdHx1K/AInA3BabS5J+8JhLdlxAAYgO1/XSYLC/GDVvkTUZolF34Mw8qfGimrBMYOSRgHq5HL215+PLjjL2xryBUw8Vwg33zrjUjkQGoukWgy2Fkd4kHb0n0A+pS0TWdzZwZ6O3Wk+4Q2+PU41E9OJgUK7RM59gM1VyPl6BwrtlEoIerQSnh/jix+wN7JGyivIebWOGn6P55CQduvsa/D4cPFEF18fubqtIfnsrMx9f6ljhAGVrAuowd+jFO6xpkBHMoGcTHH0WDownIfnQyIaqB7iijG0hozNPNB5i1Xi57+dfSUGn0R95Off//kguIVAcSySd477KJcsXJYRprUOzrixkNF8Z5VG/7E=
   skip_cleanup: true
-  file: "build/libs/gradle-maven-exec-plugin-*.jar"
+  file: build/libs/gradle-maven-exec-plugin-*.jar
   file_glob: true
   on:
     repo: dkorotych/gradle-maven-exec-plugin
@@ -38,5 +38,5 @@ deploy:
     all_branches: true
     jdk: openjdk7
 after_deploy:
-  - ./travis/deploy-gh-pages.sh
-  - ./gradlew publishPlugins -Dgradle.publish.key=$gradle_publish_key -Dgradle.publish.secret=$gradle_publish_secret
+- ./travis/deploy-gh-pages.sh
+- ./gradlew publishPlugins -Dgradle.publish.key=$gradle_publish_key -Dgradle.publish.secret=$gradle_publish_secret
