@@ -23,9 +23,7 @@ before_script:
   - (curl -s https://codecov.io/bash) > codecov.sh
   - chmod +x codecov.sh
 script: ./travis/script.sh
-before_deploy:
-  - echo $TRAVIS_TAG
-  - ./gradlew assemble
+before_deploy: ./gradlew assemble
 deploy:
   provider: releases
   api_key:
@@ -35,8 +33,9 @@ deploy:
   file_glob: true
   on:
     repo: dkorotych/gradle-maven-exec-plugin
-#    tags: true
-    condition: $TRAVIS_JDK_VERSION == openjdk7 && $TRAVIS_BRANCH == 'master' && $TRAVIS_TAG != ''
+    tags: true
+    all_branches: true
+    condition: $TRAVIS_JDK_VERSION == openjdk7 && $TRAVIS_BRANCH == 'master'
 after_deploy:
   - ./travis/deploy-gh-pages.sh
   - ./gradlew publishPlugins
