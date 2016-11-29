@@ -1,5 +1,8 @@
 language: groovy
 sudo: false
+env:
+  global:
+    secure: cPGP7bk5IiUZ27Zl1g4o6MbI/TmixXy9jzvCeK+jzUXP6RTghd9Qp4NrO04UgbR8mrT+T9GFE3cqLsaCzc2oGYKwzom+Zn8HkOUqZH3Z5eaFhraGCHDwV8WUtTBFzL2fOXwphn4hB4msSh+6CIFUIzzkuAldXekb7YcnzsPRmEyMzBmisYo0ZY3O2m1zS7A1XOeZ6VbEhyCuz4Sm5MzL1elFFPzEAYh8/HcKbVhJb3mL+vv9aVg0HAoEem/szreYU8fa7GGiTZ1XsWqor7TnE8zOyO1dWeogNCDfHbN7wRJixziABjF4sr6iF9LJdahwlcZwQ15iAzPVtdjpOcKZ51wLn3YrhApGO0+qHfOXORrBMdi/cXsyfz1HgxrBj8AjobqlrgMcYfg0PMfSR+e8wNIXdp/TNBLJNY4sBO/WoGglDj1FC4xOPrNtFueNpvHLmo4rtWc2XVBA7MhwEMmMZ3Njr1vYqm1gbMWI568udEez1BEne1XSsbO30Wjq/JI1NPKlNLiABmFr44SdpS3LHYgXt52onNUwj3BciZPnVd89XdnbUjfq4fbYWWCCUMA6L2AqOYr9pWWdL5IYug45WTDSZrwkREJ1kBKs8AwyNoJWhJLmRP7DNy3tgGgoSP0RdBgMawZ+yOrB9H3zC169IFD1EFsx8WCs8KwdOgChCmE=
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
@@ -31,4 +34,6 @@ deploy:
     branch: master
     tags: true
     condition: $TRAVIS_JDK_VERSION = openjdk7
-after_deploy: ./gradlew publishPlugins
+after_deploy:
+- ./gradlew publishPlugins
+- ./travis/deploy-gh-pages.sh
