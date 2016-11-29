@@ -115,6 +115,5 @@ updateVersion.doFirst {
 }
 
 release {
-    preTagCommitMessage = '[Gradle Release Plugin][skip ci] - pre tag commit: '
     newVersionCommitMessage = '[Gradle Release Plugin][skip ci] - new version commit: '
 }
