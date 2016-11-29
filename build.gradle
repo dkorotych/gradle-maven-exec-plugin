@@ -113,3 +113,8 @@ updateVersion.doFirst {
             "gradle-maven-exec-plugin:${version}")
     file.text = content
 }
+
+release {
+    preTagCommitMessage = '[Gradle Release Plugin][skip ci] - pre tag commit: '
+    newVersionCommitMessage = '[Gradle Release Plugin][skip ci] - new version commit: '
+}
