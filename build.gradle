@@ -14,7 +14,7 @@ buildscript {
 
 plugins {
     id 'net.saliman.cobertura' version '2.3.2'
-    id 'net.researchgate.release' version '2.3.5'
+    id 'net.researchgate.release' version '2.4.1'
     id "nebula.info" version "3.3.4"
 }
 
