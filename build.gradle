@@ -102,3 +102,14 @@ idea {
 cleanIdea.doLast {
     delete file('.idea')
 }
+
+updateVersion.doFirst {
+    def file = file('README.md')
+    def content = file.text
+    def versionPattern = /\d+(?:\.\d+)+/
+    content = content.replaceAll("id \"com.github.dkorotych.gradle-maven-exec\" version \"${versionPattern}\"",
+            "id \"com.github.dkorotych.gradle-maven-exec\" version \"${version}\"")
+    content = content.replaceAll("gradle-maven-exec-plugin:${versionPattern}",
+            "gradle-maven-exec-plugin:${version}")
+    file.text = content
+}
