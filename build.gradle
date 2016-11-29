@@ -6,13 +6,16 @@ buildscript {
     }
     dependencies {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
+        if ((System.getProperty('java.version').replaceFirst(/^1\.(\d+).+$/, '$1') as Integer) >= 8) {
+            classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+        }
     }
 }
 
 plugins {
     id 'net.saliman.cobertura' version '2.3.2'
     id 'net.researchgate.release' version '2.3.5'
-    id "org.sonarqube" version "2.2"
+    id "nebula.info" version "3.3.4"
 }
 
 group 'com.github.dkorotych.gradle.maven.exec'
@@ -22,6 +25,12 @@ apply plugin: 'maven'
 apply plugin: 'codenarc'
 apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'idea'
+if (buildscript.configurations.classpath.find { it.name =~ /^sonarqube-gradle-plugin.+$/ } != null) {
+    apply plugin: "org.sonarqube"
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 repositories {
     mavenCentral()
@@ -62,7 +71,7 @@ pluginBundle {
 }
 
 groovydoc {
-    link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'org.xml.', 'javax.', 'org.xml.'
+    link 'http://docs.oracle.com/javase/7/docs/api/', 'java.', 'org.xml.', 'javax.', 'org.xml.'
     link "https://docs.gradle.org/${gradle.gradleVersion}/javadoc/", 'org.gradle'
     link "http://docs.groovy-lang.org/${GroovySystem.version}/html/gapi/",
             'groovy', 'org.apache.commons.cli', 'org.codehaus.groovy'
@@ -71,8 +80,6 @@ groovydoc {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.13'
 }
-
-afterReleaseBuild.dependsOn publishPlugins
 
 idea {
     project {
@@ -94,4 +101,15 @@ idea {
 
 cleanIdea.doLast {
     delete file('.idea')
+}
+
+updateVersion.doFirst {
+    def file = file('README.md')
+    def content = file.text
+    def versionPattern = /\d+(?:\.\d+)+/
+    content = content.replaceAll("id \"com.github.dkorotych.gradle-maven-exec\" version \"${versionPattern}\"",
+            "id \"com.github.dkorotych.gradle-maven-exec\" version \"${version}\"")
+    content = content.replaceAll("gradle-maven-exec-plugin:${versionPattern}",
+            "gradle-maven-exec-plugin:${version}")
+    file.text = content
 }
