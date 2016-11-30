@@ -39,4 +39,4 @@ deploy:
     jdk: openjdk7
 after_deploy:
 - ./travis/deploy-gh-pages.sh
-- ./gradlew publishPlugins -Dgradle.publish.key=$gradle_publish_key -Dgradle.publish.secret=$gradle_publish_secret
+- ./gradlew publishPlugins -Dgradle.publish.key=$gradle_publish_key -Dgradle.publish.secret=$gradle_publish
