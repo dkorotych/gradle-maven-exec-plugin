@@ -40,6 +40,7 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
+    compile "commons-lang:commons-lang:2.6"
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4', {
         exclude module: 'groovy-all'
     }
@@ -112,4 +113,11 @@ updateVersion.doFirst {
     content = content.replaceAll("gradle-maven-exec-plugin:${versionPattern}",
             "gradle-maven-exec-plugin:${version}")
     file.text = content
+}
+
+task realUseCaseTest(type: GradleBuild) {
+    dependsOn 'install'
+    group = 'verification'
+    buildFile = file('useCase.gradle')
+    tasks = ['checkMavenApplication']
 }
