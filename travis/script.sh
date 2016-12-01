@@ -2,7 +2,7 @@
 
 set -e
 
-./gradlew check
+./gradlew check realUseCaseTest
 if [ -z "$ONLY_CHECK" ]; then
     ./gradlew cobertura
     ./gradlew sonarqube -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_login

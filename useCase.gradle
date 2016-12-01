@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:${version}"
+    }
+}
+
+apply plugin: "com.github.dkorotych.gradle-maven-exec"
+
+def groupId = 'com.mycompany.app'
+def artifactId = 'my-app'
+
+task generateMavenApplication(type: MavenExec) {
+    buildDir.mkdirs()
+    ext.outputDir = file("$buildDir/$artifactId")
+    outputs.dir outputDir
+    workingDir buildDir
+    goals 'archetype:generate'
+    options {
+        define = [
+                'groupId'            : groupId,
+                'artifactId'         : artifactId,
+                'archetypeArtifactId': 'maven-archetype-quickstart',
+                'interactiveMode'    : 'false'
+        ]
+    }
+}
+
+task packageMavenApplication(type: MavenExec, dependsOn: 'generateMavenApplication') {
+    outputs.dir file("${generateMavenApplication.outputDir}/target")
+    workingDir generateMavenApplication.outputDir
+    goals 'package'
+}
+
+task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication') {
+    def outputFile = file("$buildDir/output.txt")
+    doFirst {
+        workingDir generateMavenApplication.outputDir
+        classpath file("${generateMavenApplication.outputDir}/target/${artifactId}-1.0-SNAPSHOT.jar")
+        main "${groupId}.App"
+        standardOutput new FileOutputStream(outputFile)
+    }
+    doLast {
+        assert outputFile.text.trim() == 'Hello World!'
+    }
+}
