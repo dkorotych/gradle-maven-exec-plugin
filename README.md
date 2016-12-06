@@ -4,6 +4,7 @@ Gradle plugin which provides an Maven exec task
 
 [![Build Status](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin.svg?branch=master)](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin)
 [![codecov](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7c2907ecd1d749deb5c3765bd86cbf72)](https://www.codacy.com/app/dkorotych/gradle-maven-exec-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dkorotych/gradle-maven-exec-plugin&amp;utm_campaign=Badge_Grade)
 [![license](https://img.shields.io/github/license/dkorotych/gradle-maven-exec-plugin.svg)](https://github.com/dkorotych/gradle-maven-exec-plugin.git)
 
 ## Installing
