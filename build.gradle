@@ -120,5 +120,5 @@ task realUseCaseTest(type: GradleBuild) {
     dependsOn 'install'
     group = 'verification'
     buildFile = file('useCase.gradle')
-    tasks = ['checkMavenApplication']
+    tasks = ['checkMavenApplication', 'checkMavenApplication2']
 }

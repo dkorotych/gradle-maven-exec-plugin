@@ -18,5 +18,6 @@ class MavenExecPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.extensions.extraProperties.set(MavenExec.simpleName, MavenExec)
+        project.convention.plugins.put('mavenexec', new MavenExecPluginProjectConvention())
     }
 }
