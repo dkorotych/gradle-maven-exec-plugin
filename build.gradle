@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
-        if ((System.getProperty('java.version').replaceFirst(/^1\.(\d+).+$/, '$1') as Integer) >= 8) {
+        if (org.gradle.api.JavaVersion.current().isJava8Compatible()) {
             classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
         }
     }
