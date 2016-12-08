@@ -21,7 +21,7 @@ class MavenExec extends AbstractExecTask<MavenExec> implements DefaultMavenExecS
     @TaskAction
     protected void exec() {
         // build correct command line
-        super.setCommandLine(prepareCommandLine())
+        super.setCommandLine(getCommandLine())
         super.exec()
     }
 
