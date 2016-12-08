@@ -29,6 +29,16 @@ apply plugin: 'idea'
 if (buildscript.configurations.classpath.find { it.name =~ /^sonarqube-gradle-plugin.+$/ } != null) {
     apply plugin: "org.sonarqube"
     apply plugin: 'ru.vyarus.quality'
+
+    quality {
+        configDir = rootProject.file('config')
+    }
+
+    afterEvaluate {
+        codenarc {
+            configFile = rootProject.file('config/codenarc/codenarc.groovy')
+        }
+    }
 }
 
 sourceCompatibility = 1.7
@@ -45,16 +55,6 @@ dependencies {
     compile "commons-lang:commons-lang:2.6"
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4', {
         exclude module: 'groovy-all'
-    }
-}
-
-quality {
-    configDir = rootProject.file('config')
-}
-
-afterEvaluate {
-    codenarc {
-        configFile = rootProject.file('config/codenarc/codenarc.groovy')
     }
 }
 
