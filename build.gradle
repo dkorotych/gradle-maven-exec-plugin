@@ -17,6 +17,7 @@ plugins {
     id 'net.saliman.cobertura' version '2.3.2'
     id 'net.researchgate.release' version '2.4.1'
     id "nebula.info" version "3.3.4"
+    id 'ru.vyarus.quality' version '2.0.0'
 }
 
 group 'com.github.dkorotych.gradle.maven.exec'
@@ -45,6 +46,11 @@ dependencies {
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4', {
         exclude module: 'groovy-all'
     }
+}
+
+quality {
+    configDir = rootProject.file('config')
+    codenarc = false
 }
 
 codenarc {

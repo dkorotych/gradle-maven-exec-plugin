@@ -11,18 +11,26 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 import static org.codehaus.groovy.ast.tools.GeneralUtils.*;
 
+/**
+ * Handles generation of code for the {@code @{@link PropertyBindable}} annotation.
+ *
+ * @see PropertyBindable
+ * @see BindableASTTransformation
+ * @see groovy.beans.Bindable
+ */
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 public class PropertyBindableASTTransformation extends BindableASTTransformation {
     @Override
-    protected void createSetterMethod(ClassNode declaringClass, PropertyNode propertyNode, String setterName,
-                                      Statement setterBlock) {
+    protected void createSetterMethod(final ClassNode declaringClass, final PropertyNode propertyNode,
+                                      final String setterName, final Statement setterBlock) {
         super.createSetterMethod(declaringClass, propertyNode, setterName, setterBlock);
-        Statement code = stmt(callThisX(setterName, args(varX("value"))));
-        MethodNode setter = new MethodNode(
+        final String argumentName = "value";
+        final Statement code = stmt(callThisX(setterName, args(varX(argumentName))));
+        final MethodNode setter = new MethodNode(
                 propertyNode.getName(),
                 propertyNode.getModifiers(),
                 ClassHelper.VOID_TYPE,
-                params(param(propertyNode.getType(), "value")),
+                params(param(propertyNode.getType(), argumentName)),
                 ClassNode.EMPTY_ARRAY,
                 code);
         setter.setSynthetic(true);
