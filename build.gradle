@@ -9,6 +9,7 @@ buildscript {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
         if (org.gradle.api.JavaVersion.current().isJava8Compatible()) {
             classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+            classpath 'ru.vyarus:gradle-quality-plugin:2.0.0'
         }
     }
 }
@@ -17,18 +18,17 @@ plugins {
     id 'net.saliman.cobertura' version '2.3.2'
     id 'net.researchgate.release' version '2.4.1'
     id "nebula.info" version "3.3.4"
-    id 'ru.vyarus.quality' version '2.0.0'
 }
 
 group 'com.github.dkorotych.gradle.maven.exec'
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
-apply plugin: 'codenarc'
 apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'idea'
 if (buildscript.configurations.classpath.find { it.name =~ /^sonarqube-gradle-plugin.+$/ } != null) {
     apply plugin: "org.sonarqube"
+    apply plugin: 'ru.vyarus.quality'
 }
 
 sourceCompatibility = 1.7
@@ -50,14 +50,13 @@ dependencies {
 
 quality {
     configDir = rootProject.file('config')
-    codenarc = false
 }
 
-codenarc {
-    configFile = rootProject.file('config/codenarc/codenarc.groovy')
-    reportFormat = 'xml'
+afterEvaluate {
+    codenarc {
+        configFile = rootProject.file('config/codenarc/codenarc.groovy')
+    }
 }
-codenarcTest.enabled = false
 
 cobertura {
     coverageFormats = ['html', 'xml']
