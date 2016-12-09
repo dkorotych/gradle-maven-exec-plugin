@@ -93,7 +93,8 @@ or even a direct call to control Maven from any task
 task generateAndExecuteApplication {
     doLast {
         buildDir.mkdirs()
-        def application = 'com.mycompany.app'
+        def groupId = 'com.mycompany.app'
+        def application = 'my-app'
         def applicationDir = file("$buildDir/$application")
         delete applicationDir
         mavenexec {
