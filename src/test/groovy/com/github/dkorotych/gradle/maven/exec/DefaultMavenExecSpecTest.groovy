@@ -106,6 +106,12 @@ class DefaultMavenExecSpecTest extends MavenExecSpecification {
         task.commandLine == ['mvn']
 
         when:
+        task.goals()
+
+        then:
+        task.commandLine == ['mvn']
+
+        when:
         task.goals((Iterable) null)
 
         then:
