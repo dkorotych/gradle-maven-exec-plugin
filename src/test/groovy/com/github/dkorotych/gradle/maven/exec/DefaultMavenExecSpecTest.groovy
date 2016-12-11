@@ -1,21 +1,14 @@
 package com.github.dkorotych.gradle.maven.exec
 
 import org.gradle.api.Project
-import org.gradle.internal.os.OperatingSystem
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Shared
-import spock.lang.Specification
 import spock.lang.Unroll
-
-import static org.gradle.internal.os.OperatingSystem.*
 
 /**
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
-class DefaultMavenExecSpecTest extends Specification {
-    private static final File userHome = new File(System.getProperty('user.home'))
-    private static final File tmp = new File(System.getProperty('java.io.tmpdir'))
-
+class DefaultMavenExecSpecTest extends MavenExecSpecification {
     @Shared
     Project project
 
@@ -24,14 +17,32 @@ class DefaultMavenExecSpecTest extends Specification {
         project.apply plugin: 'com.github.dkorotych.gradle-maven-exec'
     }
 
+    def "setExecutable should generate UnsupportedOperationException"() {
+        when:
+        task {
+            executable 'echo'
+        }
+
+        then:
+        thrown(UnsupportedOperationException.class)
+
+        when:
+        cleanupProject()
+        task {
+            setExecutable('echo')
+        }
+
+        then:
+        thrown(UnsupportedOperationException.class)
+
+        cleanup:
+        cleanupProject()
+    }
+
     @Unroll
     def "setMavenDir(#path). #os.familyName"() {
         setup:
-        if (WINDOWS == os) {
-            asWindows()
-        } else {
-            asUnix()
-        }
+        setOperatingSystem(os)
         MavenExec task = task {
             goals = [
                     'clean', 'package'
@@ -66,11 +77,7 @@ class DefaultMavenExecSpecTest extends Specification {
     @Unroll
     def "setGoals(#goals). #os.familyName"() {
         setup:
-        if (WINDOWS == os) {
-            asWindows()
-        } else {
-            asUnix()
-        }
+        setOperatingSystem(os)
         MavenExec task = task {}
 
         when:
@@ -160,11 +167,7 @@ class DefaultMavenExecSpecTest extends Specification {
     @Unroll
     def "getCommandLine. #path, #os.familyName"() {
         setup:
-        if (WINDOWS == os) {
-            asWindows()
-        } else {
-            asUnix()
-        }
+        setOperatingSystem(os)
         MavenExec task = task {}
 
         when:
@@ -181,14 +184,6 @@ class DefaultMavenExecSpecTest extends Specification {
         [path, os, commandLine] << setMavenDirDataProvider()
     }
 
-    def asWindows() {
-        System.setProperty('os.name', 'windows')
-    }
-
-    def asUnix() {
-        System.setProperty('os.name', 'linux')
-    }
-
     MavenExec task(Closure code) {
         project.task(["type": MavenExec], 'mavenExecTask').configure(code)
     }
@@ -197,47 +192,11 @@ class DefaultMavenExecSpecTest extends Specification {
         project.tasks.clear()
     }
 
-    def operatingSystems() {
-        [FREE_BSD, LINUX, MAC_OS, SOLARIS, WINDOWS]
-    }
-
-    def setMavenDirDataProvider() {
-        def values = []
-        operatingSystems().each { os ->
-            [null, userHome, tmp].each { path ->
-                values << [path, os, commandLine(path, os, 'clean', 'package')]
-            }
-        }
-        values
-    }
-
     Set<String> asSet(List<String> goals) {
         if (goals) {
             return new HashSet<String>(goals)
         } else {
             return []
         }
-    }
-
-    def commandLine(File path, OperatingSystem os, String... goals) {
-        def commandLine = []
-        if (os == WINDOWS) {
-            commandLine << 'cmd'
-            commandLine << '/c'
-        }
-        commandLine << "${path ? path.absolutePath + '/' : ''}mvn${os == WINDOWS ? '.cmd' : ''}"
-        commandLine.addAll(goals)
-        commandLine
-    }
-
-    def setGoalsDataProvider() {
-        def values = []
-        operatingSystems().each { os ->
-            values << [null, os, commandLine(null, os)]
-            values << [['clean'], os, commandLine(null, os, 'clean')]
-            values << [['package'], os, commandLine(null, os, 'package')]
-            values << [['clean', 'package', 'site'], os, commandLine(null, os, 'clean', 'package', 'site')]
-        }
-        values
     }
 }

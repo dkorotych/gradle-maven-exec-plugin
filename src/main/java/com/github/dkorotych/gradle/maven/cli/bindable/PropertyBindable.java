@@ -31,6 +31,8 @@ import java.lang.annotation.Target;
  * @see PropertyBindableASTTransformation
  * @see groovy.beans.Bindable
  * @see groovy.beans.BindableASTTransformation
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 @java.lang.annotation.Documented
 @Retention(RetentionPolicy.SOURCE)

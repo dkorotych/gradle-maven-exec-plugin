@@ -1,31 +1,11 @@
 package com.github.dkorotych.gradle.maven.exec
 
+import spock.lang.Unroll
+
 /**
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 class MavenExecTest extends DefaultMavenExecSpecTest {
-
-    def "setExecutable should generate UnsupportedOperationException"() {
-        when:
-        task {
-            executable 'echo'
-        }
-
-        then:
-        thrown(UnsupportedOperationException.class)
-
-        when:
-        cleanupProject()
-        task {
-            setExecutable('echo')
-        }
-
-        then:
-        thrown(UnsupportedOperationException.class)
-
-        cleanup:
-        cleanupProject()
-    }
 
     def "setCommandLine should generate UnsupportedOperationException"() {
         when:
@@ -78,5 +58,26 @@ class MavenExecTest extends DefaultMavenExecSpecTest {
 
         cleanup:
         cleanupProject()
+    }
+
+    @Unroll
+    def "exec(). #os.familyName, #goals"() {
+        setup:
+        setOperatingSystem(os)
+
+        when:
+        def task = task {}
+        task.metaClass.super.exec = {}
+        task.setGoals(goals)
+        task.exec()
+
+        then:
+        task.commandLine == commandLine
+
+        cleanup:
+        cleanupProject()
+
+        where:
+        [goals, os, commandLine] << setGoalsDataProvider()
     }
 }

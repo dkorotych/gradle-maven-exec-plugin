@@ -26,16 +26,6 @@ class MavenExec extends AbstractExecTask<MavenExec> implements DefaultMavenExecS
     }
 
     @Override
-    void setExecutable(Object executable) {
-        throw new UnsupportedOperationException()
-    }
-
-    @Override
-    MavenExec executable(Object executable) {
-        throw new UnsupportedOperationException()
-    }
-
-    @Override
     void setCommandLine(Iterable<?> args) {
         throw new UnsupportedOperationException()
     }

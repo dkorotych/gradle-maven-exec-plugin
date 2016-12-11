@@ -7,6 +7,8 @@ import org.gradle.internal.os.OperatingSystem
 
 /**
  * Default implementation for specifies options for launching a Maven process.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 @PackageScope
 trait DefaultMavenExecSpec implements MavenExecSpec {
@@ -79,6 +81,16 @@ trait DefaultMavenExecSpec implements MavenExecSpec {
     MavenExecSpec options(@DelegatesTo(MavenCli) Closure options) {
         this.mavenCli.with options
         this
+    }
+
+    @Override
+    void setExecutable(Object executable) {
+        throw new UnsupportedOperationException()
+    }
+
+    @Override
+    MavenExec executable(Object executable) {
+        throw new UnsupportedOperationException()
     }
 
     private List<String> prepareCommandLine() {

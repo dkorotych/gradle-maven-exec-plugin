@@ -17,12 +17,15 @@ import static org.codehaus.groovy.ast.tools.GeneralUtils.*;
  * @see PropertyBindable
  * @see BindableASTTransformation
  * @see groovy.beans.Bindable
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 public class PropertyBindableASTTransformation extends BindableASTTransformation {
+
     @Override
     protected void createSetterMethod(final ClassNode declaringClass, final PropertyNode propertyNode,
-                                      final String setterName, final Statement setterBlock) {
+            final String setterName, final Statement setterBlock) {
         super.createSetterMethod(declaringClass, propertyNode, setterName, setterBlock);
         final String argumentName = "value";
         final Statement code = stmt(callThisX(setterName, args(varX(argumentName))));

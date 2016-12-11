@@ -1,6 +1,5 @@
 package com.github.dkorotych.gradle.maven.exec
 
-import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.process.ExecResult
 import org.gradle.process.internal.DefaultExecAction
 
@@ -9,17 +8,32 @@ import org.gradle.process.internal.DefaultExecAction
  *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
-class MavenExecAction extends DefaultExecAction implements DefaultMavenExecSpec {
+class MavenExecAction implements DefaultMavenExecSpec {
+    @Delegate(
+            excludes = [
+                    'setCommandLine',
+                    'args',
+                    'setArgs',
+            ],
+            interfaces = false)
+    private final DefaultExecAction action
+
     /**
      * New instance of the action.
+     *
+     * @param action Real instance of gradle action for execution
      */
-    MavenExecAction() {
-        super(new IdentityFileResolver())
+    MavenExecAction(DefaultExecAction action) {
+        this.action = action
     }
 
-    @Override
+    /**
+     * Execute action.
+     *
+     * @return Result of execution
+     */
     ExecResult execute() {
-        setCommandLine(commandLine)
-        super.execute()
+        action.setCommandLine(commandLine)
+        action.execute()
     }
 }
