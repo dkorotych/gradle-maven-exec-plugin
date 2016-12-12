@@ -20,8 +20,7 @@ class MavenExecPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.extensions.extraProperties.set(MavenExec.simpleName, MavenExec)
-        DefaultExecAction action = newAction()
-        project.convention.plugins['mavenexec'] = new MavenExecPluginProjectConvention(action)
+        project.convention.plugins['mavenexec'] = new MavenExecPluginProjectConvention(newAction())
     }
 
     private static DefaultExecAction newAction() {
