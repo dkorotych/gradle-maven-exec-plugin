@@ -67,7 +67,7 @@ class MavenExecTest extends DefaultMavenExecSpecTest {
 
         when:
         def task = task {}
-        task.metaClass.super.exec = {}
+        task.metaClass.exec = {}
         task.setGoals(goals)
         task.exec()
 

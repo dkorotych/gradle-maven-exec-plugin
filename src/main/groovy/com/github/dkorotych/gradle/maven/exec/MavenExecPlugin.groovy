@@ -24,7 +24,7 @@ class MavenExecPlugin implements Plugin<Project> {
         project.convention.plugins['mavenexec'] = new MavenExecPluginProjectConvention(action)
     }
 
-    private DefaultExecAction newAction() {
+    private static DefaultExecAction newAction() {
         new DefaultExecAction(new IdentityFileResolver())
     }
 }

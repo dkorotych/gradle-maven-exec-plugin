@@ -1,6 +1,10 @@
 package com.github.dkorotych.gradle.maven.exec
 
+import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.internal.os.OperatingSystem
+import org.gradle.process.ExecResult
+import org.gradle.process.internal.DefaultExecAction
+import org.gradle.process.internal.ExecException
 import spock.lang.Specification
 
 import static org.gradle.internal.os.OperatingSystem.*
@@ -62,5 +66,29 @@ class MavenExecSpecification extends Specification {
             values << [['clean', 'package', 'site'], os, commandLine(null, os, 'clean', 'package', 'site')]
         }
         values
+    }
+
+    DefaultExecAction registerDefaultExecActionMock() {
+        Mock(global: false, constructorArgs: [new IdentityFileResolver()], DefaultExecAction)
+    }
+
+    ExecResult getExecResult() {
+        new ExecResult() {
+
+            @Override
+            int getExitValue() {
+                return 0
+            }
+
+            @Override
+            ExecResult assertNormalExitValue() throws ExecException {
+                return this
+            }
+
+            @Override
+            ExecResult rethrowFailure() throws ExecException {
+                return this
+            }
+        }
     }
 }

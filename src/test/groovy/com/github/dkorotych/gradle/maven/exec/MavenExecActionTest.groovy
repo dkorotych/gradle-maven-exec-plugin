@@ -1,6 +1,5 @@
 package com.github.dkorotych.gradle.maven.exec
 
-import org.gradle.process.internal.DefaultExecAction
 import spock.lang.Unroll
 
 /**
@@ -11,7 +10,7 @@ class MavenExecActionTest extends DefaultMavenExecSpecTest {
     def "execute(). #os.familyName, #goals"() {
         setup:
         setOperatingSystem(os)
-        DefaultExecAction delegate = Mock(DefaultExecAction)
+        def delegate = registerDefaultExecActionMock()
         MavenExecAction action = new MavenExecAction(delegate)
         action.setGoals(goals)
 
