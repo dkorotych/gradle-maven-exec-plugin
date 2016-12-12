@@ -7,8 +7,9 @@ buildscript {
     }
     dependencies {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
-        if ((System.getProperty('java.version').replaceFirst(/^1\.(\d+).+$/, '$1') as Integer) >= 8) {
+        if (org.gradle.api.JavaVersion.current().isJava8Compatible()) {
             classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+            classpath 'ru.vyarus:gradle-quality-plugin:2.0.0'
         }
     }
 }
@@ -23,11 +24,21 @@ group 'com.github.dkorotych.gradle.maven.exec'
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
-apply plugin: 'codenarc'
 apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'idea'
 if (buildscript.configurations.classpath.find { it.name =~ /^sonarqube-gradle-plugin.+$/ } != null) {
     apply plugin: "org.sonarqube"
+    apply plugin: 'ru.vyarus.quality'
+
+    quality {
+        configDir = rootProject.file('config')
+    }
+
+    afterEvaluate {
+        codenarc {
+            configFile = rootProject.file('config/codenarc/codenarc.groovy')
+        }
+    }
 }
 
 sourceCompatibility = 1.7
@@ -45,13 +56,9 @@ dependencies {
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4', {
         exclude module: 'groovy-all'
     }
+    testCompile 'cglib:cglib-nodep:3.2.4'
+    testCompile 'org.objenesis:objenesis:2.4'
 }
-
-codenarc {
-    configFile = rootProject.file('config/codenarc/codenarc.groovy')
-    reportFormat = 'xml'
-}
-codenarcTest.enabled = false
 
 cobertura {
     coverageFormats = ['html', 'xml']
@@ -120,5 +127,5 @@ task realUseCaseTest(type: GradleBuild) {
     dependsOn 'install'
     group = 'verification'
     buildFile = file('useCase.gradle')
-    tasks = ['checkMavenApplication']
+    tasks = ['checkMavenApplication', 'checkMavenApplication2']
 }

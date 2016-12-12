@@ -35,7 +35,7 @@ class MavenOptionsMapper {
                 'noSnapshotUpdates'    : 'no-snapshot-updates',
                 'activateProfiles'     : 'activate-profiles',
                 'resumeFrom'           : 'resume-from',
-                'updateSnapshots'      : 'update-snapshots'
+                'updateSnapshots'      : 'update-snapshots',
         ]
     }
 

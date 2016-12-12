@@ -71,3 +71,54 @@ task generateSite(type: MavenExec) {
     }
 }
 ```
+
+or used it without options closure:
+
+```groovy
+task generateSite(type: MavenExec) {
+    goals 'archetype:generate'
+    define([
+        'groupId'            : 'com.mycompany.app',
+        'artifactId'         : 'my-app',
+        'archetypeArtifactId': 'maven-archetype-quickstart',
+        'interactiveMode'    : 'false'
+    ])
+    quiet true
+}
+```
+
+or even a direct call to control Maven from any task
+
+```groovy
+task generateAndExecuteApplication {
+    doLast {
+        buildDir.mkdirs()
+        def groupId = 'com.mycompany.app'
+        def application = 'my-app'
+        def applicationDir = file("$buildDir/$application")
+        delete applicationDir
+        mavenexec {
+            workingDir buildDir
+            goals 'archetype:generate'
+            define([
+                    'groupId'            : groupId,
+                    'artifactId'         : application,
+                    'archetypeArtifactId': 'maven-archetype-quickstart',
+                    'interactiveMode'    : 'false'
+            ])
+            quiet true
+        }
+        mavenexec {
+            workingDir applicationDir
+            goals 'package'
+            threads '2C'
+            quiet true
+        }
+        javaexec {
+            workingDir applicationDir
+            classpath file("$applicationDir/target/$application-1.0-SNAPSHOT.jar")
+            main "${groupId}.App"
+        }
+    }
+}
+```

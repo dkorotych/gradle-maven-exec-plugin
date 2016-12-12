@@ -1,6 +1,6 @@
 package com.github.dkorotych.gradle.maven.cli
 
-import groovy.beans.Bindable
+import com.github.dkorotych.gradle.maven.cli.bindable.PropertyBindable
 import groovy.transform.IndexedProperty
 import groovy.transform.ToString
 
@@ -13,7 +13,7 @@ import java.beans.PropertyChangeListener
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 @ToString(includeNames = true, ignoreNulls = true)
-@Bindable
+@PropertyBindable
 class MavenCli {
     /**
      * If project list is specified, also build projects required by the list

@@ -47,3 +47,37 @@ task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication')
         assert outputFile.text.trim() == 'Hello World!'
     }
 }
+
+task checkMavenApplication2 {
+    doLast {
+        buildDir.mkdirs()
+        def application = artifactId + '-second'
+        def applicationDir = file("$buildDir/$application")
+        delete applicationDir
+        def outputFile = file("$buildDir/output.txt")
+        mavenexec {
+            workingDir buildDir
+            goals 'archetype:generate'
+            define([
+                    'groupId'            : groupId,
+                    'artifactId'         : application,
+                    'archetypeArtifactId': 'maven-archetype-quickstart',
+                    'interactiveMode'    : 'false'
+            ])
+            quiet true
+        }
+        mavenexec {
+            workingDir applicationDir
+            goals 'package', 'site'
+            threads '2C'
+            quiet true
+        }
+        javaexec {
+            workingDir applicationDir
+            classpath file("$applicationDir/target/$application-1.0-SNAPSHOT.jar")
+            main "${groupId}.App"
+            standardOutput new FileOutputStream(outputFile)
+        }
+        assert outputFile.text.trim() == 'Hello World!'
+    }
+}
