@@ -36,6 +36,16 @@ class MavenExec extends AbstractExecTask<MavenExec> implements DefaultMavenExecS
     }
 
     @Override
+    MavenExec commandLine(Object... arguments) {
+        throw new UnsupportedOperationException()
+    }
+
+    @Override
+    MavenExec commandLine(Iterable<?> args) {
+        throw new UnsupportedOperationException()
+    }
+
+    @Override
     MavenExec args(Object... args) {
         throw new UnsupportedOperationException()
     }
