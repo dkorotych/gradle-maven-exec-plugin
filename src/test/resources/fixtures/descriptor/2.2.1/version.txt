@@ -1,0 +1,5 @@
+Apache Maven 2.2.1 (rdebian-14)
+Java version: 1.8.0_111
+Java home: /usr/lib/jvm/java-8-oracle/jre
+Default locale: ru_RU, platform encoding: UTF-8
+OS name: "linux" version: "3.19.0-32-generic" arch: "amd64" Family: "unix"

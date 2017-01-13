@@ -16,6 +16,7 @@ class MavenCommandLineOptionsKeeper {
 
     private final Map<String, String> options = [:]
     private final Map<String, String> systemProperties = [:]
+    private final Set<String> supportedOptions = []
 
     /**
      * Add command-line option. If the option is already exists in the storage and the new value is {@code false},
@@ -122,6 +123,16 @@ class MavenCommandLineOptionsKeeper {
     }
 
     /**
+     * Set the list of options that are supported in a specific version of the Maven.
+     *
+     * @param supportedOptions list of options
+     */
+    void setSupportedOptions(Set<String> supportedOptions) {
+        this.supportedOptions.clear()
+        this.supportedOptions.addAll(supportedOptions)
+    }
+
+    /**
      * Build command line options.
      *
      * @return Command line options list
@@ -132,9 +143,11 @@ class MavenCommandLineOptionsKeeper {
             value << "-D${it.key}=${it.value}"
         }
         options.each {
-            value << it.key
-            if (StringUtils.isNotBlank(it.value)) {
-                value << it.value
+            if (supportedOptions.isEmpty() || supportedOptions.contains(it.key)) {
+                value << it.key
+                if (StringUtils.isNotBlank(it.value)) {
+                    value << it.value
+                }
             }
         }
         value

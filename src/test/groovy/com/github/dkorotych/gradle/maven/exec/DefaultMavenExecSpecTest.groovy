@@ -4,10 +4,12 @@ import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Shared
 import spock.lang.Unroll
+import spock.util.environment.RestoreSystemProperties
 
 /**
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
+@RestoreSystemProperties
 class DefaultMavenExecSpecTest extends MavenExecSpecification {
     @Shared
     Project project
@@ -15,6 +17,10 @@ class DefaultMavenExecSpecTest extends MavenExecSpecification {
     def setupSpec() {
         project = ProjectBuilder.builder().build()
         project.apply plugin: 'com.github.dkorotych.gradle-maven-exec'
+    }
+
+    def setup() {
+        registerMavenDescriptorMock()
     }
 
     def "setExecutable should generate UnsupportedOperationException"() {

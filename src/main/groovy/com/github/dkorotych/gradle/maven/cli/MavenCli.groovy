@@ -159,6 +159,16 @@ class MavenCli {
     }
 
     /**
+     * Set the list of options that are supported in a specific version of the Maven.
+     *
+     * @param supportedOptions list of options
+     * @see MavenCommandLineOptionsKeeper#setSupportedOptions(java.util.Set)
+     */
+    void supportedOptions(Set<String> supportedOptions) {
+        options.setSupportedOptions(supportedOptions)
+    }
+
+    /**
      * Build command line options.
      *
      * @return Command line options list

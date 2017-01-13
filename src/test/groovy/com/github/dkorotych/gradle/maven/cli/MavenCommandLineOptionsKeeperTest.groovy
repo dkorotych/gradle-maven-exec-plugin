@@ -39,7 +39,7 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         keeper.toCommandLine() == []
 
         where:
-        option << [null, '', "", '  ', '\t\n', '\t    \n   ', "  " , "\t\n", "\t    \n   "]
+        option << [null, '', "", '  ', '\t\n', '\t    \n   ', "  ", "\t\n", "\t    \n   "]
     }
 
     def "any method addOption not support null or empty value"() {
@@ -298,5 +298,33 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         then:
         ['-DgroupId=com.github.dkorotych', '-DartifactId=test-maven', '-Dversion=1.0', '--offline', '--thread', '1C',
          '--activate-profiles', 'development'] == keeper.toCommandLine()
+    }
+
+    def "skip unsupported options"() {
+        setup:
+        MavenCommandLineOptionsKeeper keeper = new MavenCommandLineOptionsKeeper()
+
+        when:
+        keeper.setSupportedOptions(['--activate-profiles'] as Set)
+        keeper.addOption('--offline', true)
+        keeper.addOption('--thread', '1C')
+        keeper.addOption('--batchMode', true)
+        keeper.addOption('--activate-profiles', ['development'])
+        keeper.addOption('--define', ['groupId': 'com.github.dkorotych', 'artifactId': 'test-maven', 'version': '1.0'])
+
+        then:
+        ['-DgroupId=com.github.dkorotych', '-DartifactId=test-maven', '-Dversion=1.0',
+         '--activate-profiles', 'development'] == keeper.toCommandLine()
+
+        when:
+        keeper.setSupportedOptions([] as Set)
+        keeper.addOption('--offline', true)
+        keeper.addOption('--thread', '1C')
+        keeper.addOption('--batchMode', true)
+        keeper.addOption('--activate-profiles', ['development'])
+
+        then:
+        ['-DgroupId=com.github.dkorotych', '-DartifactId=test-maven', '-Dversion=1.0', '--offline', '--thread', '1C',
+         '--batchMode', '--activate-profiles', 'development'] == keeper.toCommandLine()
     }
 }

@@ -25,6 +25,33 @@ class MavenExecTest extends DefaultMavenExecSpecTest {
         then:
         thrown(UnsupportedOperationException.class)
 
+        when:
+        cleanupProject()
+        task {
+            commandLine = ['echo', '--help']
+        }
+
+        then:
+        thrown(UnsupportedOperationException.class)
+
+        when:
+        cleanupProject()
+        task {
+            commandLine(['echo', '--help'])
+        }
+
+        then:
+        thrown(UnsupportedOperationException.class)
+
+        when:
+        cleanupProject()
+        task {
+            commandLine('echo', '--help')
+        }
+
+        then:
+        thrown(UnsupportedOperationException.class)
+
         cleanup:
         cleanupProject()
     }

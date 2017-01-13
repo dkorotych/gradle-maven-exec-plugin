@@ -1,9 +1,11 @@
 package com.github.dkorotych.gradle.maven.exec
 
+import com.github.dkorotych.gradle.maven.MavenDescriptor
 import com.github.dkorotych.gradle.maven.cli.MavenCli
+import com.github.dkorotych.gradle.maven.cli.MavenCommandBuilder
+import groovy.transform.Memoized
 import groovy.transform.PackageScope
 import groovy.transform.TypeChecked
-import org.gradle.internal.os.OperatingSystem
 
 /**
  * Default implementation for specifies options for launching a Maven process.
@@ -22,7 +24,6 @@ trait DefaultMavenExecSpec implements MavenExecSpec {
             interfaces = false)
     private final MavenCli mavenCli = new MavenCli()
     private final Set<String> goalSet = []
-    private final boolean windows = OperatingSystem.current().isWindows()
     private File installDir
 
     @Override
@@ -95,21 +96,15 @@ trait DefaultMavenExecSpec implements MavenExecSpec {
 
     private List<String> prepareCommandLine() {
         List<String> parameters = []
-        if (windows) {
-            parameters << 'cmd'
-            parameters << '/c'
-        }
-        String command = ''
-        if (mavenDir != null) {
-            command = mavenDir.absolutePath + '/'
-        }
-        command += 'mvn'
-        if (windows) {
-            command += '.cmd'
-        }
-        parameters << command
+        parameters.addAll(new MavenCommandBuilder(mavenDir).build())
+        mavenCli.supportedOptions(getSupportedOptions(mavenDir))
         parameters.addAll(mavenCli.toCommandLine())
         parameters.addAll(goals)
         parameters
+    }
+
+    @Memoized
+    private Set<String> getSupportedOptions(File mavenDir) {
+        new MavenDescriptor(mavenDir).supportedOptions
     }
 }

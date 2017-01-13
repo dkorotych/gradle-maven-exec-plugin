@@ -12,6 +12,9 @@ class MavenExecAction implements DefaultMavenExecSpec {
     @Delegate(
             excludes = [
                     'setCommandLine',
+                    'commandLine',
+                    'executable',
+                    'setExecutable',
                     'args',
                     'setArgs',
             ],
