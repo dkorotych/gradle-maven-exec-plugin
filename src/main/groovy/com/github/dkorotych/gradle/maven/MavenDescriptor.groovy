@@ -16,10 +16,10 @@ import java.util.regex.Matcher
 class MavenDescriptor {
     private static final String CHARSET = StandardCharsets.US_ASCII.name()
 
-    @Lazy
     /**
      * Command line options for this version.
      */
+    @Lazy
     Set<String> supportedOptions = {
         parseSupportedOptions(executeWithOption('--help'))
     }.call()
