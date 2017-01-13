@@ -2,11 +2,17 @@ package com.github.dkorotych.gradle.maven.exec
 
 import org.gradle.process.internal.DefaultExecAction
 import spock.lang.Unroll
+import spock.util.environment.RestoreSystemProperties
 
 /**
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 class MavenExecPluginProjectConventionTest extends MavenExecSpecification {
+
+    def setup() {
+        registerMavenDescriptorMock()
+    }
+
     def "mavenexec should generate UnsupportedOperationException with null configuration closure"() {
         when:
         MavenExecPluginProjectConvention convention = new MavenExecPluginProjectConvention(null)
@@ -18,6 +24,7 @@ class MavenExecPluginProjectConventionTest extends MavenExecSpecification {
     }
 
     @Unroll
+    @RestoreSystemProperties
     def "mavenexec. #os.familyName, #goals"() {
         setup:
         setOperatingSystem(os)
@@ -38,6 +45,7 @@ class MavenExecPluginProjectConventionTest extends MavenExecSpecification {
         [goals, os, commandLine] << setGoalsDataProvider()
     }
 
+    @RestoreSystemProperties
     def "mavenexec"() {
         setup:
         asWindows()

@@ -39,7 +39,7 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         keeper.toCommandLine() == []
 
         where:
-        option << [null, '', "", '  ', '\t\n', '\t    \n   ', "  " , "\t\n", "\t    \n   "]
+        option << [null, '', "", '  ', '\t\n', '\t    \n   ', "  ", "\t\n", "\t    \n   "]
     }
 
     def "any method addOption not support null or empty value"() {

@@ -1,22 +1,25 @@
 package com.github.dkorotych.gradle.maven.exec
 
+import com.github.dkorotych.gradle.maven.MavenDescriptor
 import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.process.ExecResult
 import org.gradle.process.internal.DefaultExecAction
 import org.gradle.process.internal.ExecException
 import spock.lang.Specification
+import spock.util.environment.RestoreSystemProperties
 
 import static org.gradle.internal.os.OperatingSystem.*
 
 /**
  * @author Dmitry Korotych (dkorotych at gmail dot com).
  */
+@RestoreSystemProperties
 class MavenExecSpecification extends Specification {
-    private static final File userHome = new File(System.getProperty('user.home'))
-    private static final File tmp = new File(System.getProperty('java.io.tmpdir'))
+    static final File userHome = new File(System.getProperty('user.home'))
+    static final File tmp = new File(System.getProperty('java.io.tmpdir'))
 
-    def setOperatingSystem(OperatingSystem os) {
+    static void setOperatingSystem(OperatingSystem os) {
         if (WINDOWS == os) {
             asWindows()
         } else {
@@ -24,29 +27,33 @@ class MavenExecSpecification extends Specification {
         }
     }
 
-    def asWindows() {
+    static asWindows() {
         System.setProperty('os.name', 'windows')
     }
 
-    def asUnix() {
+    static asUnix() {
         System.setProperty('os.name', 'linux')
     }
 
-    def operatingSystems() {
+    static List<OperatingSystem> operatingSystems() {
         [FREE_BSD, LINUX, MAC_OS, SOLARIS, WINDOWS]
+    }
+
+    static List<File> mavenDirs() {
+        [null, userHome, tmp]
     }
 
     def setMavenDirDataProvider() {
         def values = []
         operatingSystems().each { os ->
-            [null, userHome, tmp].each { path ->
+            mavenDirs().each { path ->
                 values << [path, os, commandLine(path, os, 'clean', 'package')]
             }
         }
         values
     }
 
-    def commandLine(File path, OperatingSystem os, String... goals) {
+    static List<String> commandLine(File path, OperatingSystem os, String... goals) {
         def commandLine = []
         if (os == WINDOWS) {
             commandLine << 'cmd'
@@ -72,7 +79,14 @@ class MavenExecSpecification extends Specification {
         Mock(global: false, constructorArgs: [new IdentityFileResolver()], DefaultExecAction)
     }
 
-    ExecResult getExecResult() {
+    MavenDescriptor registerMavenDescriptorMock() {
+        MavenDescriptor descriptor = GroovySpy(global: true, MavenDescriptor)
+        descriptor.supportedOptions >> []
+        descriptor.version >> '3.3.9'
+        descriptor
+    }
+
+    static ExecResult getExecResult() {
         new ExecResult() {
 
             @Override

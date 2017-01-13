@@ -1,0 +1,7 @@
+
+Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-10T19:41:47+03:00)
+Maven home: /usr/share/maven3
+Java version: 1.8.0_111, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-8-oracle/jre
+Default locale: ru_RU, platform encoding: UTF-8
+OS name: "linux", version: "3.19.0-32-generic", arch: "amd64", family: "unix"
