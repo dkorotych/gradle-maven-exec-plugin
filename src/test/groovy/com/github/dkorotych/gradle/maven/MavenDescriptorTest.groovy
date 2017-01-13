@@ -9,10 +9,7 @@ import spock.lang.Unroll
 import spock.util.environment.RestoreSystemProperties
 import spock.util.mop.ConfineMetaClassChanges
 
-import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.stream.Stream
 
 /**
  * @author Dmitry Korotych (dkorotych at gmail dot com).
@@ -88,7 +85,7 @@ class MavenDescriptorTest extends Specification {
             def values = []
             descriptorFixtures().each {
                 values << [
-                        it.toFile().name,
+                        it.name,
                         getHelp(it),
                         getOptions(it).readLines() as LinkedHashSet
                 ]
@@ -111,7 +108,7 @@ class MavenDescriptorTest extends Specification {
             def values = []
             descriptorFixtures().each {
                 values << [
-                        it.toFile().name,
+                        it.name,
                         getVersion(it)
                 ]
             }
@@ -119,26 +116,26 @@ class MavenDescriptorTest extends Specification {
         }.call()
     }
 
-    private Stream<Path> descriptorFixtures() {
-        Files.list(Paths.get(getClass().getResource('/fixtures/descriptor').toURI()))
-                .filter {
-            it.toFile().isDirectory()
-        }
+    private List<File> descriptorFixtures() {
+        Paths.get(getClass().getResource('/fixtures/descriptor').toURI())
+                .toFile()
+                .listFiles()
+                .findAll { it.isDirectory() }
     }
 
-    private String getVersion(Path version) {
+    private String getVersion(File version) {
         getText(version, 'version.txt')
     }
 
-    private String getHelp(Path version) {
+    private String getHelp(File version) {
         getText(version, 'help.txt')
     }
 
-    private String getOptions(Path version) {
+    private String getOptions(File version) {
         getText(version, 'options.txt')
     }
 
-    private String getText(Path version, String fileName) {
-        Paths.get(version.toAbsolutePath().toString(), fileName).text
+    private String getText(File version, String fileName) {
+        Paths.get(version.absolutePath, fileName).text
     }
 }
