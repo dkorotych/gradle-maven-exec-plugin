@@ -90,7 +90,7 @@ class MavenDescriptor {
     @PackageScope
     String parseVersion(InputStream stream) {
         String returnValue = ''
-        String pattern = /^\QApache Maven \E(\S+).+$/
+        String pattern = /^\QApache Maven \E(\S+)(?:.+)?$/
         stream.readLines(CHARSET).findAll { it ==~ pattern }.each {
             Matcher matcher = (it =~ pattern)
             matcher.find()
