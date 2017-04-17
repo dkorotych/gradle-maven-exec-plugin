@@ -21,6 +21,7 @@ import org.gradle.internal.os.OperatingSystem
 import org.gradle.process.ExecResult
 import org.gradle.process.internal.DefaultExecAction
 import org.gradle.process.internal.ExecException
+import org.gradle.util.GradleVersion
 import spock.lang.Specification
 import spock.util.environment.RestoreSystemProperties
 
@@ -33,8 +34,10 @@ import static org.gradle.internal.os.OperatingSystem.*
 class MavenExecSpecification extends Specification {
     static final File userHome = new File(System.getProperty('user.home'))
     static final File tmp = new File(System.getProperty('java.io.tmpdir'))
+    private static final GradleVersion GRADLE_3 = GradleVersion.version('3.0').baseVersion
 
     static void setOperatingSystem(OperatingSystem os) {
+        resetCurrentOperatingSystem(os)
         if (WINDOWS == os) {
             asWindows()
         } else {
@@ -43,10 +46,12 @@ class MavenExecSpecification extends Specification {
     }
 
     static asWindows() {
+        resetCurrentOperatingSystem(current())
         System.setProperty('os.name', 'windows')
     }
 
     static asUnix() {
+        resetCurrentOperatingSystem(current())
         System.setProperty('os.name', 'linux')
     }
 
@@ -77,6 +82,12 @@ class MavenExecSpecification extends Specification {
         commandLine << "${path ? path.absolutePath + '/' : ''}mvn${os == WINDOWS ? '.cmd' : ''}"
         commandLine.addAll(goals)
         commandLine
+    }
+
+    static void resetCurrentOperatingSystem(OperatingSystem os) {
+        if (GradleVersion.current().baseVersion.compareTo(GRADLE_3) >= 0) {
+            os.metaClass.invokeMethod(os, "resetCurrent", null)
+        }
     }
 
     def setGoalsDataProvider() {

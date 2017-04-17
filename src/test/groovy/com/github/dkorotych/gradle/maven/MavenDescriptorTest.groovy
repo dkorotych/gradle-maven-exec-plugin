@@ -16,6 +16,8 @@
 package com.github.dkorotych.gradle.maven
 
 import com.github.dkorotych.gradle.maven.exec.MavenExecSpecification
+import org.gradle.api.internal.file.IdentityFileResolver
+import org.gradle.process.internal.DefaultExecAction
 import org.gradle.process.internal.ExecHandle
 import org.gradle.process.internal.ExecHandleBuilder
 import org.gradle.testfixtures.ProjectBuilder
@@ -38,7 +40,8 @@ class MavenDescriptorTest extends Specification {
         setup:
         MavenExecSpecification.asUnix()
         ProjectBuilder.builder().build()
-        ExecHandleBuilder handleBuilder = GroovySpy(global: true, ExecHandleBuilder)
+        ExecHandleBuilder handleBuilder = GroovySpy(global: true,
+                constructorArgs: [new IdentityFileResolver()], DefaultExecAction)
         ExecHandle handle = Stub(ExecHandle)
         handleBuilder.build() >> handle
         handle.start() >> handle
