@@ -22,7 +22,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:1.0"
+        classpath "gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:1.1"
     }
 }
 
@@ -34,7 +34,7 @@ Build script snippet for new, incubating, plugin mechanism introduced in Gradle 
 
 ```groovy
 plugins {
-    id "com.github.dkorotych.gradle-maven-exec" version "1.0"
+    id "com.github.dkorotych.gradle-maven-exec" version "1.1"
 }
 ```
 
