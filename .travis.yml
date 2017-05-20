@@ -1,9 +1,13 @@
-sudo: required
+language: groovy
+sudo: false
 env:
   global:
   - secure: mrSage3RnfkrOHn82NuYMvd3p+iybJYWQPWTN52TU8W8YavvywgD0cGdQtYNhrLuN3KUbqfG57Yt0Ee2TKAAwDfAd7J8j2PaK/AmZVIdm62I9zMRj516F0gNSDy3k2KWlTlQK/lC5xO5Ecl14iDB9Q5tDaVLzHOGqwKOGNESG9ILdpnONeZ7GMOwV9hTSawQjBzG8dm3YJMd3phUUA9A/hy+pIKkjHEzA4cwG3HZAjLvgMMp7c1GcolMjVxt+igQmjEK+MlWutbS7vOkJfgzl+arcY7iZPJS+oMbLQh/ivA0OoqDSOEXT9Vz3ZfQ0QeZFnzP+xDkAjCiawq7iSQmU4uLPWlRc17KQXF0mCsHfzCGRPmy3lnxkhIy8CIFV4Zfwp1nzCuUlKRK+wAV9PRxFIHSxcj7sF9q77RHaOOhn6Zk8BJDtTS5Ir/eTtKLs/L/UStBqjKU1sQUhnduKReKGEuuQnbpqq0cb8lpw+DRCelD7NzGuqblNlGdCakM/rJr3iQp4uZGJWPr/As5Gu3vGJSJXdNuzgTWSFsHOalT91BomACfXaOHFkuBr0U2wWrE81tP/wUjl6RiewaBhdno/tq3GpOHyJfpGDD6y/Czg2w3Nq7Imendq2I/RhxXzYbuarK5wsxa95A4LxN6Bi+iLWl7MxMvKFXOm6SBrzDZN+A=
+addons:
+  apt:
+    packages:
+    - jq
 before_install:
-- sudo apt-get install jq
 - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -20,6 +24,8 @@ matrix:
     env: ONLY_CHECK='true'
 jdk:
 - oraclejdk8
+os:
+- linux
 before_script:
 - chmod +x gradlew
 - chmod +x travis/script.sh
