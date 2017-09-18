@@ -8,6 +8,8 @@ addons:
     packages:
     - jq
 before_install:
+- chmod +x travis/before_install.sh
+- travis/before_install.sh
 - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
