@@ -20,8 +20,6 @@ matrix:
   include:
   - jdk: openjdk7
     env: ONLY_CHECK='true'
-  - jdk: oraclejdk7
-    env: ONLY_CHECK='true'
 jdk:
 - oraclejdk8
 os:
