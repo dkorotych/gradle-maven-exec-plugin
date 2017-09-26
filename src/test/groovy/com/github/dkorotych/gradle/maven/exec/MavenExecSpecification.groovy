@@ -73,15 +73,19 @@ class MavenExecSpecification extends Specification {
         values
     }
 
-    static List<String> commandLine(File path, OperatingSystem os, String... goals) {
+    static List<String> commandLine(File path, OperatingSystem os, boolean useWrapper, String... goals) {
         def commandLine = []
         if (os == WINDOWS) {
             commandLine << 'cmd'
             commandLine << '/c'
         }
-        commandLine << "${path ? path.absolutePath + '/' : ''}mvn${os == WINDOWS ? '.cmd' : ''}"
+        commandLine << "${path ? path.absolutePath + '/' : ''}mvn${useWrapper ? 'w' : ''}${os == WINDOWS ? '.cmd' : ''}"
         commandLine.addAll(goals)
         commandLine
+    }
+
+    static List<String> commandLine(File path, OperatingSystem os, String... goals) {
+        commandLine(path, os, false, goals)
     }
 
     static void resetCurrentOperatingSystem(OperatingSystem os) {

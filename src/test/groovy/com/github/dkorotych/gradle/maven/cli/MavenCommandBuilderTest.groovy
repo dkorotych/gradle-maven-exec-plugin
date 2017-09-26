@@ -19,6 +19,8 @@ import com.github.dkorotych.gradle.maven.exec.MavenExecSpecification
 import spock.lang.Unroll
 import spock.util.environment.RestoreSystemProperties
 
+import java.nio.file.Paths
+
 /**
  * @author Dmitry Korotych (dkorotych at gmail dot com).
  */
@@ -35,10 +37,20 @@ class MavenCommandBuilderTest extends MavenExecSpecification {
 
         where:
         [path, os, command] << {
+            AntBuilder ant = new AntBuilder()
             def values = []
-            operatingSystems().each { os ->
-                [null, userHome, tmp].each { path ->
-                    values << [path, os, commandLine(path, os)]
+            ['with', 'without'].each { dir ->
+                def projectDir = File.createTempDir()
+                ant.sequential {
+                    copy(todir: projectDir) {
+                        fileset(dir: Paths.get(getClass().getResource("/fixtures/wrapper/$dir").toURI()).toFile())
+                    }
+                }
+                operatingSystems().each { os ->
+                    [null, userHome, tmp, projectDir].each { path ->
+                        def hasWrapper = dir == 'with' && path == projectDir
+                        values << [path, os, commandLine(path, os, hasWrapper)]
+                    }
                 }
             }
             values

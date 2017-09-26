@@ -90,7 +90,7 @@ license {
     ext.developers = 'Dmitry Korotych'
     skipExistingHeaders true
     strictCheck true
-    exclude "**/fixtures/descriptor/**"
+    exclude "**/fixtures/**"
 }
 
 pluginBundle {

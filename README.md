@@ -45,6 +45,7 @@ This plugin enables a `MavenExec` task type in your buildscript which behaves ex
 
 1. Automatic generation of correct command line
 2. Prepending `mvn.cmd` command with `cmd /c` on Windows
+3. Used Maven Wrapper if it exists in project
 3. It is forbidden to direct control of the command line arguments
 4. Removing unsupported command-line options when you call different Maven versions
 
