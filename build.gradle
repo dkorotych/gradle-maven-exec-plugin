@@ -25,7 +25,7 @@ buildscript {
     }
     dependencies {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
-        if (org.gradle.api.JavaVersion.current().isJava8Compatible()) {
+        if (JavaVersion.current().isJava8Compatible()) {
             classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
             classpath 'ru.vyarus:gradle-quality-plugin:2.0.0'
         }
@@ -186,7 +186,7 @@ out.println("[![SonarQube ${it.capitalize().replaceAll('_', ' ')}](https://sonar
     Writable metrics = template.make(model)
     def metricsIndex = content.indexOf(header)
     if (metricsIndex > 0) {
-        content = content.take(metricsIndex).replaceAll(lastSpacesPattern, '');
+        content = content.take(metricsIndex).replaceAll(lastSpacesPattern, '')
     }
     content += metrics
     readmeFile.text = content
