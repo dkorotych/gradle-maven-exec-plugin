@@ -26,6 +26,7 @@ import org.gradle.internal.os.OperatingSystem
 class MavenCommandBuilder {
     private final boolean windows = OperatingSystem.current().isWindows()
     private final File mavenDir
+    private final boolean hasWrapper
 
     /**
      * Create new builder.
@@ -34,6 +35,13 @@ class MavenCommandBuilder {
      */
     MavenCommandBuilder(File mavenDir) {
         this.mavenDir = mavenDir
+        if (mavenDir) {
+            hasWrapper = mavenDir.listFiles({
+                !it.directory && it.name ==~ /(?i)^mvnw(?:\.cmd)?$/
+            } as FileFilter).any()
+        } else {
+            hasWrapper = false
+        }
     }
 
     /**
@@ -51,7 +59,7 @@ class MavenCommandBuilder {
         if (mavenDir != null) {
             command = mavenDir.absolutePath + '/'
         }
-        command += 'mvn'
+        command += "mvn${hasWrapper ? 'w' : ''}"
         if (windows) {
             command += '.cmd'
         }

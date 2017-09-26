@@ -70,9 +70,9 @@ class MavenExecPluginProjectConventionTest extends MavenExecSpecification {
         when:
         convention.mavenexec {
             goals 'site'
-            quiet true
-            threads '2C'
-            offline true
+            quiet = true
+            threads = '2C'
+            offline = true
         }
 
         then:

@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import groovy.text.SimpleTemplateEngine
-
 buildscript {
     repositories {
         maven {
@@ -25,8 +22,8 @@ buildscript {
     }
     dependencies {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.6"
-        if (org.gradle.api.JavaVersion.current().isJava8Compatible()) {
-            classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+        if (JavaVersion.current().isJava8Compatible()) {
+//            classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
             classpath 'ru.vyarus:gradle-quality-plugin:2.0.0'
         }
     }
@@ -45,8 +42,8 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'idea'
-if (buildscript.configurations.classpath.find { it.name =~ /^sonarqube-gradle-plugin.+$/ } != null) {
-    apply plugin: "org.sonarqube"
+if (buildscript.configurations.classpath.find { it.name =~ /^gradle-quality-plugin.+$/ } != null) {
+//    apply plugin: "org.sonarqube"
     apply plugin: 'ru.vyarus.quality'
 
     quality {
@@ -90,7 +87,7 @@ license {
     ext.developers = 'Dmitry Korotych'
     skipExistingHeaders true
     strictCheck true
-    exclude "**/fixtures/descriptor/**"
+    exclude "**/fixtures/**"
 }
 
 pluginBundle {
@@ -151,46 +148,46 @@ updateVersion.doFirst {
     file.text = content
 }
 
-task generateMetricsPart {
-    def readmeFile = file('README.md')
-    def content = readmeFile.text
-    def header = '## Metrics'
-    def lastSpacesPattern = /\s+$/
-    def model = [
-            'header': header,
-            'template': 'FLAT',
-            'key': "${rootProject.group}:${rootProject.name}",
-            'metric': [
-                    'coverage',
-                    'bugs',
-                    'complexity',
-                    'code_smells',
-                    'vulnerabilities',
-                    'tests',
-                    'test_success_density',
-                    'violations',
-                    'ncloc',
-                    'lines'
-            ]
-    ]
-    def templateText = '''
-$header
-[![SonarQube Quality Gate](https://sonarqube.com/api/badges/gate?key=$key&template=$template)](https://sonarqube.com/dashboard?id=$key)
-<%
-metric.each {
-out.println("[![SonarQube ${it.capitalize().replaceAll('_', ' ')}](https://sonarqube.com/api/badges/measure?metric=${it}&key=$key&template=$template)](https://sonarqube.com/component_measures/metric/${it}/list?id=$key)")
-}
-%>
-'''.replaceAll(lastSpacesPattern, '')
-    def template = new SimpleTemplateEngine().createTemplate(templateText)
-    Writable metrics = template.make(model)
-    def metricsIndex = content.indexOf(header)
-    if (metricsIndex > 0) {
-        content = content.take(metricsIndex).replaceAll(lastSpacesPattern, '');
-    }
-    content += metrics
-    readmeFile.text = content
-}
+//task generateMetricsPart {
+//    def readmeFile = file('README.md')
+//    def content = readmeFile.text
+//    def header = '## Metrics'
+//    def lastSpacesPattern = /\s+$/
+//    def model = [
+//            'header': header,
+//            'template': 'FLAT',
+//            'key': "${rootProject.group}:${rootProject.name}",
+//            'metric': [
+//                    'coverage',
+//                    'bugs',
+//                    'complexity',
+//                    'code_smells',
+//                    'vulnerabilities',
+//                    'tests',
+//                    'test_success_density',
+//                    'violations',
+//                    'ncloc',
+//                    'lines'
+//            ]
+//    ]
+//    def templateText = '''
+//$header
+//[![SonarQube Quality Gate](https://sonarqube.com/api/badges/gate?key=$key&template=$template)](https://sonarqube.com/dashboard?id=$key)
+//<%
+//metric.each {
+//out.println("[![SonarQube ${it.capitalize().replaceAll('_', ' ')}](https://sonarqube.com/api/badges/measure?metric=${it}&key=$key&template=$template)](https://sonarqube.com/component_measures/metric/${it}/list?id=$key)")
+//}
+//%>
+//'''.replaceAll(lastSpacesPattern, '')
+//    def template = new SimpleTemplateEngine().createTemplate(templateText)
+//    Writable metrics = template.make(model)
+//    def metricsIndex = content.indexOf(header)
+//    if (metricsIndex > 0) {
+//        content = content.take(metricsIndex).replaceAll(lastSpacesPattern, '')
+//    }
+//    content += metrics
+//    readmeFile.text = content
+//}
 
 task realUseCaseTest(type: GradleBuild) {
     dependsOn 'install'
