@@ -20,7 +20,6 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.9.8"
         if (JavaVersion.current().isJava8Compatible()) {
 //            classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
             classpath 'ru.vyarus:gradle-quality-plugin:2.0.0'
@@ -29,6 +28,7 @@ buildscript {
 }
 
 plugins {
+    id "com.gradle.plugin-publish" version "0.9.7"
     id 'net.saliman.cobertura' version '2.3.2'
     id 'net.researchgate.release' version '2.6.0'
     id "nebula.info" version "3.6.0"
