@@ -19,7 +19,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:${version}"
+        classpath "com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:${project.version}"
     }
 }
 
@@ -27,6 +27,8 @@ apply plugin: "com.github.dkorotych.gradle-maven-exec"
 
 def groupId = 'com.mycompany.app'
 def artifactId = 'my-app'
+
+println "Plugin version: ${project.version}"
 
 task generateMavenApplication(type: MavenExec) {
     buildDir.mkdirs()
