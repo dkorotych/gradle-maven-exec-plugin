@@ -49,4 +49,4 @@ deploy:
 after_deploy:
 - ./travis/deploy-gh-pages.sh
 - ./gradlew publishPlugins -Dgradle.publish.key=$gradle_publish_key -Dgradle.publish.secret=$gradle_publish
-- ./gradlew clean realUseCaseTest
+- ./gradlew --refresh-dependencies --rerun-tasks realUseCaseTest
