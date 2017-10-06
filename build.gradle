@@ -147,15 +147,6 @@ updateVersion.doFirst {
     file.text = content
 }
 
-task downloadPublishedVersion {
-    doLast {
-        def version = project.version
-        def name = project.name
-        def path = project.group.replace('.', '/')
-        "https://plugins.gradle.org/m2/gradle/plugin/$path/$name/$version/$name-${version}.pom".toURL().getContent()
-    }
-}
-
 afterReleaseBuild.dependsOn downloadPublishedVersion
 
 //task generateMetricsPart {
