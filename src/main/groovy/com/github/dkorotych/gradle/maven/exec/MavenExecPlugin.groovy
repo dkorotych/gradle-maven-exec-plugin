@@ -18,7 +18,8 @@ package com.github.dkorotych.gradle.maven.exec
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.internal.file.IdentityFileResolver
-import org.gradle.process.internal.DefaultExecAction
+import org.gradle.process.internal.DefaultExecActionFactory
+import org.gradle.process.internal.ExecAction
 
 /**
  * Implementation of the plugin to support the launch Maven tasks.
@@ -35,7 +36,7 @@ class MavenExecPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.extensions.extraProperties.set(MavenExec.simpleName, MavenExec)
-        DefaultExecAction action = new DefaultExecAction(new IdentityFileResolver())
+        ExecAction action = new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
         MavenExecPluginProjectConvention convention = new MavenExecPluginProjectConvention(action)
         project.convention.plugins['mavenexec'] = convention
     }

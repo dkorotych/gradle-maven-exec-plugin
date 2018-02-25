@@ -104,6 +104,10 @@ trait DefaultMavenExecSpec implements MavenExecSpec {
         throw new UnsupportedOperationException()
     }
 
+    void setExecutable(String executable) {
+        throw new UnsupportedOperationException()
+    }
+
     @Override
     MavenExec executable(Object executable) {
         throw new UnsupportedOperationException()

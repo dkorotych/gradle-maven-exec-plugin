@@ -16,7 +16,7 @@
 package com.github.dkorotych.gradle.maven.exec
 
 import org.gradle.process.ExecResult
-import org.gradle.process.internal.DefaultExecAction
+import org.gradle.process.internal.ExecAction
 import org.gradle.util.ConfigureUtil
 
 /**
@@ -25,7 +25,7 @@ import org.gradle.util.ConfigureUtil
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 class MavenExecPluginProjectConvention {
-    private final DefaultExecAction action
+    private final ExecAction action
 
     /**
      * New instance of the Maven convention.
@@ -33,7 +33,7 @@ class MavenExecPluginProjectConvention {
      * @param action Real instance of gradle action for execution
      * @see MavenExecAction
      */
-    MavenExecPluginProjectConvention(DefaultExecAction action) {
+    MavenExecPluginProjectConvention(ExecAction action) {
         this.action = action
     }
 

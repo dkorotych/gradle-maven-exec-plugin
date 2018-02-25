@@ -18,7 +18,7 @@ package com.github.dkorotych.gradle.maven
 import com.github.dkorotych.gradle.maven.cli.MavenCommandBuilder
 import groovy.transform.PackageScope
 import org.gradle.api.internal.file.IdentityFileResolver
-import org.gradle.process.internal.DefaultExecAction
+import org.gradle.process.internal.DefaultExecActionFactory
 
 import java.nio.charset.StandardCharsets
 import java.util.regex.Matcher
@@ -69,7 +69,7 @@ class MavenDescriptor {
         List<String> commandLine = new MavenCommandBuilder(mavenDir).build()
         commandLine << option
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
-        new DefaultExecAction(new IdentityFileResolver())
+        new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
                 .commandLine(commandLine)
                 .setStandardOutput(outputStream)
                 .workingDir(System.getProperty('java.io.tmpdir'))

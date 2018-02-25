@@ -17,6 +17,7 @@ package com.github.dkorotych.gradle.maven.exec
 
 import com.github.dkorotych.gradle.maven.MavenDescriptor
 import org.gradle.api.internal.file.IdentityFileResolver
+import org.gradle.internal.concurrent.DefaultExecutorFactory
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.process.ExecResult
 import org.gradle.process.internal.DefaultExecAction
@@ -35,6 +36,7 @@ class MavenExecSpecification extends Specification {
     static final File userHome = new File(System.getProperty('user.home'))
     static final File tmp = new File(System.getProperty('java.io.tmpdir'))
     private static final GradleVersion GRADLE_3 = GradleVersion.version('3.0').baseVersion
+    private static final GradleVersion GRADLE_4_5 = GradleVersion.version('4.5').baseVersion
 
     static void setOperatingSystem(OperatingSystem os) {
         resetCurrentOperatingSystem(os)
@@ -106,7 +108,15 @@ class MavenExecSpecification extends Specification {
     }
 
     DefaultExecAction registerDefaultExecActionMock() {
-        Mock(global: false, constructorArgs: [new IdentityFileResolver()], DefaultExecAction)
+        Mock(global: false, constructorArgs: createDefaultExecActionConstructorArguments(), DefaultExecAction)
+    }
+
+    static createDefaultExecActionConstructorArguments() {
+        if (GradleVersion.current().baseVersion.compareTo(GRADLE_4_5) >= 0) {
+            [new IdentityFileResolver(), new DefaultExecutorFactory().create("Mock Exec process")]
+        } else {
+            [new IdentityFileResolver()]
+        }
     }
 
     MavenDescriptor registerMavenDescriptorMock() {

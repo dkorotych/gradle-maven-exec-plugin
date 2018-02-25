@@ -33,7 +33,6 @@ println "Plugin version: ${project.version}"
 task generateMavenApplication(type: MavenExec) {
     buildDir.mkdirs()
     ext.outputDir = file("$buildDir/$artifactId")
-    outputs.dir outputDir
     workingDir buildDir
     goals 'archetype:generate'
     options {
