@@ -16,7 +16,7 @@
 package com.github.dkorotych.gradle.maven.exec
 
 import org.gradle.process.ExecResult
-import org.gradle.process.internal.DefaultExecAction
+import org.gradle.process.internal.ExecAction
 
 /**
  * Implementation of the action to support the launch Maven.
@@ -34,14 +34,14 @@ class MavenExecAction implements DefaultMavenExecSpec {
                     'setArgs',
             ],
             interfaces = false)
-    private final DefaultExecAction action
+    private final ExecAction action
 
     /**
      * New instance of the action.
      *
      * @param action Real instance of gradle action for execution
      */
-    MavenExecAction(DefaultExecAction action) {
+    MavenExecAction(ExecAction action) {
         this.action = action
     }
 
