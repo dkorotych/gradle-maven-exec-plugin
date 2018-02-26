@@ -2,7 +2,7 @@
 
 set -e
 
-./gradlew check realUseCaseTest
+./gradlew install check realUseCaseTest
 if [ -z "$ONLY_CHECK" ]; then
     ./gradlew cobertura
     # Send information to https://codacy.com
