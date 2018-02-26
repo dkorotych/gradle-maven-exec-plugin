@@ -103,6 +103,10 @@ pluginBundle {
     }
 }
 
+test {
+    systemProperty("pluginVersion", project.version)
+}
+
 groovydoc {
     link 'http://docs.oracle.com/javase/7/docs/api/', 'java.', 'org.xml.', 'javax.', 'org.xml.'
     link "https://docs.gradle.org/${gradle.gradleVersion}/javadoc/", 'org.gradle'
