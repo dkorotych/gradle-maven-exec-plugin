@@ -28,7 +28,7 @@ buildscript {
 }
 
 plugins {
-    id "com.gradle.plugin-publish" version "0.9.7"
+    id "com.gradle.plugin-publish" version "0.9.10"
     id 'net.saliman.cobertura' version '2.5.4'
     id 'net.researchgate.release' version '2.6.0'
     id "nebula.info" version "3.6.0"
