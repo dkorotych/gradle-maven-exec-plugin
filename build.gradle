@@ -151,6 +151,8 @@ updateVersion.doFirst {
     file.text = content
 }
 
+beforeReleaseBuild.dependsOn install
+
 //task generateMetricsPart {
 //    def readmeFile = file('README.md')
 //    def content = readmeFile.text
