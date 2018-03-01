@@ -67,7 +67,7 @@ class WorkWithAnotherGradleTest extends Specification {
         cleanupProject()
 
         where:
-        version << ['3.0', '4.0', '4.5.1']
+        version << ['3.0', '4.0', '4.5.1', '4.6']
     }
 
     private Wrapper wrapper(String version) {
