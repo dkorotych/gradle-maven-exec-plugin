@@ -11,3 +11,11 @@ if [ -z "$ONLY_CHECK" ]; then
 #    ./gradlew sonarqube -Dsonar.host.url=$sonar_host -Dsonar.login=$sonar_login
     ./codecov.sh
 fi
+
+if [ -z "$ADDITIONAL_CHECK" ]; then
+    for jdk in jdk9 jdk10;
+    do
+        jdk_switcher use $jdk
+        gradle additionalUseCaseTest
+    done
+fi

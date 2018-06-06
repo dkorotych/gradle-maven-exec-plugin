@@ -33,7 +33,6 @@ println "Plugin version: ${project.version}"
 task generateMavenApplication(type: MavenExec) {
     buildDir.mkdirs()
     ext.outputDir = file("$buildDir/$artifactId")
-    outputs.dir outputDir
     delete outputDir
     workingDir buildDir
     goals 'archetype:generate'
@@ -97,5 +96,32 @@ task checkMavenApplication2 {
             standardOutput new FileOutputStream(outputFile)
         }
         assert outputFile.text.trim() == 'Hello World!'
+    }
+}
+
+task checkMavenApplication3 {
+    doLast {
+        buildDir.mkdirs()
+        def application = artifactId + '-third'
+        def applicationDir = file("$buildDir/$application")
+        delete applicationDir
+        mavenexec {
+            workingDir buildDir
+            goals 'archetype:generate'
+            define([
+                    'groupId'            : groupId,
+                    'artifactId'         : application,
+                    'archetypeArtifactId': 'maven-archetype-j2ee-simple',
+                    'archetypeVersion'   : 'LATEST',
+                    'interactiveMode'    : 'false'
+            ])
+            quiet true
+        }
+        mavenexec {
+            workingDir applicationDir
+            goals 'package', 'site'
+            threads '1C'
+            quiet true
+        }
     }
 }

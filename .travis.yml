@@ -21,25 +21,14 @@ matrix:
   include:
   - jdk: openjdk7
     env: ONLY_CHECK='true'
-    os:  linux
   - jdk: oraclejdk8
     env: ONLY_CHECK='true'
-    os:  linux
   - jdk: openjdk8
-    env: ONLY_CHECK='false'
-    os:  linux
-  - jdk: openjdk9
-    env: ONLY_CHECK='true'
-    os:  linux
-  - jdk: openjdk10
-    env: ONLY_CHECK='true'
-    os:  linux
-  - jdk: jdk7
-    env: ONLY_CHECK='true'
-    os:  osx
-  - jdk: jdk8
-    env: ONLY_CHECK='true'
-    os:  osx
+    env:
+    - ONLY_CHECK='false'
+    - ADDITIONAL_CHECK='true'
+os:
+- linux
 before_script:
 - chmod +x gradlew
 - chmod +x travis/script.sh

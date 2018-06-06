@@ -198,5 +198,12 @@ task realUseCaseTest(type: GradleBuild) {
     dependsOn 'install'
     group = 'verification'
     buildFile = file('useCase.gradle')
-    tasks = ['checkMavenApplication', 'checkMavenApplication2']
+    tasks = ['checkMavenApplication', 'checkMavenApplication2', 'checkMavenApplication3']
+}
+
+task additionalUseCaseTest(type: GradleBuild) {
+    dependsOn 'install'
+    group = 'verification'
+    buildFile = file('useCase.gradle')
+    tasks = ['checkMavenApplication3']
 }

@@ -13,5 +13,5 @@ if [ $TRAVIS_JDK_VERSION == "openjdk7" ]; then
 fi
 
 if [ $TRAVIS_OS_NAME == "linux" ]; then
-    wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest && jq -r .assets[0].browser_download_url)
+    wget -O ~/codacy-coverage-reporter-assembly-latest.jar "$(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)"
 fi
