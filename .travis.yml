@@ -32,6 +32,7 @@ matrix:
     env: ONLY_CHECK='true'
 os:
 - linux
+- osx
 before_script:
 - chmod +x gradlew
 - chmod +x travis/script.sh
