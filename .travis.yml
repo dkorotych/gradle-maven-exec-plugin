@@ -22,8 +22,14 @@ matrix:
   include:
   - jdk: openjdk7
     env: ONLY_CHECK='true'
-jdk:
-- oraclejdk8
+  - jdk: oraclejdk8
+    env: ONLY_CHECK='true'
+  - jdk: openjdk8
+    env: ONLY_CHECK='false'
+  - jdk: openjdk9
+    env: ONLY_CHECK='true'
+  - jdk: openjdk10
+    env: ONLY_CHECK='true'
 os:
 - linux
 before_script:
