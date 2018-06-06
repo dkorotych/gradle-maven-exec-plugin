@@ -112,7 +112,7 @@ task checkMavenApplication3 {
                     'groupId'            : groupId,
                     'artifactId'         : application,
                     'archetypeArtifactId': 'maven-archetype-j2ee-simple',
-                    'archetypeVersion'   : 'LATEST',
+                    'archetypeVersion'   : '1.3',
                     'interactiveMode'    : 'false'
             ])
             quiet true
