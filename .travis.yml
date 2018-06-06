@@ -34,10 +34,10 @@ matrix:
   - jdk: openjdk10
     env: ONLY_CHECK='true'
     os:  linux
-  - jdk: openjdk9
+  - jdk: jdk7
     env: ONLY_CHECK='true'
     os:  osx
-  - jdk: openjdk10
+  - jdk: jdk8
     env: ONLY_CHECK='true'
     os:  osx
 before_script:
