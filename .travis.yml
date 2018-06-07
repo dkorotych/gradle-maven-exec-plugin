@@ -29,6 +29,7 @@ jobs:
       jdk: openjdk9
       install:
       - curl -s "https://get.sdkman.io" | bash
+      - source "~/.sdkman/bin/sdkman-init.sh"
       - sdk install gradle
       script: gradle additionalUseCaseTest
 #    - stage: jdk10
