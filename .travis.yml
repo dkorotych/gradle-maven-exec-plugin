@@ -25,16 +25,15 @@ os:
 - linux
 jobs:
   include:
-    - stage: jdk9
-      jdk: openjdk9
-      before_install: chmod +x travis/additional_install.sh
-      install: ./travis/additional_install.sh
-      script: gradle additionalUseCaseTest
-    - stage: jdk10
-      jdk: openjdk10
-      before_install: chmod +x travis/additional_install.sh
-      install: ./travis/additional_install.sh
-      script: gradle additionalUseCaseTest
+    - stage: new JDK
+      jdk:
+      - openjdk9
+      - openjdk10
+      install:
+      - curl -s "https://get.sdkman.io" | bash
+      - source "$HOME/.sdkman/bin/sdkman-init.sh"
+      - sdk install gradle
+      script: gradle install additionalUseCaseTest
     - stage: coverage
       jdk: openjdk8
       env: CODACY_JAR="$HOME/.gradle/caches/codacy-coverage-reporter-assembly-latest.jar"
