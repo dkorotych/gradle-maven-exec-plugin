@@ -2,8 +2,8 @@
 
 set -e
 
-readonly codacy="~/codacy-coverage-reporter-assembly-latest.jar"
-readonly url=$(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
+readonly codacy="codacy-coverage-reporter-assembly-latest.jar"
+readonly url=$(curl -s https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
 
 wget -O ${codacy} "$url"
 (curl -s https://codecov.io/bash) > codecov.sh
