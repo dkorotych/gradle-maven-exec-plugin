@@ -17,27 +17,23 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
   - $HOME/.m2/repository/
-matrix:
-  include:
-  - jdk: openjdk7
-    env: ONLY_CHECK='true'
-  - jdk: oraclejdk8
-    env: ONLY_CHECK='true'
-  - jdk: openjdk8
-    env:
-    - ONLY_CHECK='false'
-    - ADDITIONAL_CHECK=true
+jdk:
+- openjdk7
+- openjdk8
+- oraclejdk8
 os:
 - linux
 jobs:
   include:
+    - stage: coverage
+      jdk: openjdk8
+      env: ONLY_CHECK='false'
+      script: ./travis/script.sh
     - stage: jdk9
       jdk: jdk9
-      if: env(ADDITIONAL_CHECK) = true
       script: gradle additionalUseCaseTest
     - stage: jdk10
       jdk: jdk10
-      if: env(ADDITIONAL_CHECK) = true
       script: gradle additionalUseCaseTest
 before_script:
 - chmod +x gradlew
