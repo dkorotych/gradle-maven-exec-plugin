@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ev
+set -e
 
 # Workaround to using openjdk7 with Gradle due to security issue:
 # https://github.com/gradle/gradle/issues/2421
