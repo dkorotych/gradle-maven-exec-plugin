@@ -26,10 +26,10 @@ os:
 jobs:
   include:
     - stage: jdk9
-      jdk: jdk9
+      jdk: openjdk9
       script: gradle additionalUseCaseTest
     - stage: jdk10
-      jdk: jdk10
+      jdk: openjdk10
       script: gradle additionalUseCaseTest
     - stage: coverage
       jdk: openjdk8
