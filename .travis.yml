@@ -25,10 +25,15 @@ os:
 - linux
 jobs:
   include:
-    - stage: new JDK
-      jdk:
-      - openjdk9
-      - openjdk10
+    - stage: Java 9
+      jdk: openjdk9
+      install:
+      - curl -s "https://get.sdkman.io" | bash
+      - source "$HOME/.sdkman/bin/sdkman-init.sh"
+      - sdk install gradle
+      script: gradle install additionalUseCaseTest
+    - stage: Java 10
+      jdk: openjdk10
       install:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
