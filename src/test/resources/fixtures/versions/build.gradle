@@ -11,7 +11,8 @@ buildscript {
 apply plugin: "com.github.dkorotych.gradle-maven-exec"
 
 println("Validate work by Gradle: ${gradle.gradleVersion}")
-println "Plugin version: @version@"
+def version = buildscript.configurations.classpath.resolvedConfiguration.firstLevelModuleDependencies.find {it.moduleName == 'gradle-maven-exec-plugin'}.moduleVersion
+println "Plugin version: $version"
 
 task tests(dependsOn: ["test1", "rebuild", "setWorkingDirInMavenTask", "setWorkingDirInMavenConvention"])
 
