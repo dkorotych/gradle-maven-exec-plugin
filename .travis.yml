@@ -17,11 +17,11 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
   - $HOME/.m2/repository/
-jdk:
-- openjdk7
-- openjdk8
-- oraclejdk8
-os:
+#jdk:
+#- openjdk7
+#- openjdk8
+#- oraclejdk8
+#os:
 - linux
 jobs:
   include:
