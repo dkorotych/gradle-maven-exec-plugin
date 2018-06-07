@@ -27,15 +27,15 @@ os:
 - linux
 jobs:
   include:
-    - stage: coverage
-      jdk: openjdk8
-      script: ./travis/coverage.sh
     - stage: jdk9
       jdk: jdk9
       script: gradle additionalUseCaseTest
     - stage: jdk10
       jdk: jdk10
       script: gradle additionalUseCaseTest
+    - stage: coverage
+      jdk: openjdk8
+      script: ./travis/coverage.sh
 before_script:
 - chmod +x gradlew
 - chmod +x travis/script.sh
