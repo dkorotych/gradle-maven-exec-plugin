@@ -17,10 +17,10 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
   - $HOME/.m2/repository/
-#jdk:
-#- openjdk7
-#- openjdk8
-#- oraclejdk8
+jdk:
+- openjdk7
+- openjdk8
+- oraclejdk8
 os:
 - linux
 jobs:
@@ -42,6 +42,7 @@ jobs:
     - stage: coverage
       jdk: openjdk8
       env: CODACY_JAR="$HOME/.gradle/caches/codacy-coverage-reporter-assembly-latest.jar"
+      install: ./gradlew install
       script: ./travis/coverage.sh
 before_script:
 - chmod +x gradlew
