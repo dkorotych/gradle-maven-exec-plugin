@@ -17,8 +17,6 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
   - $HOME/.m2/repository/
-env:
-- CODACY_JAR="$HOME/.gradle/caches/codacy-coverage-reporter-assembly-latest.jar"
 jdk:
 - openjdk7
 - openjdk8
@@ -35,6 +33,7 @@ jobs:
       script: gradle additionalUseCaseTest
     - stage: coverage
       jdk: openjdk8
+      env: CODACY_JAR="~/.gradle/caches/codacy-coverage-reporter-assembly-latest.jar"
       script: ./travis/coverage.sh
 before_script:
 - chmod +x gradlew
