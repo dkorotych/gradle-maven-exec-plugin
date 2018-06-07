@@ -26,9 +26,19 @@ matrix:
   - jdk: openjdk8
     env:
     - ONLY_CHECK='false'
-    - ADDITIONAL_CHECK='true'
+    - ADDITIONAL_CHECK=true
 os:
 - linux
+jobs:
+  include:
+    - stage: jdk9
+      jdk: jdk9
+      if: env(ADDITIONAL_CHECK) = true
+      script: gradle additionalUseCaseTest
+    - stage: jdk10
+      jdk: jdk10
+      if: env(ADDITIONAL_CHECK) = true
+      script: gradle additionalUseCaseTest
 before_script:
 - chmod +x gradlew
 - chmod +x travis/script.sh
