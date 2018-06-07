@@ -2,4 +2,4 @@
 
 set -e
 
-./gradlew install check realUseCaseTest
+./gradlew clean install check realUseCaseTest
