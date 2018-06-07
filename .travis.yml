@@ -21,7 +21,7 @@ cache:
 #- openjdk7
 #- openjdk8
 #- oraclejdk8
-#os:
+os:
 - linux
 jobs:
   include:
