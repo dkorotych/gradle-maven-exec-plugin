@@ -17,6 +17,8 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
   - $HOME/.m2/repository/
+env:
+- CODACY_JAR="$HOME/.gradle/caches/codacy-coverage-reporter-assembly-latest.jar"
 jdk:
 - openjdk7
 - openjdk8
