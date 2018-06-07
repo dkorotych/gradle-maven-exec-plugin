@@ -27,7 +27,7 @@ jobs:
   include:
     - stage: jdk9
       jdk: openjdk9
-      install: ./gradlew wrapper --gradle-version 4.7
+      install: gradle wrapper --gradle-version 4.7
       script: ./gradlew additionalUseCaseTest
 #    - stage: jdk10
 #      jdk: openjdk10
