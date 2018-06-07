@@ -25,12 +25,12 @@ os:
 - linux
 jobs:
   include:
-    - stage: jdk9
-      jdk: openjdk9
-      script: gradle additionalUseCaseTest
-    - stage: jdk10
-      jdk: openjdk10
-      script: gradle additionalUseCaseTest
+#    - stage: jdk9
+#      jdk: openjdk9
+#      script: gradle additionalUseCaseTest
+#    - stage: jdk10
+#      jdk: openjdk10
+#      script: gradle additionalUseCaseTest
     - stage: coverage
       jdk: openjdk8
       env: CODACY_JAR="~/.gradle/caches/codacy-coverage-reporter-assembly-latest.jar"
