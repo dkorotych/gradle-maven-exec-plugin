@@ -25,9 +25,10 @@ os:
 - linux
 jobs:
   include:
-#    - stage: jdk9
-#      jdk: openjdk9
-#      script: gradle additionalUseCaseTest
+    - stage: jdk9
+      jdk: openjdk9
+      install: gradle additionalUseCaseTest
+      script: echo 'Done'
 #    - stage: jdk10
 #      jdk: openjdk10
 #      script: gradle additionalUseCaseTest
