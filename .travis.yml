@@ -27,23 +27,22 @@ jobs:
   include:
     - stage: jdk9
       jdk: openjdk9
-      install:
-      - curl -s "https://get.sdkman.io" | bash
-      - source "$HOME/.sdkman/bin/sdkman-init.sh"
-      - sdk install gradle
+      install: ./travis/additional_install.sh
       script: gradle additionalUseCaseTest
-#    - stage: jdk10
-#      jdk: openjdk10
-#      script: gradle additionalUseCaseTest
+    - stage: jdk10
+      jdk: openjdk10
+      install: ./travis/additional_install.sh
+      script: gradle additionalUseCaseTest
     - stage: coverage
       jdk: openjdk8
-      env: CODACY_JAR="~/.gradle/caches/codacy-coverage-reporter-assembly-latest.jar"
+      env: CODACY_JAR="$HOME/.gradle/caches/codacy-coverage-reporter-assembly-latest.jar"
       script: ./travis/coverage.sh
 before_script:
 - chmod +x gradlew
 - chmod +x travis/script.sh
 - chmod +x travis/coverage.sh
 - chmod +x travis/deploy-gh-pages.sh
+- chmod +x travis/additional_install.sh
 script: ./travis/script.sh
 before_deploy: ./gradlew assemble
 deploy:
