@@ -23,6 +23,7 @@ buildscript {
         if (JavaVersion.current().isJava8Compatible()) {
 //            classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
             classpath 'ru.vyarus:gradle-quality-plugin:2.0.0'
+            classpath 'gradle.plugin.io.github.ddimtirov:codacy-gradle-plugin:0.1.0'
         }
     }
 }
@@ -32,7 +33,6 @@ plugins {
     id 'net.researchgate.release' version '2.6.0'
     id "nebula.info" version "3.6.0"
     id "com.github.hierynomus.license" version "0.14.0"
-    id "io.github.ddimtirov.codacy" version "0.1.0"
 }
 
 group 'com.github.dkorotych.gradle.maven.exec'
@@ -41,9 +41,10 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'idea'
-if (buildscript.configurations.classpath.find { it.name =~ /^gradle-quality-plugin.+$/ } != null) {
+if (JavaVersion.current().isJava8Compatible()) {
 //    apply plugin: "org.sonarqube"
     apply plugin: 'ru.vyarus.quality'
+    apply plugin: 'io.github.ddimtirov.codacy'
 
     quality {
         configDir = rootProject.file('config')
