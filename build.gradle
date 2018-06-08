@@ -29,10 +29,10 @@ buildscript {
 
 plugins {
     id "com.gradle.plugin-publish" version "0.9.10"
-    id 'net.saliman.cobertura' version '2.5.4'
     id 'net.researchgate.release' version '2.6.0'
     id "nebula.info" version "3.6.0"
     id "com.github.hierynomus.license" version "0.14.0"
+    id "io.github.ddimtirov.codacy" version "0.1.0"
 }
 
 group 'com.github.dkorotych.gradle.maven.exec'
@@ -75,11 +75,6 @@ dependencies {
     testCompile 'org.objenesis:objenesis:2.4'
 }
 
-cobertura {
-    coverageFormats = ['html', 'xml']
-    coverageSourceDirs = sourceSets.main.allSource.srcDirs
-}
-
 license {
     header project.file('config/license-header.txt')
     ext.year = Calendar.getInstance().get(Calendar.YEAR)
@@ -105,6 +100,10 @@ pluginBundle {
 
 test {
     systemProperty("pluginVersion", project.version)
+}
+
+jacoco {
+    toolVersion = "0.8.1"
 }
 
 groovydoc {
