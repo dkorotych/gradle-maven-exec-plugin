@@ -41,7 +41,6 @@ jobs:
       script: gradle install additionalUseCaseTest
     - stage: coverage
       jdk: openjdk8
-      env: CODACY_JAR="$HOME/.gradle/caches/codacy-coverage-reporter-assembly-latest.jar"
       install: ./gradlew install
       script: ./travis/coverage.sh
 before_script:
