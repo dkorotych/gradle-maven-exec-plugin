@@ -50,6 +50,10 @@ if (JavaVersion.current().isJava8Compatible()) {
         configDir = rootProject.file('config')
     }
 
+    jacoco {
+        toolVersion = "0.8.1"
+    }
+
     afterEvaluate {
         codenarc {
             configFile = rootProject.file('config/codenarc/codenarc.groovy')
@@ -101,10 +105,6 @@ pluginBundle {
 
 test {
     systemProperty("pluginVersion", project.version)
-}
-
-jacoco {
-    toolVersion = "0.8.1"
 }
 
 groovydoc {
