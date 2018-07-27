@@ -87,7 +87,7 @@ task checkMavenApplication2 {
         }
         mavenexec {
             workingDir applicationDir
-            goals 'package', 'site'
+            goals 'package'
             threads '2C'
             quiet true
         }
@@ -121,7 +121,7 @@ task checkMavenApplication3 {
         }
         mavenexec {
             workingDir applicationDir
-            goals 'package', 'site'
+            goals 'package'
             threads '1C'
             quiet true
         }
