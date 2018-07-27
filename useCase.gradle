@@ -41,6 +41,7 @@ task generateMavenApplication(type: MavenExec) {
                 'groupId'            : groupId,
                 'artifactId'         : artifactId,
                 'archetypeArtifactId': 'maven-archetype-quickstart',
+                'archetypeVersion'   : '1.3',
                 'interactiveMode'    : 'false'
         ]
     }
@@ -79,6 +80,7 @@ task checkMavenApplication2 {
                     'groupId'            : groupId,
                     'artifactId'         : application,
                     'archetypeArtifactId': 'maven-archetype-quickstart',
+                    'archetypeVersion'   : '1.3',
                     'interactiveMode'    : 'false'
             ])
             quiet true
