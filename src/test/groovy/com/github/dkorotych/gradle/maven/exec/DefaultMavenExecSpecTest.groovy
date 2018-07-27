@@ -34,10 +34,6 @@ class DefaultMavenExecSpecTest extends MavenExecSpecification {
         project.apply plugin: 'com.github.dkorotych.gradle-maven-exec'
     }
 
-    def setup() {
-        registerMavenDescriptorMock()
-    }
-
     def "setExecutable should generate UnsupportedOperationException"() {
         when:
         task {
@@ -64,6 +60,7 @@ class DefaultMavenExecSpecTest extends MavenExecSpecification {
     def "setMavenDir(#path). #os.familyName"() {
         setup:
         setOperatingSystem(os)
+        registerMavenDescriptorMock(path, false)
         MavenExec task = task {
             goals = [
                     'clean', 'package'
@@ -99,6 +96,7 @@ class DefaultMavenExecSpecTest extends MavenExecSpecification {
     def "setGoals(#goals). #os.familyName"() {
         setup:
         setOperatingSystem(os)
+        registerMavenDescriptorMock()
         MavenExec task = task {}
 
         when:
@@ -118,6 +116,7 @@ class DefaultMavenExecSpecTest extends MavenExecSpecification {
     def "add goals"() {
         setup:
         asUnix()
+        registerMavenDescriptorMock()
         MavenExec task = task {}
 
         when:
@@ -169,6 +168,7 @@ class DefaultMavenExecSpecTest extends MavenExecSpecification {
     def "options"() {
         when:
         asUnix()
+        registerMavenDescriptorMock()
         MavenExec task = task {
             goals 'clean', 'package', 'site'
             options {
@@ -195,6 +195,7 @@ class DefaultMavenExecSpecTest extends MavenExecSpecification {
     def "getCommandLine. #path, #os.familyName"() {
         setup:
         setOperatingSystem(os)
+        registerMavenDescriptorMock(path, false)
         MavenExec task = task {}
 
         when:

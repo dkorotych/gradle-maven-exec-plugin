@@ -18,7 +18,9 @@ package com.github.dkorotych.gradle.maven
 import com.github.dkorotych.gradle.maven.cli.MavenCommandBuilder
 import groovy.transform.PackageScope
 import org.gradle.api.internal.file.IdentityFileResolver
+import org.gradle.internal.os.OperatingSystem
 import org.gradle.process.internal.DefaultExecActionFactory
+import org.gradle.process.internal.ExecException
 
 import java.nio.charset.StandardCharsets
 import java.util.regex.Matcher
@@ -31,6 +33,7 @@ import java.util.regex.Matcher
  */
 class MavenDescriptor {
     private static final String CHARSET = StandardCharsets.US_ASCII.name()
+    private static final String VERSION_OPTION = '--version'
 
     /**
      * Command line options for this version.
@@ -44,7 +47,14 @@ class MavenDescriptor {
      */
     @Lazy
     String version = {
-        parseVersion(executeWithOption('--version'))
+        parseVersion(executeWithOption(VERSION_OPTION))
+    }.call()
+    /**
+     * Maven command line builder
+     */
+    @Lazy
+    MavenCommandBuilder commandBuilder = {
+        generateMavenCommandBuilder()
     }.call()
 
     private final File mavenDir
@@ -66,17 +76,7 @@ class MavenDescriptor {
      */
     @PackageScope
     InputStream executeWithOption(String option) {
-        List<String> commandLine = new MavenCommandBuilder(mavenDir).build()
-        commandLine << option
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
-        new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
-                .commandLine(commandLine)
-                .setStandardOutput(outputStream)
-                .workingDir(System.getProperty('java.io.tmpdir'))
-                .build()
-                .start()
-                .waitForFinish()
-        new ByteArrayInputStream(outputStream.toByteArray())
+        execute(commandBuilder, option)
     }
 
     /**
@@ -113,5 +113,35 @@ class MavenDescriptor {
             returnValue = matcher.group(1)
         }
         returnValue
+    }
+
+    @PackageScope
+    MavenCommandBuilder generateMavenCommandBuilder() {
+        MavenCommandBuilder builder = new MavenCommandBuilder(mavenDir)
+        try {
+            execute(builder, VERSION_OPTION)
+            return builder
+        } catch (ExecException exception) {
+            if (OperatingSystem.current().isWindows() && exception.message.contains('mvn.cmd')) {
+                builder.oldVersion = true
+                execute(builder, VERSION_OPTION)
+                return builder
+            }
+            throw exception
+        }
+    }
+
+    private static InputStream execute(MavenCommandBuilder commandBuilder, String option) {
+        List<String> commandLine = commandBuilder.build()
+        commandLine << option
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
+        new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
+                .commandLine(commandLine)
+                .setStandardOutput(outputStream)
+                .workingDir(System.getProperty('java.io.tmpdir'))
+                .build()
+                .start()
+                .waitForFinish()
+        new ByteArrayInputStream(outputStream.toByteArray())
     }
 }

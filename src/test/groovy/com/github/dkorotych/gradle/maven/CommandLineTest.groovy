@@ -15,6 +15,7 @@
  */
 package com.github.dkorotych.gradle.maven
 
+import com.github.dkorotych.gradle.maven.cli.MavenCommandBuilder
 import com.github.dkorotych.gradle.maven.exec.MavenExec
 import com.github.dkorotych.gradle.maven.exec.MavenExecSpecification
 import org.gradle.api.Project
@@ -44,7 +45,7 @@ class CommandLineTest extends Specification {
     @Unroll
     @RestoreSystemProperties
     @ConfineMetaClassChanges([MavenDescriptor])
-    def "getCommandLine. Maven #version, #mavenDir, #os.familyName"() {
+    def "unsupported options. Maven #version, #mavenDir, #os.familyName"() {
         setup:
         registerMavenDescriptorSpy(mavenDir, version)
         MavenExecSpecification.setOperatingSystem(os)
@@ -68,7 +69,7 @@ class CommandLineTest extends Specification {
             ['2.2.1', '3.0.5'].each { version ->
                 MavenExecSpecification.operatingSystems().each { os ->
                     MavenExecSpecification.mavenDirs().each { path ->
-                        values << [version, path, os, MavenExecSpecification.commandLine(path, os, 'clean', 'site')]
+                        values << [version, path, os, MavenExecSpecification.commandLine(path, os, true, false, 'clean', 'site')]
                     }
                 }
             }
@@ -101,6 +102,13 @@ class CommandLineTest extends Specification {
                             default:
                                 return super.executeWithOption(option)
                         }
+                    }
+
+                    @Override
+                    MavenCommandBuilder generateMavenCommandBuilder() {
+                        def builder = new MavenCommandBuilder(mavenDir)
+                        builder.oldVersion = true
+                        return builder
                     }
                 }
             }

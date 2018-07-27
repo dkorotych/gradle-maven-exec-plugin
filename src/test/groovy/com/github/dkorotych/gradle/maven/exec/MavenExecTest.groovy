@@ -106,6 +106,7 @@ class MavenExecTest extends DefaultMavenExecSpecTest {
     def "exec(). #os.familyName, #goals"() {
         setup:
         setOperatingSystem(os)
+        registerMavenDescriptorMock()
 
         when:
         def task = task {}

@@ -16,6 +16,7 @@
 package com.github.dkorotych.gradle.maven.exec
 
 import com.github.dkorotych.gradle.maven.MavenDescriptor
+import com.github.dkorotych.gradle.maven.cli.MavenCommandBuilder
 import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.internal.concurrent.DefaultExecutorFactory
 import org.gradle.internal.os.OperatingSystem
@@ -75,15 +76,19 @@ class MavenExecSpecification extends Specification {
         values
     }
 
-    static List<String> commandLine(File path, OperatingSystem os, boolean useWrapper, String... goals) {
+    static List<String> commandLine(File path, OperatingSystem os, boolean oldVersion, boolean useWrapper, String... goals) {
         def commandLine = []
         if (os == WINDOWS) {
             commandLine << 'cmd'
             commandLine << '/c'
         }
-        commandLine << "${path ? path.absolutePath + '/' : ''}mvn${useWrapper ? 'w' : ''}${os == WINDOWS ? '.cmd' : ''}"
+        commandLine << "${path ? path.absolutePath + '/' : ''}mvn${useWrapper ? 'w' : ''}${os == WINDOWS ? useWrapper ? '.cmd' : oldVersion ? '.bat' : '.cmd' : ''}"
         commandLine.addAll(goals)
         commandLine
+    }
+
+    static List<String> commandLine(File path, OperatingSystem os, boolean useWrapper, String... goals) {
+        commandLine(path, os, false, useWrapper, goals)
     }
 
     static List<String> commandLine(File path, OperatingSystem os, String... goals) {
@@ -119,11 +124,20 @@ class MavenExecSpecification extends Specification {
         }
     }
 
-    MavenDescriptor registerMavenDescriptorMock() {
+    MavenDescriptor registerMavenDescriptorMock(File mavenDir, boolean oldVersion) {
         MavenDescriptor descriptor = GroovySpy(global: true, MavenDescriptor)
         descriptor.supportedOptions >> []
         descriptor.version >> '3.3.9'
+        descriptor.commandBuilder >> {
+            def builder = new MavenCommandBuilder(mavenDir)
+            builder.oldVersion = oldVersion
+            return builder;
+        }
         descriptor
+    }
+
+    MavenDescriptor registerMavenDescriptorMock() {
+        registerMavenDescriptorMock(null, false)
     }
 
     static ExecResult getExecResult() {

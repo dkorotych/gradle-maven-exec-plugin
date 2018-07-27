@@ -27,16 +27,17 @@ import java.nio.file.Paths
 @RestoreSystemProperties
 class MavenCommandBuilderTest extends MavenExecSpecification {
     @Unroll
-    def "mavenDir: #path, OS: #os.familyName"() {
+    def "mavenDir: #path, OS: #os.familyName, old version?: #oldVersion"() {
         setup:
         setOperatingSystem(os)
         MavenCommandBuilder builder = new MavenCommandBuilder(path)
+        builder.oldVersion = oldVersion
 
         expect:
         builder.build() == command
 
         where:
-        [path, os, command] << {
+        [path, os, oldVersion, command] << {
             AntBuilder ant = new AntBuilder()
             def values = []
             ['with', 'without'].each { dir ->
@@ -49,7 +50,9 @@ class MavenCommandBuilderTest extends MavenExecSpecification {
                 operatingSystems().each { os ->
                     [null, userHome, tmp, projectDir].each { path ->
                         def hasWrapper = dir == 'with' && path == projectDir
-                        values << [path, os, commandLine(path, os, hasWrapper)]
+                        [false, true].each { oldVersion ->
+                            values << [path, os, oldVersion, commandLine(path, os, oldVersion, hasWrapper)]
+                        }
                     }
                 }
             }

@@ -115,7 +115,7 @@ trait DefaultMavenExecSpec implements MavenExecSpec {
 
     private List<String> prepareCommandLine() {
         List<String> parameters = []
-        parameters.addAll(new MavenCommandBuilder(mavenDir).build())
+        parameters.addAll(getMavenCommandBuilder(mavenDir).build())
         mavenCli.supportedOptions(getSupportedOptions(mavenDir))
         parameters.addAll(mavenCli.toCommandLine())
         parameters.addAll(goals)
@@ -123,7 +123,17 @@ trait DefaultMavenExecSpec implements MavenExecSpec {
     }
 
     @Memoized
+    private MavenDescriptor getDescriptor(File mavenDir) {
+        new MavenDescriptor(mavenDir)
+    }
+
+    @Memoized
     private Set<String> getSupportedOptions(File mavenDir) {
-        new MavenDescriptor(mavenDir).supportedOptions
+        getDescriptor(mavenDir).supportedOptions
+    }
+
+    @Memoized
+    private MavenCommandBuilder getMavenCommandBuilder(File mavenDir) {
+        getDescriptor(mavenDir).commandBuilder
     }
 }

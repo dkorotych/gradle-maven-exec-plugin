@@ -24,6 +24,8 @@ import org.gradle.internal.os.OperatingSystem
  * @author Dmitry Korotych (dkorotych at gmail dot com).
  */
 class MavenCommandBuilder {
+    boolean oldVersion = false
+
     private final boolean windows = OperatingSystem.current().isWindows()
     private final File mavenDir
     private final boolean hasWrapper
@@ -61,7 +63,16 @@ class MavenCommandBuilder {
         }
         command += "mvn${hasWrapper ? 'w' : ''}"
         if (windows) {
-            command += '.cmd'
+            String extension = '.cmd'
+            if (hasWrapper) {
+                command += extension
+            } else {
+                if (oldVersion) {
+                    command += '.bat'
+                } else {
+                    command += extension
+                }
+            }
         }
         parameters << command
         parameters

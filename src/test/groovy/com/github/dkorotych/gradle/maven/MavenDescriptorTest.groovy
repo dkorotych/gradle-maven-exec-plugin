@@ -50,16 +50,18 @@ class MavenDescriptorTest extends Specification {
         descriptor.supportedOptions
 
         then:
+        1 * descriptor.commandBuilder
         1 * descriptor.executeWithOption('--help')
         1 * descriptor.parseSupportedOptions(_)
         1 * handleBuilder.commandLine(["${mavenDir ? mavenDir.absolutePath + '/' : ''}mvn", '--help'])
-        1 * handleBuilder.setStandardOutput(_ as ByteArrayOutputStream)
-        1 * handleBuilder.workingDir(System.getProperty('java.io.tmpdir'))
+        2 * handleBuilder.setStandardOutput(_ as ByteArrayOutputStream)
+        2 * handleBuilder.workingDir(System.getProperty('java.io.tmpdir'))
 
         when:
         descriptor.supportedOptions
 
         then:
+        0 * descriptor.commandBuilder
         0 * descriptor.executeWithOption(_)
         0 * descriptor.parseSupportedOptions(_)
         0 * handleBuilder._
@@ -69,6 +71,7 @@ class MavenDescriptorTest extends Specification {
         descriptor.version
 
         then:
+        1 * descriptor.commandBuilder
         1 * descriptor.executeWithOption('--version')
         1 * descriptor.parseVersion(_)
         1 * handleBuilder.commandLine(["${mavenDir ? mavenDir.absolutePath + '/' : ''}mvn", '--version'])
@@ -79,6 +82,7 @@ class MavenDescriptorTest extends Specification {
         descriptor.version
 
         then:
+        0 * descriptor.commandBuilder
         0 * descriptor.executeWithOption(_)
         0 * descriptor.parseVersion(_)
         0 * handleBuilder._
@@ -133,7 +137,7 @@ class MavenDescriptorTest extends Specification {
         }.call()
     }
 
-    private List<File> descriptorFixtures() {
+    static List<File> descriptorFixtures() {
         Paths.get(getClass().getResource('/fixtures/descriptor').toURI())
                 .toFile()
                 .listFiles()

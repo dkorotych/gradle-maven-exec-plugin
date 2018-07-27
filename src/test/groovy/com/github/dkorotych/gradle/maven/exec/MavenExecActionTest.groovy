@@ -25,6 +25,7 @@ class MavenExecActionTest extends DefaultMavenExecSpecTest {
     def "execute(). #os.familyName, #goals"() {
         setup:
         setOperatingSystem(os)
+        registerMavenDescriptorMock()
         def delegate = registerDefaultExecActionMock()
         MavenExecAction action = new MavenExecAction(delegate)
         action.setGoals(goals)
