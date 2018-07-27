@@ -38,7 +38,7 @@ class MavenCliTest extends Specification {
         [propertyName, value, commandLine] << getBooleanPropertiesDataProvider()
     }
 
-    private getBooleanPropertiesDataProvider() {
+    private static getBooleanPropertiesDataProvider() {
         def values = []
         [
                 'alsoMake'             : 'also-make',
@@ -79,7 +79,7 @@ class MavenCliTest extends Specification {
         [propertyName, value, commandLine] << getStringPropertiesDataProvider()
     }
 
-    private getStringPropertiesDataProvider() {
+    private static getStringPropertiesDataProvider() {
         def values = []
         [
                 'builder'              : 'builder',
@@ -111,7 +111,7 @@ class MavenCliTest extends Specification {
         [propertyName, value, commandLine] << getFilePropertiesDataProvider()
     }
 
-    private getFilePropertiesDataProvider() {
+    private static getFilePropertiesDataProvider() {
         File userHome = new File(System.getProperty('user.home'))
         File tmp = new File(System.getProperty('java.io.tmpdir'))
         def values = []
@@ -164,7 +164,7 @@ class MavenCliTest extends Specification {
         [propertyName, value, commandLine] << getStringsPropertiesDataProvider()
     }
 
-    private getStringsPropertiesDataProvider() {
+    private static getStringsPropertiesDataProvider() {
         def values = []
         [
                 'activateProfiles': 'activate-profiles',

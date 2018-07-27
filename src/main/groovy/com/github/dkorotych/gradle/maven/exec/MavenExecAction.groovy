@@ -31,7 +31,7 @@ class MavenExecAction implements DefaultMavenExecSpec {
                     'executable',
                     'setExecutable',
                     'args',
-                    'setArgs',
+                    'setArgs'
             ],
             interfaces = false)
     private final ExecAction action

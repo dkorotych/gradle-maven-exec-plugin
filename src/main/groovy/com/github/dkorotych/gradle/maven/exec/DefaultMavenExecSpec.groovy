@@ -34,7 +34,7 @@ trait DefaultMavenExecSpec implements MavenExecSpec {
                     'addPropertyChangeListener',
                     'removePropertyChangeListener',
                     'firePropertyChange',
-                    'getPropertyChangeListeners',
+                    'getPropertyChangeListeners'
             ],
             interfaces = false)
     private final MavenCli mavenCli = new MavenCli()

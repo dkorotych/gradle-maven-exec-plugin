@@ -144,19 +144,19 @@ class MavenDescriptorTest extends Specification {
                 .findAll { it.isDirectory() }
     }
 
-    private String getVersion(File version) {
-        getText(version, 'version.txt')
+    private static String getVersion(File file) {
+        getText(file, 'version.txt')
     }
 
-    private String getHelp(File version) {
-        getText(version, 'help.txt')
+    private static String getHelp(File file) {
+        getText(file, 'help.txt')
     }
 
-    private String getOptions(File version) {
-        getText(version, 'options.txt')
+    private static String getOptions(File file) {
+        getText(file, 'options.txt')
     }
 
-    private String getText(File version, String fileName) {
-        Paths.get(version.absolutePath, fileName).text
+    private static String getText(File file, String fileName) {
+        Paths.get(file.absolutePath, fileName).text
     }
 }

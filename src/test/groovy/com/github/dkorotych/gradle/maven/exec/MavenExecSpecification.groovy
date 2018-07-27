@@ -96,7 +96,7 @@ class MavenExecSpecification extends Specification {
     }
 
     static void resetCurrentOperatingSystem(OperatingSystem os) {
-        if (GradleVersion.current().baseVersion.compareTo(GRADLE_3) >= 0) {
+        if (GradleVersion.current().baseVersion >= GRADLE_3) {
             os.metaClass.invokeMethod(os, "resetCurrent", null)
         }
     }
@@ -117,7 +117,7 @@ class MavenExecSpecification extends Specification {
     }
 
     static createDefaultExecActionConstructorArguments() {
-        if (GradleVersion.current().baseVersion.compareTo(GRADLE_4_5) >= 0) {
+        if (GradleVersion.current().baseVersion >= GRADLE_4_5) {
             [new IdentityFileResolver(), new DefaultExecutorFactory().create("Mock Exec process")]
         } else {
             [new IdentityFileResolver()]
@@ -131,7 +131,7 @@ class MavenExecSpecification extends Specification {
         descriptor.commandBuilder >> {
             def builder = new MavenCommandBuilder(mavenDir)
             builder.oldVersion = oldVersion
-            return builder;
+            return builder
         }
         descriptor
     }
