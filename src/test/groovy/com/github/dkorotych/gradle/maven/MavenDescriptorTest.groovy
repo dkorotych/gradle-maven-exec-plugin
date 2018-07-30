@@ -17,10 +17,7 @@ package com.github.dkorotych.gradle.maven
 
 import com.github.dkorotych.gradle.maven.exec.MavenExecSpecification
 import org.gradle.api.internal.file.IdentityFileResolver
-import org.gradle.process.internal.DefaultExecAction
-import org.gradle.process.internal.DefaultExecActionFactory
-import org.gradle.process.internal.ExecHandle
-import org.gradle.process.internal.ExecHandleBuilder
+import org.gradle.process.internal.*
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -29,23 +26,23 @@ import spock.util.mop.ConfineMetaClassChanges
 
 import java.nio.file.Paths
 
+import static org.gradle.internal.os.OperatingSystem.LINUX
+import static org.gradle.internal.os.OperatingSystem.WINDOWS
+
 /**
  * @author Dmitry Korotych (dkorotych at gmail dot com).
  */
 class MavenDescriptorTest extends Specification {
 
     @Unroll
-    @ConfineMetaClassChanges([ExecHandleBuilder, MavenDescriptor, ExecHandle])
+    @ConfineMetaClassChanges([ExecHandleBuilder, DefaultExecActionFactory, MavenDescriptor, ExecHandle])
     @RestoreSystemProperties
     def "executeWithOption #mavenDir"() {
         setup:
         ProjectBuilder.builder().build()
         MavenExecSpecification.asUnix()
-        ExecHandleBuilder handleBuilder = GroovySpy(
-                constructorArgs: MavenExecSpecification.createDefaultExecActionConstructorArguments(), DefaultExecAction)
-        DefaultExecActionFactory factory = GroovySpy(global: true,
-                constructorArgs: [new IdentityFileResolver()], DefaultExecActionFactory)
-        factory.newExecAction() >> handleBuilder
+        DefaultExecAction handleBuilder = spyAction()
+        spyFactory(handleBuilder)
         ExecHandle handle = Stub(ExecHandle)
         handleBuilder.build() >> handle
         handle.start() >> handle
@@ -98,6 +95,123 @@ class MavenDescriptorTest extends Specification {
 
         where:
         mavenDir << MavenExecSpecification.mavenDirs()
+    }
+
+    @Unroll
+    @ConfineMetaClassChanges([ExecHandleBuilder, DefaultExecActionFactory, MavenDescriptor, ExecHandle])
+    @RestoreSystemProperties
+    def "generateMavenCommandBuilder. mavenDir: #mavenDir, OS: #os.familyName"() {
+        setup:
+        ProjectBuilder.builder().build()
+        MavenExecSpecification.setOperatingSystem(os)
+        DefaultExecAction handleBuilder = spyAction()
+        spyFactory(handleBuilder)
+        ExecHandle handle = Stub(ExecHandle)
+        handleBuilder.build() >> handle
+        handle.start() >> handle
+        handleBuilder.ignoreExitValue >> true
+        MavenDescriptor descriptor = Spy(constructorArgs: [mavenDir], MavenDescriptor)
+        command << '--version'
+
+        when:
+        descriptor.commandBuilder
+
+        then:
+        1 * descriptor.commandBuilder
+        1 * descriptor.generateMavenCommandBuilder()
+        1 * handleBuilder.setCommandLine(command)
+        1 * handleBuilder.setStandardOutput(_ as ByteArrayOutputStream)
+        1 * handleBuilder.setErrorOutput(_ as ByteArrayOutputStream)
+        1 * handleBuilder.setWorkingDir(System.getProperty('java.io.tmpdir'))
+        1 * handleBuilder.execute()
+        0 * descriptor.parseSupportedOptions(_)
+
+        when:
+        descriptor.commandBuilder
+
+        then:
+        1 * descriptor.commandBuilder
+        0 * descriptor._
+        0 * handleBuilder._
+        0 * handle._
+
+        where:
+        [mavenDir, os, command] << {
+            def values = []
+            MavenExecSpecification.operatingSystems().each { os ->
+                [null, MavenExecSpecification.userHome, MavenExecSpecification.tmp].each { path ->
+                    values << [path, os, MavenExecSpecification.commandLine(path, os)]
+                }
+            }
+            values
+        }.call()
+    }
+
+    @Unroll
+    @ConfineMetaClassChanges([ExecHandleBuilder, DefaultExecActionFactory, MavenDescriptor, ExecHandle])
+    @RestoreSystemProperties
+    def "generateMavenCommandBuilder for old Maven versions on Windows. mavenDir: #mavenDir"() {
+        setup:
+        ProjectBuilder.builder().build()
+        MavenExecSpecification.asWindows()
+        DefaultExecAction handleBuilder = spyAction()
+        spyFactory(handleBuilder)
+        ExecHandle handle = Stub(ExecHandle)
+        handleBuilder.build() >> handle
+        handle.start() >> { throw new ExecException("mvn.cmd") } >> handle
+        handleBuilder.ignoreExitValue >> true
+        MavenDescriptor descriptor = Spy(constructorArgs: [mavenDir], MavenDescriptor)
+        command << '--version'
+
+        when:
+        descriptor.commandBuilder
+
+        then:
+        1 * handleBuilder.setCommandLine(command)
+        2 * handleBuilder.execute()
+
+        where:
+        [mavenDir, command] << {
+            def values = []
+            [null, MavenExecSpecification.userHome, MavenExecSpecification.tmp].each { path ->
+                values << [path, MavenExecSpecification.commandLine(path, WINDOWS, true, false)]
+            }
+            values
+        }.call()
+    }
+
+    @Unroll
+    @ConfineMetaClassChanges([ExecHandleBuilder, DefaultExecActionFactory, MavenDescriptor, ExecHandle])
+    @RestoreSystemProperties
+    def "exception. mavenDir: #mavenDir, command: #command"() {
+        setup:
+        ProjectBuilder.builder().build()
+        MavenExecSpecification.asUnix()
+        DefaultExecAction handleBuilder = spyAction()
+        spyFactory(handleBuilder)
+        ExecHandle handle = Stub(ExecHandle)
+        handleBuilder.build() >> handle
+        handle.start() >> {
+            throw new ExecException("mvn.cmd")
+        }
+        MavenDescriptor descriptor = Spy(constructorArgs: [mavenDir], MavenDescriptor)
+        command << '--version'
+
+        when:
+        descriptor.commandBuilder
+
+        then:
+        ExecuteException exception = thrown(ExecuteException)
+        exception.commandLine == command.join(' ')
+
+        where:
+        [mavenDir, command] << {
+            def values = []
+            [null, MavenExecSpecification.userHome, MavenExecSpecification.tmp].each { path ->
+                values << [path, MavenExecSpecification.commandLine(path, LINUX)]
+            }
+            values
+        }.call()
     }
 
     @Unroll
@@ -166,5 +280,16 @@ class MavenDescriptorTest extends Specification {
 
     private static String getText(File file, String fileName) {
         Paths.get(file.absolutePath, fileName).text
+    }
+
+    private DefaultExecAction spyAction() {
+        GroovySpy(constructorArgs: MavenExecSpecification.createDefaultExecActionConstructorArguments(),
+                DefaultExecAction)
+    }
+
+    private void spyFactory(DefaultExecAction handleBuilder) {
+        DefaultExecActionFactory factory = GroovySpy(global: true,
+                constructorArgs: [new IdentityFileResolver()], DefaultExecActionFactory)
+        factory.newExecAction() >> handleBuilder
     }
 }

@@ -21,7 +21,7 @@ import org.gradle.process.internal.ExecException
  * Exception with information about Maven execution issue.
  */
 class ExecuteException extends ExecException {
-    private final String commandLine
+    final String commandLine
 
     /**
      * Create new Maven execution exception.

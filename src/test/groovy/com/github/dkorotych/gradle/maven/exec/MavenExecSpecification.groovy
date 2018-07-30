@@ -34,8 +34,9 @@ import static org.gradle.internal.os.OperatingSystem.*
  */
 @RestoreSystemProperties
 class MavenExecSpecification extends Specification {
-    static final File userHome = new File(System.getProperty('user.home'))
-    static final File tmp = new File(System.getProperty('java.io.tmpdir'))
+    public static final File userHome = new File(System.getProperty('user.home'))
+    public static final File tmp = new File(System.getProperty('java.io.tmpdir'))
+
     private static final GradleVersion GRADLE_3 = GradleVersion.version('3.0').baseVersion
     private static final GradleVersion GRADLE_4_5 = GradleVersion.version('4.5').baseVersion
 
