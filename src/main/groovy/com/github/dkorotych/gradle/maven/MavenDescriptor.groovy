@@ -21,7 +21,6 @@ import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.process.internal.DefaultExecActionFactory
 import org.gradle.process.internal.ExecAction
-import org.gradle.process.internal.ExecException
 
 import java.nio.charset.StandardCharsets
 import java.util.regex.Matcher
@@ -138,21 +137,25 @@ class MavenDescriptor {
         }
     }
 
+    @SuppressWarnings('CatchThrowable')
     private static InputStream execute(MavenCommandBuilder commandBuilder, String option) throws ExecuteException {
         List<String> commandLine = commandBuilder.build()
         commandLine << option
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
         ByteArrayOutputStream errorStream = new ByteArrayOutputStream()
-        final ExecAction execAction = new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
-        execAction
-                .commandLine(commandLine)
-                .setStandardOutput(outputStream)
-                .setErrorOutput(errorStream)
-                .setWorkingDir(System.getProperty('java.io.tmpdir'))
+        ExecAction execAction = new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
+        execAction.commandLine = commandLine
+        execAction.standardOutput = outputStream
+        execAction.errorOutput = errorStream
+        execAction.workingDir = System.getProperty('java.io.tmpdir')
         try {
             execAction.execute()
-        } catch(ExecException e) {
-            throw new ExecuteException(errorStream, commandLine.join(' '), e)
+        } catch (Throwable e) {
+            String description = new ByteArrayInputStream(errorStream.toByteArray()).text
+            if (description.trim().isEmpty()) {
+                description = e.message
+            }
+            throw new ExecuteException(description, commandLine.join(' '), e)
         }
         new ByteArrayInputStream(outputStream.toByteArray())
     }

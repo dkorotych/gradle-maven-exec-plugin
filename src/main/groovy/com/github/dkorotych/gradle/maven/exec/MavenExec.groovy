@@ -34,6 +34,7 @@ class MavenExec extends AbstractExecTask<MavenExec> implements DefaultMavenExecS
 
     @Override
     @TaskAction
+    @SuppressWarnings('UnnecessarySetter')
     protected void exec() {
         // build correct command line
         super.setCommandLine(commandLine)

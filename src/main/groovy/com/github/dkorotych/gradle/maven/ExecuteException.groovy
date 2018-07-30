@@ -13,15 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.dkorotych.gradle.maven;
+package com.github.dkorotych.gradle.maven
 
-import org.gradle.process.internal.ExecException;
+import org.gradle.process.internal.ExecException
 
+/**
+ * Exception with information about Maven execution issue.
+ */
 class ExecuteException extends ExecException {
-    private final String commandLine;
+    private final String commandLine
 
-    ExecuteException(ByteArrayOutputStream errorStream, String commandLine, Throwable throwable) {
-        super(new ByteArrayInputStream(errorStream.toByteArray()).text, throwable)
+    /**
+     * Create new Maven execution exception.
+     *
+     * @param message Exception description
+     * @param commandLine executed command line
+     * @param throwable Real execution exception
+     */
+    ExecuteException(String message, String commandLine, Throwable throwable) {
+        super(message, throwable)
         this.commandLine = commandLine
     }
 }

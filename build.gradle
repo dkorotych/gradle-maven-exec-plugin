@@ -22,7 +22,7 @@ buildscript {
     dependencies {
         if (JavaVersion.current().isJava8Compatible()) {
 //            classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
-            classpath 'ru.vyarus:gradle-quality-plugin:2.0.0'
+            classpath 'ru.vyarus:gradle-quality-plugin:2.4.0'
             classpath 'gradle.plugin.io.github.ddimtirov:codacy-gradle-plugin:0.1.0'
         }
     }
@@ -30,7 +30,7 @@ buildscript {
 
 plugins {
     id "com.gradle.plugin-publish" version "0.9.10"
-    id 'net.researchgate.release' version '2.6.0'
+    id 'net.researchgate.release' version '2.7.0'
     id "nebula.info" version "3.6.0"
     id "com.github.hierynomus.license" version "0.14.0"
 }
@@ -50,9 +50,9 @@ if (JavaVersion.current().isJava8Compatible()) {
         configDir = rootProject.file('config')
     }
 
-    jacoco {
-        toolVersion = "0.8.1"
-    }
+//    jacoco {
+//        toolVersion = "0.8.1"
+//    }
 
     afterEvaluate {
         codenarc {

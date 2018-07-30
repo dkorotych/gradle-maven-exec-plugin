@@ -180,7 +180,7 @@ class MavenCli {
      * @see MavenCommandLineOptionsKeeper#setSupportedOptions(java.util.Set)
      */
     void supportedOptions(Set<String> supportedOptions) {
-        options.setSupportedOptions(supportedOptions)
+        options.supportedOptions = supportedOptions
     }
 
     /**

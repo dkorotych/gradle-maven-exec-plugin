@@ -24,6 +24,7 @@ import org.gradle.process.internal.ExecAction
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 class MavenExecAction implements DefaultMavenExecSpec {
+    @SuppressWarnings('TrailingComma')
     @Delegate(
             excludes = [
                     'setCommandLine',
@@ -50,6 +51,7 @@ class MavenExecAction implements DefaultMavenExecSpec {
      *
      * @return Result of execution
      */
+    @SuppressWarnings('UnnecessarySetter')
     ExecResult execute() {
         action.setCommandLine(commandLine)
         action.execute()

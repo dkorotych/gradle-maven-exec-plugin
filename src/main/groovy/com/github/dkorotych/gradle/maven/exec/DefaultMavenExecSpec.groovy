@@ -17,7 +17,6 @@ package com.github.dkorotych.gradle.maven.exec
 
 import com.github.dkorotych.gradle.maven.MavenDescriptor
 import com.github.dkorotych.gradle.maven.cli.MavenCli
-import com.github.dkorotych.gradle.maven.cli.MavenCommandBuilder
 import groovy.transform.Memoized
 import groovy.transform.PackageScope
 import groovy.transform.TypeChecked
@@ -29,6 +28,7 @@ import groovy.transform.TypeChecked
  */
 @PackageScope
 trait DefaultMavenExecSpec implements MavenExecSpec {
+    @SuppressWarnings('TrailingComma')
     @Delegate(
             excludes = [
                     'addPropertyChangeListener',
@@ -104,6 +104,7 @@ trait DefaultMavenExecSpec implements MavenExecSpec {
         throw new UnsupportedOperationException()
     }
 
+    @SuppressWarnings('UnusedMethodParameter')
     void setExecutable(String executable) {
         throw new UnsupportedOperationException()
     }

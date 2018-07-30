@@ -7,7 +7,6 @@
     <property name="fileExtensions" value="java, properties, xml"/>
 
     <!-- Filters (http://checkstyle.sourceforge.net/config_filters.html) -->
-    <module name="SuppressionCommentFilter"/>
     <module name="SuppressWarningsFilter"/>
 
     <module name="NewlineAtEndOfFile">
@@ -32,6 +31,7 @@
         <module name="SuppressWarningsHolder"/>
         <module name="SuppressWarnings"/>
 
+        <module name="SuppressionCommentFilter"/>
 
         <!-- Block Checks (http://checkstyle.sourceforge.net/config_blocks.html) -->
         <module name="AvoidNestedBlocks"/>
@@ -158,7 +158,6 @@
         <!--<module name="AvoidEscapedUnicodeCharacters"/>-->
         <module name="CommentsIndentation"/>
         <module name="DescendantToken"/>
-        <module name="FileContentsHolder"/>
         <!--<module name="FinalParameters"/>-->  <!-- DISABLED in favor of less restricted ParameterAssignment -->
         <module name="Indentation"/>
         <module name="OuterTypeFilename"/>
