@@ -20,6 +20,7 @@ import groovy.transform.PackageScope
 import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.process.internal.DefaultExecActionFactory
+import org.gradle.process.internal.ExecAction
 import org.gradle.process.internal.ExecException
 
 import java.nio.charset.StandardCharsets
@@ -115,13 +116,19 @@ class MavenDescriptor {
         returnValue
     }
 
+    /**
+     * Generate correct command line builder object for support new and old Maven versions.
+     *
+     * @return Command line builder
+     * @throws ExecuteException if it can't create command line builder
+     */
     @PackageScope
     MavenCommandBuilder generateMavenCommandBuilder() {
         MavenCommandBuilder builder = new MavenCommandBuilder(mavenDir)
         try {
             execute(builder, VERSION_OPTION)
             return builder
-        } catch (ExecException exception) {
+        } catch (ExecuteException exception) {
             if (OperatingSystem.current().isWindows() && exception.message.contains('mvn.cmd')) {
                 builder.oldVersion = true
                 execute(builder, VERSION_OPTION)
@@ -131,17 +138,22 @@ class MavenDescriptor {
         }
     }
 
-    private static InputStream execute(MavenCommandBuilder commandBuilder, String option) {
+    private static InputStream execute(MavenCommandBuilder commandBuilder, String option) throws ExecuteException {
         List<String> commandLine = commandBuilder.build()
         commandLine << option
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
-        new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
+        ByteArrayOutputStream errorStream = new ByteArrayOutputStream()
+        final ExecAction execAction = new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
+        execAction
                 .commandLine(commandLine)
                 .setStandardOutput(outputStream)
-                .workingDir(System.getProperty('java.io.tmpdir'))
-                .build()
-                .start()
-                .waitForFinish()
+                .setErrorOutput(errorStream)
+                .setWorkingDir(System.getProperty('java.io.tmpdir'))
+        try {
+            execAction.execute()
+        } catch(ExecException e) {
+            throw new ExecuteException(errorStream, commandLine.join(' '), e)
+        }
         new ByteArrayInputStream(outputStream.toByteArray())
     }
 }
