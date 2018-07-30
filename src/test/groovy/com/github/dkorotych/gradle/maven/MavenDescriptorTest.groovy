@@ -16,7 +16,9 @@
 package com.github.dkorotych.gradle.maven
 
 import com.github.dkorotych.gradle.maven.exec.MavenExecSpecification
+import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.process.internal.DefaultExecAction
+import org.gradle.process.internal.DefaultExecActionFactory
 import org.gradle.process.internal.ExecHandle
 import org.gradle.process.internal.ExecHandleBuilder
 import org.gradle.testfixtures.ProjectBuilder
@@ -37,13 +39,17 @@ class MavenDescriptorTest extends Specification {
     @RestoreSystemProperties
     def "executeWithOption #mavenDir"() {
         setup:
-        MavenExecSpecification.asUnix()
         ProjectBuilder.builder().build()
-        ExecHandleBuilder handleBuilder = GroovySpy(global: true,
+        MavenExecSpecification.asUnix()
+        ExecHandleBuilder handleBuilder = GroovySpy(
                 constructorArgs: MavenExecSpecification.createDefaultExecActionConstructorArguments(), DefaultExecAction)
+        DefaultExecActionFactory factory = GroovySpy(global: true,
+                constructorArgs: [new IdentityFileResolver()], DefaultExecActionFactory)
+        factory.newExecAction() >> handleBuilder
         ExecHandle handle = Stub(ExecHandle)
         handleBuilder.build() >> handle
         handle.start() >> handle
+        handleBuilder.ignoreExitValue >> true
         MavenDescriptor descriptor = Spy(constructorArgs: [mavenDir], MavenDescriptor)
 
         when:
@@ -55,7 +61,8 @@ class MavenDescriptorTest extends Specification {
         1 * descriptor.parseSupportedOptions(_)
         1 * handleBuilder.commandLine(["${mavenDir ? mavenDir.absolutePath + '/' : ''}mvn", '--help'])
         2 * handleBuilder.setStandardOutput(_ as ByteArrayOutputStream)
-        2 * handleBuilder.workingDir(System.getProperty('java.io.tmpdir'))
+        2 * handleBuilder.setErrorOutput(_ as ByteArrayOutputStream)
+        2 * handleBuilder.setWorkingDir(System.getProperty('java.io.tmpdir'))
 
         when:
         descriptor.supportedOptions
@@ -76,7 +83,8 @@ class MavenDescriptorTest extends Specification {
         1 * descriptor.parseVersion(_)
         1 * handleBuilder.commandLine(["${mavenDir ? mavenDir.absolutePath + '/' : ''}mvn", '--version'])
         1 * handleBuilder.setStandardOutput(_ as ByteArrayOutputStream)
-        1 * handleBuilder.workingDir(System.getProperty('java.io.tmpdir'))
+        1 * handleBuilder.setErrorOutput(_ as ByteArrayOutputStream)
+        1 * handleBuilder.setWorkingDir(System.getProperty('java.io.tmpdir'))
 
         when:
         descriptor.version
