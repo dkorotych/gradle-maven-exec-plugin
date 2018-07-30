@@ -82,7 +82,7 @@ class MavenExecSpecification extends Specification {
             commandLine << 'cmd'
             commandLine << '/c'
         }
-        commandLine << "${path ? path.absolutePath + '/' : ''}mvn${useWrapper ? 'w' : ''}${os == WINDOWS ? useWrapper ? '.cmd' : oldVersion ? '.bat' : '.cmd' : ''}"
+        commandLine << "${path ? path.absolutePath + File.separatorChar : ''}mvn${useWrapper ? 'w' : ''}${os == WINDOWS ? useWrapper ? '.cmd' : oldVersion ? '.bat' : '.cmd' : ''}"
         commandLine.addAll(goals)
         commandLine
     }

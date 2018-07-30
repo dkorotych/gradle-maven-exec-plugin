@@ -59,7 +59,7 @@ class MavenCommandBuilder {
         }
         String command = ''
         if (mavenDir != null) {
-            command = mavenDir.absolutePath + '/'
+            command = mavenDir.absolutePath + File.separatorChar
         }
         command += "mvn${hasWrapper ? 'w' : ''}"
         if (windows) {

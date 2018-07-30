@@ -59,7 +59,7 @@ class MavenDescriptorTest extends Specification {
         1 * descriptor.commandBuilder
         1 * descriptor.executeWithOption('--help')
         1 * descriptor.parseSupportedOptions(_)
-        1 * handleBuilder.commandLine(["${mavenDir ? mavenDir.absolutePath + '/' : ''}mvn", '--help'])
+        1 * handleBuilder.commandLine(["${mavenDir ? mavenDir.absolutePath + File.separatorChar : ''}mvn", '--help'])
         2 * handleBuilder.setStandardOutput(_ as ByteArrayOutputStream)
         2 * handleBuilder.setErrorOutput(_ as ByteArrayOutputStream)
         2 * handleBuilder.setWorkingDir(System.getProperty('java.io.tmpdir'))
@@ -81,7 +81,7 @@ class MavenDescriptorTest extends Specification {
         1 * descriptor.commandBuilder
         1 * descriptor.executeWithOption('--version')
         1 * descriptor.parseVersion(_)
-        1 * handleBuilder.commandLine(["${mavenDir ? mavenDir.absolutePath + '/' : ''}mvn", '--version'])
+        1 * handleBuilder.commandLine(["${mavenDir ? mavenDir.absolutePath + File.separatorChar : ''}mvn", '--version'])
         1 * handleBuilder.setStandardOutput(_ as ByteArrayOutputStream)
         1 * handleBuilder.setErrorOutput(_ as ByteArrayOutputStream)
         1 * handleBuilder.setWorkingDir(System.getProperty('java.io.tmpdir'))
