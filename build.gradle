@@ -114,8 +114,14 @@ groovydoc {
             'groovy', 'org.apache.commons.cli', 'org.codehaus.groovy'
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+if (gradle.gradleVersion >= '4.10') {
+    wrapper {
+        gradleVersion = '2.13'
+    }
+} else {
+    task wrapper(type: Wrapper) {
+        gradleVersion = '2.13'
+    }
 }
 
 idea {
