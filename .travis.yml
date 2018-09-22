@@ -25,7 +25,8 @@ os:
 - linux
 jobs:
   include:
-    - stage: Java 9
+    - stage: "Modern Java"
+      name: "Java 9"
       jdk: openjdk9
       install:
       - curl -s "https://get.sdkman.io" | bash
@@ -33,14 +34,16 @@ jobs:
       - sdk install gradle
       script: gradle install additionalUseCaseTest
 
-    - stage: Java 10
+    - stage: "Modern Java"
+      name: "Java 10"
       jdk: openjdk10
       install:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
       - sdk install gradle
 
-    - stage: Java 11
+    - stage: "Modern Java"
+      name: "Java 11"
       jdk: openjdk11
       install:
       - curl -s "https://get.sdkman.io" | bash
