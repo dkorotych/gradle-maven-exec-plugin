@@ -119,6 +119,12 @@ task checkMavenApplication3 {
             ])
             quiet true
         }
+        def file = file("${applicationDir}/pom.xml")
+        def content = file.text
+        content = content.
+                replaceAll("2.20.1", "2.22.0").
+                replaceAll("2.10.1", "3.0.1")
+        file.text = content
         mavenexec {
             workingDir applicationDir
             goals 'package'
