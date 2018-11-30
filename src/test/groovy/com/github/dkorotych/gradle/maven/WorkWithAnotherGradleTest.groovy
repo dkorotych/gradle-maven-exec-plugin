@@ -15,6 +15,7 @@
  */
 package com.github.dkorotych.gradle.maven
 
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.wrapper.Wrapper
@@ -67,7 +68,13 @@ class WorkWithAnotherGradleTest extends Specification {
         cleanupProject()
 
         where:
-        version << ['3.0', '4.0', '4.5.1', '4.6', '4.10.2', '5.0']
+        version << {
+            def versions = ['3.0', '4.0', '4.5.1', '4.6', '4.10.2']
+            if (JavaVersion.current().isJava8Compatible()) {
+                versions << '5.0'
+            }
+            versions
+        }.call()
     }
 
     private Wrapper wrapper(String version) {
