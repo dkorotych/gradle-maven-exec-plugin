@@ -71,7 +71,7 @@ class WorkWithAnotherGradleTest extends Specification {
         version << {
             def versions = ['3.0', '4.0', '4.5.1', '4.6', '4.10.2']
             if (JavaVersion.current().isJava8Compatible()) {
-                versions << '5.0'
+                versions.addAll(['5.0', '5.1'])
             }
             versions
         }.call()
