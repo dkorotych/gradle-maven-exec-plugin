@@ -52,6 +52,15 @@ jobs:
       - sdk install gradle
       script: gradle install additionalUseCaseTest
 
+    - stage: "Modern Java"
+      name: "Java 12"
+      jdk: openjdk12
+      install:
+      - curl -s "https://get.sdkman.io" | bash
+      - source "$HOME/.sdkman/bin/sdkman-init.sh"
+      - sdk install gradle
+      script: gradle install additionalUseCaseTest
+
     - stage: coverage
       jdk: openjdk8
       install: ./gradlew install
