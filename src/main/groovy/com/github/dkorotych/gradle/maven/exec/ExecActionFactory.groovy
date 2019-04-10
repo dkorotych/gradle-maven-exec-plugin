@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Dmitry Korotych
+ * Copyright 2019 Dmitry Korotych
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,27 +15,28 @@
  */
 package com.github.dkorotych.gradle.maven.exec
 
-import org.gradle.api.Plugin
-import org.gradle.api.Project
+import org.gradle.api.internal.file.IdentityFileResolver
+import org.gradle.process.internal.DefaultExecActionFactory
 import org.gradle.process.internal.ExecAction
+import org.gradle.util.GradleVersion
 
 /**
- * Implementation of the plugin to support the launch Maven tasks.
+ * Independent of the Gradle version builder of executor of some command.
  *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
-class MavenExecPlugin implements Plugin<Project> {
+class ExecActionFactory {
+    private static final GradleVersion GRADLE_5_3 = GradleVersion.version('5.3')
 
     /**
-     * Apply this plugin to the project.
+     * Create new instance of execution action.
      *
-     * @param project Current project
+     * @return Execution action
      */
-    @Override
-    void apply(Project project) {
-        project.extensions.extraProperties.set(MavenExec.simpleName, MavenExec)
-        ExecAction action = new ExecActionFactory().newInstance()
-        MavenExecPluginProjectConvention convention = new MavenExecPluginProjectConvention(action)
-        project.convention.plugins['mavenexec'] = convention
+    static ExecAction newInstance() {
+        if (GradleVersion.current() < GRADLE_5_3) {
+            return new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
+        }
+        DefaultExecActionFactory.root().newExecAction()
     }
 }

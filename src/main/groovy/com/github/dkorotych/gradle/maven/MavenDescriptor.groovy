@@ -16,10 +16,9 @@
 package com.github.dkorotych.gradle.maven
 
 import com.github.dkorotych.gradle.maven.cli.MavenCommandBuilder
+import com.github.dkorotych.gradle.maven.exec.ExecActionFactory
 import groovy.transform.PackageScope
-import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.internal.os.OperatingSystem
-import org.gradle.process.internal.DefaultExecActionFactory
 import org.gradle.process.internal.ExecAction
 
 import java.nio.charset.StandardCharsets
@@ -143,7 +142,7 @@ class MavenDescriptor {
         commandLine << option
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
         ByteArrayOutputStream errorStream = new ByteArrayOutputStream()
-        ExecAction execAction = new DefaultExecActionFactory(new IdentityFileResolver()).newExecAction()
+        ExecAction execAction = new ExecActionFactory().newInstance()
         execAction.commandLine = commandLine
         execAction.standardOutput = outputStream
         execAction.errorOutput = errorStream
