@@ -143,11 +143,13 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         commandLine == keeper.toCommandLine()
 
         where:
-        option    | value         | commandLine
-        '--debug' | "    \n\n   " | []
-        '--debug' | "parameter"   | ['--debug', 'parameter']
-        '--debug' | null          | []
-        '--debug' | ''            | []
+        option    | value              | commandLine
+        '--debug' | "    \n\n   "      | []
+        '--debug' | "parameter"        | ['--debug', 'parameter']
+        '--debug' | "\"para meter\""   | ['--debug', '"para meter"']
+        '--debug' | "para meter"       | ['--debug', '"para meter"']
+        '--debug' | null               | []
+        '--debug' | ''                 | []
     }
 
     def "addOption with String value. Replace existing option"() {
@@ -178,9 +180,11 @@ class MavenCommandLineOptionsKeeperTest extends Specification {
         commandLine == keeper.toCommandLine()
 
         where:
-        option      | value              | commandLine
-        '--offline' | new File(userHome) | ['--offline', new File(userHome).absolutePath]
-        '--offline' | new File(tmp)      | ['--offline', new File(tmp).absolutePath]
+        option      | value                                      | commandLine
+        '--offline' | new File(userHome)                         | ['--offline', new File(userHome).absolutePath]
+        '--offline' | new File(tmp)                              | ['--offline', new File(tmp).absolutePath]
+        '--offline' | new File(userHome, 'path with whitespace') | ['--offline', "\"${new File(userHome, 'path with whitespace').absolutePath}\""]
+        '--offline' | new File(tmp, 'path with whitespace')      | ['--offline', "\"${new File(tmp, 'path with whitespace').absolutePath}\""]
     }
 
     def "addOption with File value. Replace existing option"() {
