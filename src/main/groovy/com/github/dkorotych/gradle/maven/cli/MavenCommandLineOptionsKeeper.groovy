@@ -147,6 +147,14 @@ class MavenCommandLineOptionsKeeper {
         this.supportedOptions.addAll(supportedOptions)
     }
 
+    String doubleQuoteIfNecessary(String value) {
+        String rc = value
+        if (rc =~ /\s/ && !rc.startsWith('"')) {
+            rc = "\"$rc\""
+        }
+        rc
+    }
+
     /**
      * Build command line options.
      *
@@ -155,13 +163,13 @@ class MavenCommandLineOptionsKeeper {
     List<String> toCommandLine() {
         List<String> value = []
         systemProperties.each {
-            value << "-D${it.key}=${it.value}"
+            value << "-D${it.key}=${doubleQuoteIfNecessary(it.value)}"
         }
         options.each {
             if (supportedOptions.isEmpty() || supportedOptions.contains(it.key)) {
                 value << it.key
                 if (StringUtils.isNotBlank(it.value)) {
-                    value << it.value
+                    value << doubleQuoteIfNecessary(it.value)
                 }
             }
         }
