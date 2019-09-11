@@ -1,0 +1,5 @@
+Apache Maven 3.6.2 (40f52333136460af0dc0d7232c0dc0bcf0d9e117; 2019-08-27T18:06:16+03:00)
+Maven home: /home/dkorotych/.sdkman/candidates/maven/current
+Java version: 1.8.0_222, vendor: AdoptOpenJDK, runtime: /home/dkorotych/.sdkman/candidates/java/8.0.222.hs-adpt/jre
+Default locale: ru_RU, platform encoding: UTF-8
+OS name: "linux", version: "5.0.0-27-generic", arch: "amd64", family: "unix"
