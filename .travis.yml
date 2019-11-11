@@ -34,7 +34,7 @@ jobs:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
       - sdk install gradle
-      script: gradle install additionalUseCaseTest
+      script: gradle additionalUseCaseTest
 
     - stage: "Modern Java"
       name: "Java 10"
@@ -43,7 +43,7 @@ jobs:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
       - sdk install gradle
-      script: gradle install additionalUseCaseTest
+      script: gradle additionalUseCaseTest
 
     - stage: "Modern Java"
       name: "Java 11"
@@ -52,7 +52,7 @@ jobs:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
       - sdk install gradle
-      script: gradle install additionalUseCaseTest
+      script: gradle additionalUseCaseTest
 
     - stage: "Modern Java"
       name: "Java 12"
@@ -61,7 +61,7 @@ jobs:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
       - sdk install gradle
-      script: gradle install additionalUseCaseTest
+      script: gradle additionalUseCaseTest
 
     - stage: coverage
       jdk: openjdk8
