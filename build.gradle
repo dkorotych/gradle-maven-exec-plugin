@@ -22,7 +22,9 @@ buildscript {
     dependencies {
         if (JavaVersion.current().isJava8Compatible()) {
 //            classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
-            classpath 'ru.vyarus:gradle-quality-plugin:2.4.0'
+            if (gradle.gradleVersion < '6.0') {
+                classpath 'ru.vyarus:gradle-quality-plugin:2.4.0'
+            }
             classpath 'gradle.plugin.io.github.ddimtirov:codacy-gradle-plugin:0.1.0'
         }
     }
@@ -43,20 +45,26 @@ apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'idea'
 if (JavaVersion.current().isJava8Compatible()) {
 //    apply plugin: "org.sonarqube"
-    apply plugin: 'ru.vyarus.quality'
+    if (gradle.gradleVersion < '6.0') {
+        apply plugin: 'ru.vyarus.quality'
+    }
     apply plugin: 'io.github.ddimtirov.codacy'
 
-    quality {
-        configDir = rootProject.file('config')
+    if (gradle.gradleVersion < '6.0') {
+        quality {
+            configDir = rootProject.file('config')
+        }
     }
 
     jacoco {
         toolVersion = "0.8.1"
     }
 
-    afterEvaluate {
-        codenarc {
-            configFile = rootProject.file('config/codenarc/codenarc.groovy')
+    if (gradle.gradleVersion < '6.0') {
+        afterEvaluate {
+            codenarc {
+                configFile = rootProject.file('config/codenarc/codenarc.groovy')
+            }
         }
     }
 }
