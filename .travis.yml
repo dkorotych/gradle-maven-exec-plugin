@@ -63,14 +63,14 @@ jobs:
       - sdk install gradle 5.6.4
       script: gradle additionalUseCaseTest
 
-#    - stage: "Modern Java"
-#      name: "Java 13"
-#      jdk: openjdk13
-#      install:
-#        - curl -s "https://get.sdkman.io" | bash
-#        - source "$HOME/.sdkman/bin/sdkman-init.sh"
-#        - sdk install gradle
-#      script: gradle additionalUseCaseTest
+    - stage: "Modern Java"
+      name: "Java 13"
+      jdk: openjdk13
+      install:
+        - curl -s "https://get.sdkman.io" | bash
+        - source "$HOME/.sdkman/bin/sdkman-init.sh"
+        - sdk install gradle
+      script: gradle additionalUseCaseTest
 
     - stage: coverage
       jdk: openjdk8
