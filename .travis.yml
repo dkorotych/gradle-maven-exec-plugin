@@ -33,7 +33,7 @@ jobs:
       install:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
-      - sdk install gradle
+      - sdk install gradle 5.6.4
       script: gradle additionalUseCaseTest
 
     - stage: "Modern Java"
@@ -42,7 +42,7 @@ jobs:
       install:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
-      - sdk install gradle
+      - sdk install gradle 5.6.4
       script: gradle additionalUseCaseTest
 
     - stage: "Modern Java"
@@ -51,7 +51,7 @@ jobs:
       install:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
-      - sdk install gradle
+      - sdk install gradle 5.6.4
       script: gradle additionalUseCaseTest
 
     - stage: "Modern Java"
@@ -60,7 +60,7 @@ jobs:
       install:
       - curl -s "https://get.sdkman.io" | bash
       - source "$HOME/.sdkman/bin/sdkman-init.sh"
-      - sdk install gradle
+      - sdk install gradle 5.6.4
       script: gradle additionalUseCaseTest
 
     - stage: coverage
