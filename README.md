@@ -1,5 +1,4 @@
-[^note]:
-    The plugin does not work in Gradle versions from 7. It is currently being rewritten and it is not certain that this will be possible with the current functionality
+> ## The plugin does not work in Gradle versions from 7. It is currently being rewritten and it is not certain that this will be possible with the current functionality
 
 # [gradle-maven-exec-plugin](https://plugins.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec)
 
