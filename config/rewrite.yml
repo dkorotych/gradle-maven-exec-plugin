@@ -1,0 +1,4 @@
+type: specs.openrewrite.org/v1beta/recipe
+name: com.github.dkorotych.gradle.maven.exec.MavenExecPlugin
+recipeList:
+  - org.openrewrite.gradle.DependencyUseStringNotation
