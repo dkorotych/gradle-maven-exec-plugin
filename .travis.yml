@@ -1,5 +1,5 @@
 dist: trusty
-language: groovy
+language: java
 env:
   global:
   - secure: mrSage3RnfkrOHn82NuYMvd3p+iybJYWQPWTN52TU8W8YavvywgD0cGdQtYNhrLuN3KUbqfG57Yt0Ee2TKAAwDfAd7J8j2PaK/AmZVIdm62I9zMRj516F0gNSDy3k2KWlTlQK/lC5xO5Ecl14iDB9Q5tDaVLzHOGqwKOGNESG9ILdpnONeZ7GMOwV9hTSawQjBzG8dm3YJMd3phUUA9A/hy+pIKkjHEzA4cwG3HZAjLvgMMp7c1GcolMjVxt+igQmjEK+MlWutbS7vOkJfgzl+arcY7iZPJS+oMbLQh/ivA0OoqDSOEXT9Vz3ZfQ0QeZFnzP+xDkAjCiawq7iSQmU4uLPWlRc17KQXF0mCsHfzCGRPmy3lnxkhIy8CIFV4Zfwp1nzCuUlKRK+wAV9PRxFIHSxcj7sF9q77RHaOOhn6Zk8BJDtTS5Ir/eTtKLs/L/UStBqjKU1sQUhnduKReKGEuuQnbpqq0cb8lpw+DRCelD7NzGuqblNlGdCakM/rJr3iQp4uZGJWPr/As5Gu3vGJSJXdNuzgTWSFsHOalT91BomACfXaOHFkuBr0U2wWrE81tP/wUjl6RiewaBhdno/tq3GpOHyJfpGDD6y/Czg2w3Nq7Imendq2I/RhxXzYbuarK5wsxa95A4LxN6Bi+iLWl7MxMvKFXOm6SBrzDZN+A=
@@ -7,9 +7,6 @@ addons:
   apt:
     packages:
     - jq
-before_install:
-- chmod +x travis/before_install.sh
-- travis/before_install.sh
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -19,9 +16,7 @@ cache:
   - $HOME/.gradle/wrapper/
   - $HOME/.m2/repository/
 jdk:
-- openjdk7
 - openjdk8
-#- oraclejdk8
 os:
 - linux
 jobs:
@@ -97,15 +92,9 @@ jobs:
         - source "$HOME/.sdkman/bin/sdkman-init.sh"
         - sdk install gradle 7.0
       script: gradle additionalUseCaseTest
-
-    - stage: coverage
-      jdk: openjdk8
-      install: ./gradlew install
-      script: ./travis/coverage.sh
 before_script:
 - chmod +x gradlew
 - chmod +x travis/script.sh
-- chmod +x travis/coverage.sh
 - chmod +x travis/deploy-gh-pages.sh
 script: ./travis/script.sh
 before_deploy: ./gradlew assemble
@@ -120,7 +109,7 @@ deploy:
     repo: dkorotych/gradle-maven-exec-plugin
     tags: true
     all_branches: true
-    jdk: openjdk7
+    jdk: openjdk8
 after_deploy:
 - ./travis/deploy-gh-pages.sh
 - ./gradlew publishPlugins -Dgradle.publish.key=$gradle_publish_key -Dgradle.publish.secret=$gradle_publish

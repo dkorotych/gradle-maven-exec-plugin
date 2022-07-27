@@ -1,0 +1,5 @@
+Apache Maven 3.8.2 (ea98e05a04480131370aa0c110b8c54cf726c06f)
+Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.8.2-bin/667d6db4/apache-maven-3.8.2
+Java version: 11.0.15, vendor: Private Build, runtime: /usr/lib/jvm/java-11-openjdk-amd64
+Default locale: ru_RU, platform encoding: UTF-8
+OS name: "linux", version: "5.15.0-41-generic", arch: "amd64", family: "unix"

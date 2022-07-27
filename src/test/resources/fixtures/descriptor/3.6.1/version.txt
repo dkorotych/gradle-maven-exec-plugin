@@ -1,5 +1,5 @@
 Apache Maven 3.6.1 (d66c9c0b3152b2e69ee9bac180bb8fcc8e6af555; 2019-04-04T22:00:29+03:00)
-Maven home: /home/dkorotych/.sdkman/candidates/maven/current
-Java version: 11.0.3, vendor: Azul Systems, Inc., runtime: /home/dkorotych/.sdkman/candidates/java/11.0.3-zulu
+Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.6.1-bin/ced06cd4/apache-maven-3.6.1
+Java version: 11.0.15, vendor: Private Build, runtime: /usr/lib/jvm/java-11-openjdk-amd64
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "4.18.0-17-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "5.15.0-41-generic", arch: "amd64", family: "unix"

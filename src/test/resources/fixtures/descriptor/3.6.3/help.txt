@@ -1,3 +1,4 @@
+
 usage: mvn [options] [<goal(s)>] [<phase(s)>]
 
 Options:
@@ -47,6 +48,8 @@ Options:
  -npu,--no-plugin-updates               Ineffective, only kept for
                                         backward compatibility
  -nsu,--no-snapshot-updates             Suppress SNAPSHOT updates
+ -ntp,--no-transfer-progress            Do not display transfer progress
+                                        when downloading or uploading
  -o,--offline                           Work offline
  -P,--activate-profiles <arg>           Comma-delimited list of profiles
                                         to activate

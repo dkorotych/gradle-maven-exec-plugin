@@ -13,92 +13,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        if (JavaVersion.current().isJava8Compatible()) {
-//            classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
-            if (gradle.gradleVersion < '6.0') {
-                classpath 'ru.vyarus:gradle-quality-plugin:2.4.0'
-            }
-            classpath 'gradle.plugin.io.github.ddimtirov:codacy-gradle-plugin:0.1.0'
-        }
-    }
-}
+import com.github.dkorotych.gradle.maven.exec.test.MavenTestHelperPlugin
 
 plugins {
-    id "com.gradle.plugin-publish" version "0.9.10"
+    id 'java-gradle-plugin'
+    id 'idea'
+    id 'com.gradle.plugin-publish' version '1.0.0'
     id 'net.researchgate.release' version '2.7.0'
-    id "nebula.info" version "3.6.0"
     id "com.github.hierynomus.license" version "0.14.0"
 }
 
+apply plugin: MavenTestHelperPlugin
+
 group 'com.github.dkorotych.gradle.maven.exec'
 
-apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: "com.gradle.plugin-publish"
-apply plugin: 'idea'
-if (JavaVersion.current().isJava8Compatible()) {
-//    apply plugin: "org.sonarqube"
-    if (gradle.gradleVersion < '6.0') {
-        apply plugin: 'ru.vyarus.quality'
-    }
-    apply plugin: 'io.github.ddimtirov.codacy'
-
-    if (gradle.gradleVersion < '6.0') {
-        quality {
-            configDir = rootProject.file('config')
-        }
-    }
-
-    jacoco {
-        toolVersion = "0.8.1"
-    }
-
-    if (gradle.gradleVersion < '6.0') {
-        afterEvaluate {
-            codenarc {
-                configFile = rootProject.file('config/codenarc/codenarc.groovy')
-            }
-        }
-    }
-}
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
-if (gradle.gradleVersion < '6.0') {
-    dependencies {
-        compile gradleApi()
-        compile localGroovy()
-        compile "commons-lang:commons-lang:2.6"
-        testCompile 'org.spockframework:spock-core:1.0-groovy-2.4', {
-            exclude module: 'groovy-all'
+dependencies {
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+    testImplementation 'org.mockito:mockito-core:4.6.1'
+    testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
+    testImplementation 'com.google.guava:guava:31.1-jre'
+}
+
+gradlePlugin {
+    plugins {
+        'gradle-maven-exec-plugin' {
+            id = "com.github.dkorotych.gradle.maven.exec"
+            implementationClass = 'com.github.dkorotych.gradle.maven.exec.MavenExecPlugin'
+            displayName = 'Gradle Maven Exec Plugin'
         }
-        testCompile 'cglib:cglib-nodep:3.2.4'
-        testCompile 'org.objenesis:objenesis:2.4'
     }
-} else {
-    dependencies {
-        implementation gradleApi()
-        implementation localGroovy()
-        implementation "commons-lang:commons-lang:2.6"
-        testImplementation 'org.spockframework:spock-core:1.0-groovy-2.4', {
-            exclude module: 'groovy-all'
-        }
-        testImplementation 'cglib:cglib-nodep:3.2.4'
-        testImplementation 'org.objenesis:objenesis:2.4'
+}
+
+java {
+    sourceCompatibility = project.sourceCompatibility
+    targetCompatibility = project.targetCompatibility
+}
+
+sourceSets {
+    functionalTest {
     }
+}
+
+configurations.functionalTestImplementation.extendsFrom(configurations.testImplementation)
+
+tasks.register('functionalTest', Test) {
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+    dependsOn(tasks.prepareTestEnvironments)
+    useJUnitPlatform()
+}
+
+gradlePlugin.testSourceSets(sourceSets.functionalTest)
+
+tasks.named('check') {
+    dependsOn(tasks.functionalTest)
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
 
 license {
@@ -115,50 +97,22 @@ pluginBundle {
     vcsUrl = 'https://github.com/dkorotych/gradle-maven-exec-plugin'
     description = 'Gradle plugin which provides an Maven exec task'
     tags = ['maven', 'exec', 'cross-platform']
-
-    plugins {
-        mavenExecPlugin {
-            id = 'com.github.dkorotych.gradle-maven-exec'
-            displayName = 'Gradle Maven Exec Plugin'
-        }
-    }
 }
 
-test {
-    systemProperty("pluginVersion", project.version)
-}
-
-groovydoc {
-    link 'http://docs.oracle.com/javase/7/docs/api/', 'java.', 'org.xml.', 'javax.', 'org.xml.'
-    link "https://docs.gradle.org/${gradle.gradleVersion}/javadoc/", 'org.gradle'
-    link "http://docs.groovy-lang.org/${GroovySystem.version}/html/gapi/",
-            'groovy', 'org.apache.commons.cli', 'org.codehaus.groovy'
-}
-
-if (gradle.gradleVersion >= '4.10') {
-    wrapper {
-        gradleVersion = '2.13'
-    }
-} else {
-    task wrapper(type: Wrapper) {
-        gradleVersion = '2.13'
+javadoc {
+    options {
+        links("https://docs.oracle.com/javase/${JavaVersion.toVersion(project.sourceCompatibility).majorVersion}/docs/api/",
+                "https://docs.gradle.org/${gradle.gradleVersion}/javadoc/",
+                "http://docs.groovy-lang.org/${GroovySystem.version}/html/gapi/")
     }
 }
 
 idea {
     project {
-        vcs = 'Git'
+        jdkName = sourceCompatibility
         module {
-            downloadJavadoc = true
+            downloadJavadoc = false
             downloadSources = true
-        }
-        ipr {
-            withXml {
-                def node = it.asNode()
-
-                def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
-                vcsConfig.mapping[0].'@vcs' = 'Git'
-            }
         }
     }
 }
@@ -177,8 +131,6 @@ updateVersion.doFirst {
             "gradle-maven-exec-plugin:${version}")
     file.text = content
 }
-
-beforeReleaseBuild.dependsOn install
 
 //task generateMetricsPart {
 //    def readmeFile = file('README.md')

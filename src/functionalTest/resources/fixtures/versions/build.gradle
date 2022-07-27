@@ -1,0 +1,123 @@
+plugins {
+    id('com.github.dkorotych.gradle.maven.exec')
+}
+
+println "Validate work with Gradle: ${gradle.gradleVersion}"
+
+tasks.register("realUseCaseTest") {
+    group = "verification"
+    dependsOn = ["checkMavenApplication", "checkMavenApplication2", "checkMavenApplication3"]
+}
+
+def groupId = 'com.mycompany.app'
+def artifactId = 'my-app'
+
+task generateMavenApplication(type: MavenExec) {
+    buildDir.mkdirs()
+    ext.outputDir = file("$buildDir/$artifactId")
+    delete outputDir
+    workingDir buildDir
+    goals 'archetype:generate'
+    options {
+        define = [
+                'groupId'            : groupId,
+                'artifactId'         : artifactId,
+                'archetypeArtifactId': 'maven-archetype-quickstart',
+                'archetypeVersion'   : '1.4',
+                'interactiveMode'    : 'false'
+        ]
+    }
+}
+
+task packageMavenApplication(type: MavenExec, dependsOn: 'generateMavenApplication') {
+    outputs.dir file("${generateMavenApplication.outputDir}/target")
+    workingDir generateMavenApplication.outputDir
+    goals 'package'
+}
+
+task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication') {
+    def outputFile = file("$buildDir/output.txt")
+    workingDir generateMavenApplication.outputDir
+    classpath file("${generateMavenApplication.outputDir}/target/${artifactId}-1.0-SNAPSHOT.jar")
+    if (gradle.gradleVersion > '7.1') {
+        mainClass = "${groupId}.App"
+    } else {
+        main "${groupId}.App"
+    }
+    standardOutput new FileOutputStream(outputFile)
+    doLast {
+        assert outputFile.text.trim() == 'Hello World!'
+    }
+}
+
+task checkMavenApplication2 {
+    doLast {
+        buildDir.mkdirs()
+        def application = artifactId + '-second'
+        def applicationDir = file("$buildDir/$application")
+        delete applicationDir
+        def outputFile = file("$buildDir/output.txt")
+        mavenexec {
+            workingDir buildDir
+            goals 'archetype:generate'
+            define([
+                    'groupId'            : groupId,
+                    'artifactId'         : application,
+                    'archetypeArtifactId': 'maven-archetype-quickstart',
+                    'archetypeVersion'   : '1.4',
+                    'interactiveMode'    : 'false'
+            ])
+            quiet true
+        }
+        mavenexec {
+            workingDir applicationDir
+            goals 'package'
+            threads '2C'
+            quiet true
+        }
+        javaexec {
+            workingDir applicationDir
+            classpath file("$applicationDir/target/$application-1.0-SNAPSHOT.jar")
+            if (gradle.gradleVersion > '7.1') {
+                mainClass = "${groupId}.App"
+            } else {
+                main "${groupId}.App"
+            }
+            standardOutput new FileOutputStream(outputFile)
+        }
+        assert outputFile.text.trim() == 'Hello World!'
+    }
+}
+
+task checkMavenApplication3 {
+    doLast {
+        buildDir.mkdirs()
+        def application = artifactId + '-third'
+        def applicationDir = file("$buildDir/$application")
+        delete applicationDir
+        mavenexec {
+            workingDir buildDir
+            goals 'archetype:generate'
+            define([
+                    'groupId'            : groupId,
+                    'artifactId'         : application,
+                    'archetypeArtifactId': 'maven-archetype-j2ee-simple',
+                    'archetypeVersion'   : '1.4',
+                    'interactiveMode'    : 'false'
+            ])
+            quiet true
+        }
+        def file = file("${applicationDir}/pom.xml")
+        def content = file.text
+        content = content.
+                replaceAll("2.20.1", "2.22.0").
+                replaceAll("2.10.1", "3.0.1")
+        file.text = content
+        mavenexec {
+            workingDir applicationDir
+            goals 'package'
+            threads '1C'
+            quiet true
+        }
+    }
+}
