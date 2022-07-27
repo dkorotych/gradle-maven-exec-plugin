@@ -19,7 +19,7 @@ import org.gradle.api.Project;
 import org.gradle.testfixtures.ProjectBuilder;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MavenExecPluginTest {
     @Test
@@ -27,6 +27,6 @@ class MavenExecPluginTest {
         Project project = ProjectBuilder.builder().build();
         project.getPlugins().apply("com.github.dkorotych.gradle.maven.exec");
 
-        assertNotNull(project.getExtensions().getExtraProperties().get(MavenExec.class.getSimpleName()));
+        assertThat(project.getExtensions().getExtraProperties().get(MavenExec.class.getSimpleName())).isNotNull();
     }
 }

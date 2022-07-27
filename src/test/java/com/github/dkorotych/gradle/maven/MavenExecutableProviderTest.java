@@ -15,8 +15,6 @@
  */
 package com.github.dkorotych.gradle.maven;
 
-import org.assertj.core.api.Assertions;
-import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils;
 import org.gradle.internal.os.OperatingSystem;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,13 +24,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.github.dkorotych.gradle.maven.TestUtility.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.ParameterizedTest.DEFAULT_DISPLAY_NAME;
 
 class MavenExecutableProviderTest {
@@ -59,6 +57,6 @@ class MavenExecutableProviderTest {
     void getExecutable(Path directory, OperatingSystem operatingSystem, String expected) {
         setOperatingSystem(operatingSystem);
         final MavenExecutableProvider provider = new MavenExecutableProvider(directory);
-        Assertions.assertThat(provider.getExecutable()).isEqualTo(expected);
+        assertThat(provider.getExecutable()).isEqualTo(expected);
     }
 }

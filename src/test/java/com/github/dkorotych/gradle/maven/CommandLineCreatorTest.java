@@ -18,7 +18,6 @@ package com.github.dkorotych.gradle.maven;
 import com.github.dkorotych.gradle.maven.exec.MavenExecSpec;
 import com.github.dkorotych.gradle.maven.exec.MavenExecSpecDelegate;
 import com.google.common.collect.ImmutableList;
-import org.assertj.core.api.Assertions;
 import org.gradle.api.Project;
 import org.gradle.process.ExecSpec;
 import org.gradle.testfixtures.ProjectBuilder;
@@ -27,7 +26,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +33,8 @@ import java.util.stream.Stream;
 
 import static com.github.dkorotych.gradle.maven.TestUtility.commandLine;
 import static com.github.dkorotych.gradle.maven.TestUtility.createExecSpec;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.gradle.util.CollectionUtils.asCommandLine;
 
 class CommandLineCreatorTest {
@@ -65,14 +65,14 @@ class CommandLineCreatorTest {
 
     @Test
     void nullSpecification() {
-        Assertions.assertThatThrownBy(() -> new CommandLineCreator(null, project))
+        assertThatThrownBy(() -> new CommandLineCreator(null, project))
                 .isInstanceOf(NullPointerException.class)
                 .hasMessage("Specification should be not null");
     }
 
     @Test
     void nullProject() {
-        Assertions.assertThatThrownBy(() ->
+        assertThatThrownBy(() ->
                         project.exec(execSpec ->
                                 new CommandLineCreator(new MavenExecSpecDelegate(execSpec, project), null)))
                 .isInstanceOf(NullPointerException.class)
@@ -86,7 +86,7 @@ class CommandLineCreatorTest {
         final ArrayList<String> commandLine = new ArrayList<>();
         commandLine.add(creator.getExecutable());
         commandLine.addAll(creator.getArguments());
-        Assertions.assertThat(asCommandLine(commandLine))
+        assertThat(asCommandLine(commandLine))
                 .isEqualTo(asCommandLine(expected));
     }
 }

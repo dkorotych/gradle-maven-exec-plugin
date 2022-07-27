@@ -17,12 +17,9 @@ package com.github.dkorotych.gradle.maven;
 
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.SystemUtils;
-import org.assertj.core.api.Assertions;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mockito;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -35,8 +32,11 @@ import java.util.stream.Stream;
 import static com.google.code.beanmatchers.BeanMatchers.*;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.RandomStringUtils.random;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.fail;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 class DefaultMavenOptionsTest {
     public static Stream<PropertyDescriptor> lookLikeAPropertyAccess() throws IntrospectionException {
@@ -45,7 +45,7 @@ class DefaultMavenOptionsTest {
 
     @Test
     void asBean() {
-        MatcherAssert.assertThat(DefaultMavenOptions.class, allOf(
+        assertThat(DefaultMavenOptions.class, allOf(
                 hasValidBeanConstructor(),
                 hasValidGettersAndSetters(),
                 hasValidBeanHashCode(),
@@ -97,7 +97,7 @@ class DefaultMavenOptionsTest {
                 validatePropertySetter(descriptor, options, ImmutableMap.of(random(10), random(10), random(5), random(8)));
                 break;
             default:
-                Assertions.fail("Unsupported property type - %s", descriptor.getPropertyType());
+                fail("Unsupported property type - %s", descriptor.getPropertyType());
         }
     }
 
@@ -122,17 +122,17 @@ class DefaultMavenOptionsTest {
 
     private void validateSetter(PropertyDescriptor descriptor, DefaultMavenOptions options, Object value) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         descriptor.getWriteMethod().invoke(options, value);
-        Assertions.assertThat(descriptor.getReadMethod().invoke(options))
+        assertThat(descriptor.getReadMethod().invoke(options))
                 .isEqualTo(value);
-        Assertions.assertThat(getPropertyReader(descriptor).invoke(options))
+        assertThat(getPropertyReader(descriptor).invoke(options))
                 .isEqualTo(value);
     }
 
     private void validatePropertySetter(PropertyDescriptor descriptor, DefaultMavenOptions options, Object value) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         getPropertyWriter(descriptor).invoke(options, value);
-        Assertions.assertThat(getPropertyReader(descriptor).invoke(options))
+        assertThat(getPropertyReader(descriptor).invoke(options))
                 .isEqualTo(value);
-        Assertions.assertThat(descriptor.getReadMethod().invoke(options))
+        assertThat(descriptor.getReadMethod().invoke(options))
                 .isEqualTo(value);
     }
 }

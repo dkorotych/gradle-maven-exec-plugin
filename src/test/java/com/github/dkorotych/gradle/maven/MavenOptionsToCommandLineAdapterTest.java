@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -32,6 +31,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MavenOptionsToCommandLineAdapterTest {
     private static final PropertyDescriptor[] DESCRIPTORS;
@@ -117,7 +119,7 @@ class MavenOptionsToCommandLineAdapterTest {
 
     @Test
     void nullOptions() {
-        Assertions.assertThatThrownBy(() -> new MavenOptionsToCommandLineAdapter(null, null))
+        assertThatThrownBy(() -> new MavenOptionsToCommandLineAdapter(null, null))
                 .isInstanceOf(NullPointerException.class)
                 .hasMessage("Maven options should be not null");
     }
@@ -141,7 +143,7 @@ class MavenOptionsToCommandLineAdapterTest {
         final MavenOptions options = new DefaultMavenOptions();
         options.setDefine(define);
         final MavenOptionsToCommandLineAdapter adapter = new MavenOptionsToCommandLineAdapter(options, null);
-        Assertions.assertThat(adapter.asCommandLine()).
+        assertThat(adapter.asCommandLine()).
                 isEqualTo(expected);
     }
 
@@ -196,7 +198,7 @@ class MavenOptionsToCommandLineAdapterTest {
         final MavenOptions options = new DefaultMavenOptions();
         property.getWriteMethod().invoke(options, value);
         final MavenOptionsToCommandLineAdapter adapter = new MavenOptionsToCommandLineAdapter(options, supportedOptions);
-        Assertions.assertThat(adapter.asCommandLine()).
+        assertThat(adapter.asCommandLine()).
                 isEqualTo(expected);
     }
 }
