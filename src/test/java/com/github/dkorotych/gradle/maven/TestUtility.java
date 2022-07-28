@@ -19,24 +19,17 @@ import org.gradle.api.Project;
 import org.gradle.api.internal.project.DefaultProject;
 import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.gradle.internal.os.OperatingSystem;
-import org.gradle.internal.service.ServiceRegistry;
 import org.gradle.process.ExecSpec;
-import org.gradle.process.internal.ExecAction;
 import org.gradle.process.internal.ExecActionFactory;
-import org.gradle.util.GFileUtils;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import static org.gradle.internal.os.OperatingSystem.*;
 

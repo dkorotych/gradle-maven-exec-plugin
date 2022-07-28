@@ -13,3 +13,10 @@ recipeList:
   - org.openrewrite.java.cleanup.CommonStaticAnalysis
   - org.openrewrite.java.cleanup.Cleanup
   - org.openrewrite.java.cleanup.JavaApiBestPractices
+  - org.openrewrite.java.cleanup.MissingOverrideAnnotation
+  - org.openrewrite.java.cleanup.AtomicPrimitiveEqualsUsesGet
+  - org.openrewrite.java.cleanup.RemoveExtraSemicolons
+  - org.openrewrite.java.cleanup.RemoveUnusedLocalVariables
+  - org.openrewrite.java.RemoveUnusedImports
+  - org.openrewrite.java.RemoveObjectsIsNull
+  - org.openrewrite.java.cleanup.AtomicPrimitiveEqualsUsesGet

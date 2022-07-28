@@ -30,6 +30,7 @@ public abstract class MemoizedSupplier<T> implements Supplier<T> {
         };
     }
 
+    @Override
     public T get() {
         T value = cached.get();
         if (value == null) {
