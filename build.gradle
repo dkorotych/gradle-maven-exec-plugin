@@ -21,6 +21,7 @@ plugins {
     id 'com.gradle.plugin-publish' version '1.0.0'
     id 'net.researchgate.release' version '2.7.0'
     id "com.github.hierynomus.license" version "0.14.0"
+    id 'ru.vyarus.github-info' version '1.3.0'
     id 'org.openrewrite.rewrite' version '5.24.0'
 }
 
@@ -98,9 +99,14 @@ license {
     exclude "**/fixtures/**"
 }
 
+github {
+    user 'dkorotych'
+    license 'Apache'
+}
+
 pluginBundle {
-    website = 'https://github.com/dkorotych/gradle-maven-exec-plugin'
-    vcsUrl = 'https://github.com/dkorotych/gradle-maven-exec-plugin'
+    website = github.site
+    vcsUrl = github.vcsUrl
     description = 'Gradle plugin which provides an Maven exec task'
     tags = ['maven', 'exec', 'cross-platform']
 }
