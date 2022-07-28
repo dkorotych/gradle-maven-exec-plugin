@@ -27,11 +27,19 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Implementation of the task to support the launch Maven.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
+ */
 public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecSpec {
     private final MavenOptions options = new DefaultMavenOptions();
     private final Set<String> goals = new LinkedHashSet<>();
     private File mavenDir;
 
+    /**
+     * Create implementation of the task.
+     */
     public MavenExec() {
         super(MavenExec.class);
     }
@@ -50,7 +58,7 @@ public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecS
     }
 
     @Override
-    public void setMavenDir(File dir) {
+    public void setMavenDir(final File dir) {
         mavenDir = dir;
     }
 
@@ -65,67 +73,67 @@ public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecS
     }
 
     @Override
-    public MavenExec commandLine(Object... arguments) {
+    public MavenExec commandLine(final Object... arguments) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MavenExec commandLine(Iterable<?> args) {
+    public MavenExec commandLine(final Iterable<?> args) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MavenExec args(Object... args) {
+    public MavenExec args(final Object... args) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MavenExec args(Iterable<?> args) {
+    public MavenExec args(final Iterable<?> args) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MavenExec setArgs(List<String> arguments) {
+    public MavenExec setArgs(final List<String> arguments) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MavenExec setArgs(@Nullable Iterable<?> arguments) {
+    public MavenExec setArgs(final @Nullable Iterable<?> arguments) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setCommandLine(List<String> args) {
+    public void setCommandLine(final List<String> args) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setCommandLine(Iterable<?> args) {
+    public void setCommandLine(final Iterable<?> args) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setCommandLine(Object... args) {
+    public void setCommandLine(final Object... args) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setExecutable(@Nullable String executable) {
+    public void setExecutable(final @Nullable String executable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setExecutable(Object executable) {
+    public void setExecutable(final Object executable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MavenExec executable(Object executable) {
+    public MavenExec executable(final Object executable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MavenExec copyTo(ProcessForkOptions target) {
+    public MavenExec copyTo(final ProcessForkOptions target) {
         throw new UnsupportedOperationException();
     }
 }

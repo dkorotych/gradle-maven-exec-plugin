@@ -18,11 +18,16 @@ package com.github.dkorotych.gradle.maven.exec;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
+/**
+ * Implementation of the plugin to support the launch Maven tasks.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
+ */
 public class MavenExecPlugin implements Plugin<Project> {
     private static final String CONVENTION_NAME = "mavenexec";
 
     @Override
-    public void apply(Project project) {
+    public void apply(final Project project) {
         project.getExtensions().getExtraProperties().set(MavenExec.class.getSimpleName(), MavenExec.class);
         project.getConvention().getPlugins().put(CONVENTION_NAME, new MavenExecConvention(project));
     }

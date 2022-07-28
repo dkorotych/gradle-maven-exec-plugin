@@ -17,171 +17,60 @@ package com.github.dkorotych.gradle.maven;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.*;
 
+/**
+ * Default implementation of configuration options for any supported version of Maven.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
+ */
+@SuppressWarnings({
+        "PMD.ExcessivePublicCount",
+        "PMD.CyclomaticComplexity",
+        "PMD.TooManyFields",
+        "PMD.GodClass"
+})
 public class DefaultMavenOptions implements MavenOptions, Serializable {
     private static final long serialVersionUID = 5202374569318582383L;
 
-    /**
-     * If project list is specified, also build projects required by the list
-     */
     private boolean alsoMake;
-    /**
-     * If project list is specified, also build projects that depend on projects on the list
-     */
     private boolean alsoMakeDependents;
-    /**
-     * Run in non-interactive (batch) mode (disables output color)
-     */
     private boolean batchMode;
-    /**
-     * The id of the build strategy to use
-     */
     private String builder;
-    /**
-     * Fail the build if checksums don't match
-     */
     private boolean strictChecksums;
-    /**
-     * Warn if checksums don't match
-     */
     private boolean laxChecksums;
-    /**
-     * Defines the color mode of the output. Supported are 'auto', 'always', 'never'.
-     */
     private String color;
-    /**
-     * Ineffective, only kept for backward compatibility
-     */
     private boolean checkPluginUpdates;
-    /**
-     * Define a system property
-     */
     private Map<String, String> define;
-    /**
-     * Produce execution error messages
-     */
     private boolean errors;
-    /**
-     * Encrypt master security password
-     */
     private String encryptMasterPassword;
-    /**
-     * Encrypt server password
-     */
     private String encryptPassword;
-    /**
-     * Force the use of an alternate POM file (or directory with pom.xml)
-     */
     private File file;
-    /**
-     * Only fail the build afterwards; allow all non-impacted builds to continue
-     */
     private boolean failAtEnd;
-    /**
-     * Stop at first failure in reactorized builds
-     */
     private boolean failFast;
-    /**
-     * NEVER fail the build, regardless of project result
-     */
     private boolean failNever;
-    /**
-     * Alternate path for the global settings file
-     */
     private File globalSettings;
-    /**
-     * Alternate path for the global toolchains file
-     */
     private File globalToolchains;
-    /**
-     * Display help information
-     */
     private boolean help;
-    /**
-     * Log file where all build output will go (disables output color)
-     */
     private File logFile;
-    /**
-     * Use Maven 2 Legacy Local Repository behaviour, ie no use of _remote.repositories.
-     * Can also be activated by using -Dmaven.legacyLocalRepo=true
-     */
     private boolean legacyLocalRepository;
-    /**
-     * Do not recurse into sub-projects
-     */
     private boolean nonRecursive;
-    /**
-     * Ineffective, only kept for backward compatibility
-     */
     private boolean noPluginRegistry;
-    /**
-     * Ineffective, only kept for backward compatibility
-     */
     private boolean noPluginUpdates;
-    /**
-     * Suppress SNAPSHOT updates
-     */
     private boolean noSnapshotUpdates;
-    /**
-     * Do not display transfer progress when downloading or uploading
-     */
     private boolean noTransferProgress;
-    /**
-     * Work offline
-     */
     private boolean offline;
-    /**
-     * Comma-delimited list of profiles to activate
-     */
     private String[] activateProfiles;
-    /**
-     * Comma-delimited list of specified reactor projects to build instead of all projects.
-     * A project can be specified by [groupId]:artifactId or by its relative path
-     */
     private String[] projects;
-    /**
-     * Quiet output - only show errors
-     */
     private boolean quiet;
-    /**
-     * Resume reactor from specified project
-     */
     private String resumeFrom;
-    /**
-     * Alternate path for the user settings file
-     */
     private File settings;
-    /**
-     * Alternate path for the user toolchains file
-     */
     private File toolchains;
-    /**
-     * Thread count, for instance 2.0C where C is core multiplied
-     */
     private String threads;
-    /**
-     * Forces a check for missing releases and updated snapshots on remote repositories
-     */
     private boolean updateSnapshots;
-    /**
-     * Ineffective, only kept for backward compatibility
-     */
     private boolean updatePlugins;
-    /**
-     * Display version information
-     */
     private boolean version;
-    /**
-     * Display version information WITHOUT stopping build
-     */
     private boolean showVersion;
-    /**
-     * Produce execution debug output
-     */
     private boolean debug;
 
     @Override
@@ -190,7 +79,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setAlsoMake(boolean alsoMake) {
+    public void setAlsoMake(final boolean alsoMake) {
         this.alsoMake = alsoMake;
     }
 
@@ -200,7 +89,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setAlsoMakeDependents(boolean alsoMakeDependents) {
+    public void setAlsoMakeDependents(final boolean alsoMakeDependents) {
         this.alsoMakeDependents = alsoMakeDependents;
     }
 
@@ -210,7 +99,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setBatchMode(boolean batchMode) {
+    public void setBatchMode(final boolean batchMode) {
         this.batchMode = batchMode;
     }
 
@@ -220,7 +109,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setBuilder(String builder) {
+    public void setBuilder(final String builder) {
         this.builder = builder;
     }
 
@@ -230,7 +119,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setStrictChecksums(boolean strictChecksums) {
+    public void setStrictChecksums(final boolean strictChecksums) {
         this.strictChecksums = strictChecksums;
     }
 
@@ -240,7 +129,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setLaxChecksums(boolean laxChecksums) {
+    public void setLaxChecksums(final boolean laxChecksums) {
         this.laxChecksums = laxChecksums;
     }
 
@@ -250,7 +139,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setColor(String color) {
+    public void setColor(final String color) {
         this.color = color;
     }
 
@@ -260,7 +149,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setCheckPluginUpdates(boolean checkPluginUpdates) {
+    public void setCheckPluginUpdates(final boolean checkPluginUpdates) {
         this.checkPluginUpdates = checkPluginUpdates;
     }
 
@@ -270,7 +159,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setDefine(Map<String, String> define) {
+    public void setDefine(final Map<String, String> define) {
         this.define = define;
     }
 
@@ -280,7 +169,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setErrors(boolean errors) {
+    public void setErrors(final boolean errors) {
         this.errors = errors;
     }
 
@@ -290,7 +179,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setEncryptMasterPassword(String encryptMasterPassword) {
+    public void setEncryptMasterPassword(final String encryptMasterPassword) {
         this.encryptMasterPassword = encryptMasterPassword;
     }
 
@@ -300,7 +189,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setEncryptPassword(String encryptPassword) {
+    public void setEncryptPassword(final String encryptPassword) {
         this.encryptPassword = encryptPassword;
     }
 
@@ -310,7 +199,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setFile(File file) {
+    public void setFile(final File file) {
         this.file = file;
     }
 
@@ -320,7 +209,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setFailAtEnd(boolean failAtEnd) {
+    public void setFailAtEnd(final boolean failAtEnd) {
         this.failAtEnd = failAtEnd;
     }
 
@@ -330,7 +219,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setFailFast(boolean failFast) {
+    public void setFailFast(final boolean failFast) {
         this.failFast = failFast;
     }
 
@@ -340,7 +229,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setFailNever(boolean failNever) {
+    public void setFailNever(final boolean failNever) {
         this.failNever = failNever;
     }
 
@@ -350,7 +239,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setGlobalSettings(File globalSettings) {
+    public void setGlobalSettings(final File globalSettings) {
         this.globalSettings = globalSettings;
     }
 
@@ -360,7 +249,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setGlobalToolchains(File globalToolchains) {
+    public void setGlobalToolchains(final File globalToolchains) {
         this.globalToolchains = globalToolchains;
     }
 
@@ -370,7 +259,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setHelp(boolean help) {
+    public void setHelp(final boolean help) {
         this.help = help;
     }
 
@@ -380,7 +269,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setLogFile(File logFile) {
+    public void setLogFile(final File logFile) {
         this.logFile = logFile;
     }
 
@@ -390,7 +279,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setLegacyLocalRepository(boolean legacyLocalRepository) {
+    public void setLegacyLocalRepository(final boolean legacyLocalRepository) {
         this.legacyLocalRepository = legacyLocalRepository;
     }
 
@@ -400,7 +289,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setNonRecursive(boolean nonRecursive) {
+    public void setNonRecursive(final boolean nonRecursive) {
         this.nonRecursive = nonRecursive;
     }
 
@@ -410,7 +299,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setNoPluginRegistry(boolean noPluginRegistry) {
+    public void setNoPluginRegistry(final boolean noPluginRegistry) {
         this.noPluginRegistry = noPluginRegistry;
     }
 
@@ -420,7 +309,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setNoPluginUpdates(boolean noPluginUpdates) {
+    public void setNoPluginUpdates(final boolean noPluginUpdates) {
         this.noPluginUpdates = noPluginUpdates;
     }
 
@@ -430,7 +319,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setNoSnapshotUpdates(boolean noSnapshotUpdates) {
+    public void setNoSnapshotUpdates(final boolean noSnapshotUpdates) {
         this.noSnapshotUpdates = noSnapshotUpdates;
     }
 
@@ -440,7 +329,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setNoTransferProgress(boolean noTransferProgress) {
+    public void setNoTransferProgress(final boolean noTransferProgress) {
         this.noTransferProgress = noTransferProgress;
     }
 
@@ -450,27 +339,27 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setOffline(boolean offline) {
+    public void setOffline(final boolean offline) {
         this.offline = offline;
     }
 
     @Override
     public String[] getActivateProfiles() {
-        return activateProfiles;
+        return copyStringArray(activateProfiles);
     }
 
     @Override
-    public void setActivateProfiles(String[] activateProfiles) {
+    public void setActivateProfiles(final String[] activateProfiles) {
         this.activateProfiles = activateProfiles;
     }
 
     @Override
     public String[] getProjects() {
-        return projects;
+        return copyStringArray(projects);
     }
 
     @Override
-    public void setProjects(String[] projects) {
+    public void setProjects(final String[] projects) {
         this.projects = projects;
     }
 
@@ -480,7 +369,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setQuiet(boolean quiet) {
+    public void setQuiet(final boolean quiet) {
         this.quiet = quiet;
     }
 
@@ -490,7 +379,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setResumeFrom(String resumeFrom) {
+    public void setResumeFrom(final String resumeFrom) {
         this.resumeFrom = resumeFrom;
     }
 
@@ -500,7 +389,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setSettings(File settings) {
+    public void setSettings(final File settings) {
         this.settings = settings;
     }
 
@@ -510,7 +399,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setToolchains(File toolchains) {
+    public void setToolchains(final File toolchains) {
         this.toolchains = toolchains;
     }
 
@@ -520,7 +409,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setThreads(String threads) {
+    public void setThreads(final String threads) {
         this.threads = threads;
     }
 
@@ -530,7 +419,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setUpdateSnapshots(boolean updateSnapshots) {
+    public void setUpdateSnapshots(final boolean updateSnapshots) {
         this.updateSnapshots = updateSnapshots;
     }
 
@@ -540,7 +429,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setUpdatePlugins(boolean updatePlugins) {
+    public void setUpdatePlugins(final boolean updatePlugins) {
         this.updatePlugins = updatePlugins;
     }
 
@@ -550,7 +439,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setVersion(boolean version) {
+    public void setVersion(final boolean version) {
         this.version = version;
     }
 
@@ -560,7 +449,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setShowVersion(boolean showVersion) {
+    public void setShowVersion(final boolean showVersion) {
         this.showVersion = showVersion;
     }
 
@@ -570,25 +459,73 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setDebug(boolean debug) {
+    public void setDebug(final boolean debug) {
         this.debug = debug;
     }
 
     @Override
-    public boolean equals(Object o) {
+    @SuppressWarnings({
+            "checkstyle:CyclomaticComplexity",
+            "checkstyle:NPathComplexity",
+            "PMD.NPathComplexity"
+    })
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        DefaultMavenOptions that = (DefaultMavenOptions) o;
-        return alsoMake == that.alsoMake && alsoMakeDependents == that.alsoMakeDependents && batchMode == that.batchMode && strictChecksums == that.strictChecksums && laxChecksums == that.laxChecksums && checkPluginUpdates == that.checkPluginUpdates && errors == that.errors && failAtEnd == that.failAtEnd && failFast == that.failFast && failNever == that.failNever && help == that.help && legacyLocalRepository == that.legacyLocalRepository && nonRecursive == that.nonRecursive && noPluginRegistry == that.noPluginRegistry && noPluginUpdates == that.noPluginUpdates && noSnapshotUpdates == that.noSnapshotUpdates && noTransferProgress == that.noTransferProgress && offline == that.offline && quiet == that.quiet && updateSnapshots == that.updateSnapshots && updatePlugins == that.updatePlugins && version == that.version && showVersion == that.showVersion && debug == that.debug && Objects.equals(builder, that.builder) && Objects.equals(color, that.color) && Objects.equals(define, that.define) && Objects.equals(encryptMasterPassword, that.encryptMasterPassword) && Objects.equals(encryptPassword, that.encryptPassword) && Objects.equals(file, that.file) && Objects.equals(globalSettings, that.globalSettings) && Objects.equals(globalToolchains, that.globalToolchains) && Objects.equals(logFile, that.logFile) && Arrays.equals(activateProfiles, that.activateProfiles) && Arrays.equals(projects, that.projects) && Objects.equals(resumeFrom, that.resumeFrom) && Objects.equals(settings, that.settings) && Objects.equals(toolchains, that.toolchains) && Objects.equals(threads, that.threads);
+        final DefaultMavenOptions that = (DefaultMavenOptions) o;
+        return alsoMake == that.alsoMake
+                && alsoMakeDependents == that.alsoMakeDependents
+                && batchMode == that.batchMode
+                && strictChecksums == that.strictChecksums
+                && laxChecksums == that.laxChecksums
+                && checkPluginUpdates == that.checkPluginUpdates
+                && errors == that.errors
+                && failAtEnd == that.failAtEnd
+                && failFast == that.failFast
+                && failNever == that.failNever
+                && help == that.help
+                && legacyLocalRepository == that.legacyLocalRepository
+                && nonRecursive == that.nonRecursive
+                && noPluginRegistry == that.noPluginRegistry
+                && noPluginUpdates == that.noPluginUpdates
+                && noSnapshotUpdates == that.noSnapshotUpdates
+                && noTransferProgress == that.noTransferProgress
+                && offline == that.offline
+                && quiet == that.quiet
+                && updateSnapshots == that.updateSnapshots
+                && updatePlugins == that.updatePlugins
+                && version == that.version
+                && showVersion == that.showVersion
+                && debug == that.debug
+                && Objects.equals(builder, that.builder)
+                && Objects.equals(color, that.color)
+                && Objects.equals(define, that.define)
+                && Objects.equals(encryptMasterPassword, that.encryptMasterPassword)
+                && Objects.equals(encryptPassword, that.encryptPassword)
+                && Objects.equals(file, that.file)
+                && Objects.equals(globalSettings, that.globalSettings)
+                && Objects.equals(globalToolchains, that.globalToolchains)
+                && Objects.equals(logFile, that.logFile)
+                && Arrays.equals(activateProfiles, that.activateProfiles)
+                && Arrays.equals(projects, that.projects)
+                && Objects.equals(resumeFrom, that.resumeFrom)
+                && Objects.equals(settings, that.settings)
+                && Objects.equals(toolchains, that.toolchains)
+                && Objects.equals(threads, that.threads);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(alsoMake, alsoMakeDependents, batchMode, builder, strictChecksums, laxChecksums, color, checkPluginUpdates, define, errors, encryptMasterPassword, encryptPassword, file, failAtEnd, failFast, failNever, globalSettings, globalToolchains, help, logFile, legacyLocalRepository, nonRecursive, noPluginRegistry, noPluginUpdates, noSnapshotUpdates, noTransferProgress, offline, quiet, resumeFrom, settings, toolchains, threads, updateSnapshots, updatePlugins, version, showVersion, debug);
+        int result = Objects.hash(alsoMake, alsoMakeDependents, batchMode, builder, strictChecksums, laxChecksums,
+                color, checkPluginUpdates, define, errors, encryptMasterPassword, encryptPassword, file, failAtEnd,
+                failFast, failNever, globalSettings, globalToolchains, help, logFile, legacyLocalRepository,
+                nonRecursive, noPluginRegistry, noPluginUpdates, noSnapshotUpdates, noTransferProgress, offline,
+                quiet, resumeFrom, settings, toolchains, threads, updateSnapshots, updatePlugins, version,
+                showVersion, debug);
         result = 31 * result + Arrays.hashCode(activateProfiles);
         result = 31 * result + Arrays.hashCode(projects);
         return result;
@@ -638,4 +575,13 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
                 .add("debug=" + debug)
                 .toString();
     }
+
+    @SuppressWarnings("PMD.UseVarargs")
+    private String[] copyStringArray(final String[] array) {
+        return Optional.ofNullable(array)
+                .filter(strings -> strings.length > 0)
+                .map(strings -> Arrays.copyOf(strings, strings.length))
+                .orElse(null);
+    }
+
 }

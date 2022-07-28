@@ -30,20 +30,26 @@ import java.util.stream.Stream;
 import static com.github.dkorotych.gradle.maven.MavenDescriptor.isMavenExecutionFile;
 import static com.github.dkorotych.gradle.maven.MavenDescriptor.isMavenExecutionWrapperFile;
 
+/**
+ * A provider that allows you to find a Maven installation directory.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com).
+ */
 public class MavenHomeProvider {
     private Path mavenHome;
 
+    /**
+     * Try to find Maven installed in the system.
+     * If {@code MAVEN_HOME}, {@code M2_HOME} or {@code maven.home} variables are set in the system and Maven
+     * executable files are found in them, then this directory is considered
+     *
+     * @return true, if Maven founded by environment settings, false - otherwise
+     */
     public boolean findMavenHome() {
-        if (mavenHome == null) {
-            if (tryToSetMavenHome("maven.home", true)) {
-                return true;
-            }
-            if (tryToSetMavenHome("MAVEN_HOME", false)) {
-                return true;
-            }
-            return tryToSetMavenHome("M2_HOME", false);
-        }
-        return true;
+        return mavenHome != null
+                || tryToSetMavenHome("maven.home", true)
+                || tryToSetMavenHome("MAVEN_HOME", false)
+                || tryToSetMavenHome("M2_HOME", false);
     }
 
     /**
@@ -56,12 +62,13 @@ public class MavenHomeProvider {
     }
 
     /**
-     * Sets the Maven directory for the process. The supplied argument is evaluated as per
-     * {@link org.gradle.api.Project#file(Object)}.
+     * Sets the Maven directory for the process.
+     * The supplied argument is evaluated as per {@link org.gradle.api.Project#file(Object)}.
      *
      * @param dir The Maven directory
      */
-    public void setMavenHome(File dir) {
+    @SuppressWarnings("PMD.CognitiveComplexity")
+    public void setMavenHome(final File dir) {
         mavenHome = Optional.ofNullable(dir)
                 .filter(File::exists)
                 .map(file -> {
@@ -72,15 +79,16 @@ public class MavenHomeProvider {
                     }
                 })
                 .map(file -> {
+                    File returnValue = null;
                     if (file.isDirectory()) {
-                        try (final Stream<Path> files = Files.find(file.toPath(), 2, (path, basicFileAttributes) -> {
+                        try (Stream<Path> files = Files.find(file.toPath(), 2, (path, basicFileAttributes) -> {
                             final File currentFile = path.toFile();
                             return isMavenExecutionFile(currentFile) || isMavenExecutionWrapperFile(currentFile);
                         })) {
                             final Path mavenExecutionFile = files.findFirst().orElse(null);
                             if (mavenExecutionFile != null) {
                                 setMavenHome(mavenExecutionFile);
-                                return Optional.ofNullable(getMavenHome())
+                                returnValue = Optional.ofNullable(getMavenHome())
                                         .map(Path::toFile)
                                         .orElse(null);
                             }
@@ -94,19 +102,19 @@ public class MavenHomeProvider {
                                     .map(File::getName)
                                     .orElse(null);
                             if ("bin".equals(parentName)) {
-                                return Optional.of(file)
+                                returnValue = Optional.of(file)
                                         .map(File::getParentFile)
                                         .map(File::getParentFile)
                                         .orElse(null);
                             }
                         }
                         if (isMavenExecutionWrapperFile(file)) {
-                            return Optional.of(file)
+                            returnValue = Optional.of(file)
                                     .map(File::getParentFile)
                                     .orElse(null);
                         }
                     }
-                    return null;
+                    return returnValue;
                 })
                 .orElseThrow(() -> new IncorrectMavenInstallationDirectoryException(dir))
                 .toPath()
@@ -115,11 +123,11 @@ public class MavenHomeProvider {
     }
 
     /**
-     * Sets the Maven directory for the process
+     * Sets the Maven directory for the process.
      *
      * @param path The Maven directory
      */
-    public void setMavenHome(String path) {
+    public void setMavenHome(final String path) {
         final File directory = Optional.ofNullable(path)
                 .map(String::trim)
                 .filter(((Predicate<String>) String::isEmpty).negate())
@@ -130,18 +138,19 @@ public class MavenHomeProvider {
     }
 
     /**
-     * Sets the Maven directory for the process
+     * Sets the Maven directory for the process.
      *
      * @param path The Maven directory
      */
-    public void setMavenHome(Path path) {
-        final File directory = Optional.ofNullable(path).
-                map(Path::toFile).
-                orElse(null);
+    public void setMavenHome(final Path path) {
+        final File directory = Optional.ofNullable(path)
+                .map(Path::toFile)
+                .orElse(null);
         setMavenHome(directory);
     }
 
-    private boolean tryToSetMavenHome(String name, boolean property) {
+    @SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock"})
+    private boolean tryToSetMavenHome(final String name, final boolean property) {
         try {
             final String path = Optional.ofNullable(name)
                     .filter(StringUtils::isNotBlank)

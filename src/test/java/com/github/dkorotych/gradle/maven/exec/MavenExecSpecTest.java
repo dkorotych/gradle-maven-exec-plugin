@@ -41,7 +41,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 
 class MavenExecSpecTest {
-    private static final Supplier<List<PropertyDescriptor>> SPECIFICATION_DESCRIPTORS = MemoizedSupplier.create(() -> {
+    private static final Supplier<List<PropertyDescriptor>> SPECIFICATION_DESCRIPTORS = MemoizedSupplier.of(() -> {
         final List<String> skipThis = Arrays.asList("mavenDir", "goals", "options");
         try {
             return Arrays.stream(Introspector.getBeanInfo(MavenExecSpec.class).getPropertyDescriptors())
@@ -51,7 +51,7 @@ class MavenExecSpecTest {
             throw new RuntimeException(e);
         }
     });
-    private static final Supplier<List<PropertyDescriptor>> OPTION_DESCRIPTORS = MemoizedSupplier.create(() -> {
+    private static final Supplier<List<PropertyDescriptor>> OPTION_DESCRIPTORS = MemoizedSupplier.of(() -> {
         try {
             return Arrays.asList(Introspector.getBeanInfo(MavenOptions.class).getPropertyDescriptors());
         } catch (IntrospectionException e) {

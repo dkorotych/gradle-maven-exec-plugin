@@ -18,10 +18,24 @@ package com.github.dkorotych.gradle.maven;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
+/**
+ * A supplier which caches the instance retrieved during the first call value.
+ *
+ * @param <T> Object type
+ * @author Dmitry Korotych (dkorotych at gmail dot com).
+ */
 public abstract class MemoizedSupplier<T> implements Supplier<T> {
     private final AtomicReference<T> cached = new AtomicReference<>();
 
-    public static <O> MemoizedSupplier<O> create(final Supplier<O> creator) {
+    /**
+     * Returns a supplier which caches the instance retrieved during the first call to get()
+     * and returns that value on subsequent calls to get().
+     *
+     * @param creator Real value supplier
+     * @param <O>     Object type
+     * @return Cached supplier
+     */
+    public static <O> MemoizedSupplier<O> of(final Supplier<O> creator) {
         return new MemoizedSupplier<O>() {
             @Override
             protected O create() {

@@ -28,10 +28,20 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.StreamSupport;
 
+/**
+ * Extension for a project to support methods to directly invoke the Maven task execution.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
+ */
 public class MavenExecConvention {
     private final Project project;
 
-    public MavenExecConvention(Project project) {
+    /**
+     * New instance of the Maven convention.
+     *
+     * @param project Current Gradle project
+     */
+    public MavenExecConvention(final Project project) {
         this.project = Objects.requireNonNull(project, "Project should be not null");
     }
 
@@ -41,7 +51,7 @@ public class MavenExecConvention {
      * @param configure Configuration closure for execute action
      * @return Result of execution
      */
-    public ExecResult mavenexec(Closure<MavenExecSpec> configure) {
+    public ExecResult mavenexec(final Closure<MavenExecSpec> configure) {
         Objects.requireNonNull(configure, "Configure closure should not be null");
         try {
             return project.exec(execSpec -> {
@@ -49,17 +59,17 @@ public class MavenExecConvention {
                 ClosureBackedAction.execute(delegate, configure);
                 execSpec.setExecutable(delegate.getExecutable());
             }).assertNormalExitValue();
-        } catch (Throwable throwable) {
-            if (throwable.getCause() != null) {
-                printCauseMessagesWithoutLast(throwable, project.getLogger());
+        } catch (Exception exception) {
+            if (exception.getCause() != null) {
+                printCauseMessagesWithoutLast(exception, project.getLogger());
             }
-            throw throwable;
+            throw exception;
         }
     }
 
-    private void printCauseMessagesWithoutLast(Throwable throwable, Logger logger) {
+    private void printCauseMessagesWithoutLast(final Exception e, final Logger logger) {
         final Iterator<Throwable> iterator = new Iterator<Throwable>() {
-            private Throwable current = throwable;
+            private Throwable current = e;
 
             @Override
             public boolean hasNext() {
@@ -68,7 +78,8 @@ public class MavenExecConvention {
 
             @Override
             public Throwable next() {
-                return current = current.getCause();
+                current = current.getCause();
+                return current;
             }
         };
         StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator,

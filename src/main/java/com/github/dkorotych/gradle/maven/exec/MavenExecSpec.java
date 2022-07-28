@@ -34,6 +34,7 @@ import java.util.Set;
  *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
+@SuppressWarnings("PMD.ExcessivePublicCount")
 public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     /**
      * Returns the Maven directory for the process.
@@ -45,21 +46,21 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     File getMavenDir();
 
     /**
-     * Sets the Maven directory for the process. The supplied argument is evaluated as per
-     * {@link org.gradle.api.Project#file(Object)}.
+     * Sets the Maven directory for the process.
+     * The supplied argument is evaluated as per {@link org.gradle.api.Project#file(Object)}.
      *
      * @param dir The Maven directory
      */
     void setMavenDir(File dir);
 
     /**
-     * Sets the Maven directory for the process. The supplied argument is evaluated as per
-     * {@link org.gradle.api.Project#file(Object)}.
+     * Sets the Maven directory for the process.
+     * The supplied argument is evaluated as per {@link org.gradle.api.Project#file(Object)}.
      *
      * @param dir The Maven directory
      * @return this
      */
-    default MavenExecSpec mavenDir(File dir) {
+    default MavenExecSpec mavenDir(final File dir) {
         setMavenDir(dir);
         return this;
     }
@@ -70,7 +71,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
      * @param goals goals for the Maven
      * @return this
      */
-    default MavenExecSpec goals(String... goals) {
+    default MavenExecSpec goals(final String... goals) {
         if (goals != null) {
             return goals(Arrays.asList(goals));
         }
@@ -83,22 +84,11 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
      * @param goals goals for the Maven
      * @return this
      */
-    default MavenExecSpec goals(Iterable<String> goals) {
+    default MavenExecSpec goals(final Iterable<String> goals) {
         if (goals != null) {
             CollectionUtils.addAll(getGoals(), goals);
         }
         return this;
-    }
-
-    /**
-     * Sets the goals for the Maven.
-     *
-     * @param goals goals for the Maven
-     * @return this
-     */
-    default MavenExecSpec setGoals(Iterable<String> goals) {
-        getGoals().clear();
-        return goals(goals);
     }
 
     /**
@@ -110,12 +100,22 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     Set<String> getGoals();
 
     /**
+     * Sets the goals for the Maven.
+     *
+     * @param goals goals for the Maven
+     */
+    default void setGoals(final Iterable<String> goals) {
+        getGoals().clear();
+        goals(goals);
+    }
+
+    /**
      * Command line options.
      *
      * @param options Options closure
      * @return this
      */
-    default MavenExecSpec options(Closure<MavenOptions> options) {
+    default MavenExecSpec options(final Closure<MavenOptions> options) {
         ClosureBackedAction.execute(getOptions(), options);
         return this;
     }
@@ -131,7 +131,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setAlsoMake(boolean alsoMake) {
+    default void setAlsoMake(final boolean alsoMake) {
         getOptions().setAlsoMake(alsoMake);
     }
 
@@ -142,7 +142,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setAlsoMakeDependents(boolean alsoMakeDependents) {
+    default void setAlsoMakeDependents(final boolean alsoMakeDependents) {
         getOptions().setAlsoMakeDependents(alsoMakeDependents);
     }
 
@@ -153,7 +153,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setBatchMode(boolean batchMode) {
+    default void setBatchMode(final boolean batchMode) {
         getOptions().setBatchMode(batchMode);
     }
 
@@ -165,7 +165,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setBuilder(String builder) {
+    default void setBuilder(final String builder) {
         getOptions().setBuilder(builder);
     }
 
@@ -176,7 +176,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setStrictChecksums(boolean strictChecksums) {
+    default void setStrictChecksums(final boolean strictChecksums) {
         getOptions().setStrictChecksums(strictChecksums);
     }
 
@@ -187,7 +187,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setLaxChecksums(boolean laxChecksums) {
+    default void setLaxChecksums(final boolean laxChecksums) {
         getOptions().setLaxChecksums(laxChecksums);
     }
 
@@ -199,7 +199,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setColor(String color) {
+    default void setColor(final String color) {
         getOptions().setColor(color);
     }
 
@@ -210,7 +210,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setCheckPluginUpdates(boolean checkPluginUpdates) {
+    default void setCheckPluginUpdates(final boolean checkPluginUpdates) {
         getOptions().setCheckPluginUpdates(checkPluginUpdates);
     }
 
@@ -222,7 +222,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setDefine(Map<String, String> define) {
+    default void setDefine(final Map<String, String> define) {
         getOptions().setDefine(define);
     }
 
@@ -233,7 +233,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setErrors(boolean errors) {
+    default void setErrors(final boolean errors) {
         getOptions().setErrors(errors);
     }
 
@@ -245,7 +245,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setEncryptMasterPassword(String encryptMasterPassword) {
+    default void setEncryptMasterPassword(final String encryptMasterPassword) {
         getOptions().setEncryptMasterPassword(encryptMasterPassword);
     }
 
@@ -257,7 +257,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setEncryptPassword(String encryptPassword) {
+    default void setEncryptPassword(final String encryptPassword) {
         getOptions().setEncryptPassword(encryptPassword);
     }
 
@@ -269,7 +269,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setFile(File file) {
+    default void setFile(final File file) {
         getOptions().setFile(file);
     }
 
@@ -280,7 +280,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setFailAtEnd(boolean failAtEnd) {
+    default void setFailAtEnd(final boolean failAtEnd) {
         getOptions().setFailAtEnd(failAtEnd);
     }
 
@@ -291,7 +291,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setFailFast(boolean failFast) {
+    default void setFailFast(final boolean failFast) {
         getOptions().setFailFast(failFast);
     }
 
@@ -302,7 +302,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setFailNever(boolean failNever) {
+    default void setFailNever(final boolean failNever) {
         getOptions().setFailNever(failNever);
     }
 
@@ -314,7 +314,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setGlobalSettings(File globalSettings) {
+    default void setGlobalSettings(final File globalSettings) {
         getOptions().setGlobalSettings(globalSettings);
     }
 
@@ -326,7 +326,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setGlobalToolchains(File globalToolchains) {
+    default void setGlobalToolchains(final File globalToolchains) {
         getOptions().setGlobalToolchains(globalToolchains);
     }
 
@@ -337,7 +337,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setHelp(boolean help) {
+    default void setHelp(final boolean help) {
         getOptions().setHelp(help);
     }
 
@@ -349,7 +349,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setLogFile(File logFile) {
+    default void setLogFile(final File logFile) {
         getOptions().setLogFile(logFile);
     }
 
@@ -360,7 +360,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setLegacyLocalRepository(boolean legacyLocalRepository) {
+    default void setLegacyLocalRepository(final boolean legacyLocalRepository) {
         getOptions().setLegacyLocalRepository(legacyLocalRepository);
     }
 
@@ -371,7 +371,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setNonRecursive(boolean nonRecursive) {
+    default void setNonRecursive(final boolean nonRecursive) {
         getOptions().setNonRecursive(nonRecursive);
     }
 
@@ -382,7 +382,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setNoPluginRegistry(boolean noPluginRegistry) {
+    default void setNoPluginRegistry(final boolean noPluginRegistry) {
         getOptions().setNoPluginRegistry(noPluginRegistry);
     }
 
@@ -393,7 +393,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setNoPluginUpdates(boolean noPluginUpdates) {
+    default void setNoPluginUpdates(final boolean noPluginUpdates) {
         getOptions().setNoPluginUpdates(noPluginUpdates);
     }
 
@@ -404,7 +404,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setNoSnapshotUpdates(boolean noSnapshotUpdates) {
+    default void setNoSnapshotUpdates(final boolean noSnapshotUpdates) {
         getOptions().setNoSnapshotUpdates(noSnapshotUpdates);
     }
 
@@ -415,7 +415,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setNoTransferProgress(boolean noTransferProgress) {
+    default void setNoTransferProgress(final boolean noTransferProgress) {
         getOptions().setNoTransferProgress(noTransferProgress);
     }
 
@@ -426,7 +426,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setOffline(boolean offline) {
+    default void setOffline(final boolean offline) {
         getOptions().setOffline(offline);
     }
 
@@ -438,7 +438,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setActivateProfiles(String[] activateProfiles) {
+    default void setActivateProfiles(final String[] activateProfiles) {
         getOptions().setActivateProfiles(activateProfiles);
     }
 
@@ -450,7 +450,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setProjects(String[] projects) {
+    default void setProjects(final String[] projects) {
         getOptions().setProjects(projects);
     }
 
@@ -461,7 +461,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setQuiet(boolean quiet) {
+    default void setQuiet(final boolean quiet) {
         getOptions().setQuiet(quiet);
     }
 
@@ -473,7 +473,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setResumeFrom(String resumeFrom) {
+    default void setResumeFrom(final String resumeFrom) {
         getOptions().setResumeFrom(resumeFrom);
     }
 
@@ -485,7 +485,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setSettings(File settings) {
+    default void setSettings(final File settings) {
         getOptions().setSettings(settings);
     }
 
@@ -497,7 +497,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setToolchains(File toolchains) {
+    default void setToolchains(final File toolchains) {
         getOptions().setToolchains(toolchains);
     }
 
@@ -509,7 +509,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setThreads(String threads) {
+    default void setThreads(final String threads) {
         getOptions().setThreads(threads);
     }
 
@@ -520,7 +520,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setUpdateSnapshots(boolean updateSnapshots) {
+    default void setUpdateSnapshots(final boolean updateSnapshots) {
         getOptions().setUpdateSnapshots(updateSnapshots);
     }
 
@@ -531,7 +531,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setUpdatePlugins(boolean updatePlugins) {
+    default void setUpdatePlugins(final boolean updatePlugins) {
         getOptions().setUpdatePlugins(updatePlugins);
     }
 
@@ -542,7 +542,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setVersion(boolean version) {
+    default void setVersion(final boolean version) {
         getOptions().setVersion(version);
     }
 
@@ -553,7 +553,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setShowVersion(boolean showVersion) {
+    default void setShowVersion(final boolean showVersion) {
         getOptions().setShowVersion(showVersion);
     }
 
@@ -564,7 +564,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
-    default void setDebug(boolean debug) {
+    default void setDebug(final boolean debug) {
         getOptions().setDebug(debug);
     }
 }

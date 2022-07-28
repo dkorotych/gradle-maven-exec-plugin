@@ -27,6 +27,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.*;
 
+/**
+ * Specifies options for launching a Maven process.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
+ */
 public class MavenExecSpecDelegate implements MavenExecSpec {
     private File mavenDir;
     private final MavenOptions options = new DefaultMavenOptions();
@@ -34,7 +39,13 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     private final ExecSpec delegate;
     private final Project project;
 
-    public MavenExecSpecDelegate(ExecSpec delegate, Project project) {
+    /**
+     * Create new options for launching a Maven process.
+     *
+     * @param delegate Real process executor
+     * @param project  Current project
+     */
+    public MavenExecSpecDelegate(final ExecSpec delegate, final Project project) {
         this.delegate = Objects.requireNonNull(delegate, "Exec specification delegate should be not null");
         this.project = Objects.requireNonNull(project, "Project should be not null");
     }
@@ -45,7 +56,7 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
-    public void setMavenDir(File dir) {
+    public void setMavenDir(final File dir) {
         mavenDir = dir;
     }
 
@@ -60,7 +71,7 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
-    public MavenExecSpec setIgnoreExitValue(boolean ignoreExitValue) {
+    public MavenExecSpec setIgnoreExitValue(final boolean ignoreExitValue) {
         delegate.setIgnoreExitValue(ignoreExitValue);
         return this;
     }
@@ -71,7 +82,7 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
-    public MavenExecSpec setStandardInput(InputStream inputStream) {
+    public MavenExecSpec setStandardInput(final InputStream inputStream) {
         delegate.setStandardInput(inputStream);
         return this;
     }
@@ -82,7 +93,7 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
-    public MavenExecSpec setStandardOutput(OutputStream outputStream) {
+    public MavenExecSpec setStandardOutput(final OutputStream outputStream) {
         delegate.setStandardOutput(outputStream);
         return this;
     }
@@ -93,7 +104,7 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
-    public MavenExecSpec setErrorOutput(OutputStream outputStream) {
+    public MavenExecSpec setErrorOutput(final OutputStream outputStream) {
         delegate.setErrorOutput(outputStream);
         return this;
     }
@@ -118,17 +129,17 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
-    public void setExecutable(String executable) {
+    public void setExecutable(final String executable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setExecutable(Object executable) {
+    public void setExecutable(final Object executable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MavenExecSpec executable(Object executable) {
+    public MavenExecSpec executable(final Object executable) {
         throw new UnsupportedOperationException();
     }
 
@@ -138,17 +149,17 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
-    public void setWorkingDir(File dir) {
+    public void setWorkingDir(final File dir) {
         delegate.setWorkingDir(dir);
     }
 
     @Override
-    public void setWorkingDir(Object dir) {
+    public void setWorkingDir(final Object dir) {
         delegate.setWorkingDir(dir);
     }
 
     @Override
-    public MavenExecSpec workingDir(Object dir) {
+    public MavenExecSpec workingDir(final Object dir) {
         delegate.setWorkingDir(dir);
         return this;
     }
@@ -159,7 +170,7 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
-    public void setEnvironment(Map<String, ?> environmentVariables) {
+    public void setEnvironment(final Map<String, ?> environmentVariables) {
         if (environmentVariables == null) {
             delegate.getEnvironment().clear();
         } else {
@@ -168,19 +179,19 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
-    public MavenExecSpec environment(Map<String, ?> environmentVariables) {
+    public MavenExecSpec environment(final Map<String, ?> environmentVariables) {
         setEnvironment(environmentVariables);
         return this;
     }
 
     @Override
-    public MavenExecSpec environment(String name, Object value) {
+    public MavenExecSpec environment(final String name, final Object value) {
         delegate.environment(name, value);
         return this;
     }
 
     @Override
-    public MavenExecSpec copyTo(ProcessForkOptions options) {
+    public MavenExecSpec copyTo(final ProcessForkOptions options) {
         throw new UnsupportedOperationException();
     }
 }

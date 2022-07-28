@@ -43,7 +43,7 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
                 execSpec.setErrorOutput(errorStream);
                 execSpec.setArgs(options);
             }).assertNormalExitValue();
-        } catch (Throwable e) {
+        } catch (Exception e) {
             String description = errorStream.toString();
             if (description.trim().isEmpty()) {
                 description = e.getMessage();

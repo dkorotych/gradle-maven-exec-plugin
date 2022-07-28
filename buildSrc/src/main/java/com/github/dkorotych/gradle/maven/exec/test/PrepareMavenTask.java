@@ -65,7 +65,7 @@ public class PrepareMavenTask extends DefaultTask {
                 execSpec.setErrorOutput(errorStream);
                 execSpec.setArgs(Arrays.asList("wrapper:wrapper", "-Dmaven=" + version));
             }).assertNormalExitValue();
-        } catch (Throwable e) {
+        } catch (Exception e) {
             String description = errorStream.toString();
             if (description.trim().isEmpty()) {
                 description = outputStream.toString();

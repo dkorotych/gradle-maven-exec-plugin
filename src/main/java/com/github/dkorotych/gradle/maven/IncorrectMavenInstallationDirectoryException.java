@@ -20,8 +20,18 @@ import org.gradle.api.GradleException;
 
 import java.io.File;
 
+/**
+ * Exception with information about Maven installation or finding issue.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
+ */
 public class IncorrectMavenInstallationDirectoryException extends GradleException {
-    public IncorrectMavenInstallationDirectoryException(File directory) {
+    /**
+     * Create a Maven installation exception.
+     *
+     * @param directory Maven installation directory
+     */
+    public IncorrectMavenInstallationDirectoryException(final File directory) {
         super("Maven home is set to: '"
                 + ObjectUtils.defaultIfNull(directory, "blank")
                 + "' which is not a correct Maven installation directory");

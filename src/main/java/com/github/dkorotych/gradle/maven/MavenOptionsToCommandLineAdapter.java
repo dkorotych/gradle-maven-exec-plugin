@@ -19,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.GradleException;
 
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.lang.reflect.Method;
@@ -28,13 +27,28 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.beans.Introspector.getBeanInfo;
+import static java.util.Arrays.stream;
+
+/**
+ * A converter that converts Maven process configuration and invocation options into version-specific command
+ * line arguments.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com)
+ */
 public class MavenOptionsToCommandLineAdapter {
     private static final Pattern OPTION_PATTERN = Pattern.compile("(\\p{Upper})");
     private static final Pattern QUOTE_VALIDATION_PATTERN = Pattern.compile("\\s");
     private final MavenOptions options;
     private final List<PropertyDescriptor> descriptors;
 
-    public MavenOptionsToCommandLineAdapter(MavenOptions options, Set<String> supportedOptions) {
+    /**
+     * Create options to command line converter.
+     *
+     * @param options          Maven options
+     * @param supportedOptions Supported options for this Maven version
+     */
+    public MavenOptionsToCommandLineAdapter(final MavenOptions options, final Set<String> supportedOptions) {
         this.options = Objects.requireNonNull(options, "Maven options should be not null");
         try {
             final Predicate<PropertyDescriptor> predicate = supportedOptions == null
@@ -43,15 +57,21 @@ public class MavenOptionsToCommandLineAdapter {
                 final String option = createOption(descriptor.getName());
                 return supportedOptions.contains(option);
             };
-            descriptors = Arrays.stream(Introspector.getBeanInfo(DefaultMavenOptions.class, Object.class).getPropertyDescriptors())
+            descriptors = stream(getBeanInfo(DefaultMavenOptions.class, Object.class).getPropertyDescriptors())
                     .filter(predicate)
                     .sorted(Comparator.comparing(PropertyDescriptor::getName))
                     .collect(Collectors.toList());
         } catch (IntrospectionException e) {
-            throw new RuntimeException(e);
+            throw new GradleException("Can't create property descriptions", e);
         }
     }
 
+    /**
+     * Build command line.
+     *
+     * @return Command line
+     */
+    @SuppressWarnings("PMD.CognitiveComplexity")
     public List<String> asCommandLine() {
         final ArrayList<String> arguments = new ArrayList<>();
         for (final PropertyDescriptor descriptor : descriptors) {
@@ -83,59 +103,70 @@ public class MavenOptionsToCommandLineAdapter {
         return Collections.unmodifiableList(arguments);
     }
 
-    private String createOption(String property) {
+    private String createOption(final String property) {
         return "--" + OPTION_PATTERN.matcher(property)
                 .replaceAll("-$1")
                 .toLowerCase(Locale.ENGLISH);
     }
 
-    private void addBooleanOption(PropertyDescriptor descriptor, Method readMethod, List<String> arguments) {
+    private void addBooleanOption(final PropertyDescriptor descriptor, final Method readMethod,
+                                  final List<String> arguments) {
         try {
             if ((Boolean) readMethod.invoke(options)) {
                 arguments.add(createOption(descriptor.getName()));
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new GradleException("Can't convert boolean property to option", e);
         }
     }
 
-    private void addStringOption(PropertyDescriptor descriptor, Method readMethod, List<String> arguments) {
+    private void addStringOption(final PropertyDescriptor descriptor, final Method readMethod,
+                                 final List<String> arguments) {
         try {
-            String value = (String) readMethod.invoke(options);
+            final String value = (String) readMethod.invoke(options);
             if (StringUtils.isNotBlank(value)) {
                 addStringOption(descriptor.getName(), value, arguments);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new GradleException("Can't convert string property to option", e);
         }
     }
 
-    private void addFileOption(PropertyDescriptor descriptor, Method readMethod, List<String> arguments) {
+    private void addStringOption(final String property, final String value, final List<String> arguments) {
+        if (StringUtils.isNotBlank(value)) {
+            arguments.add(createOption(property));
+            arguments.add(doubleQuoteIfNecessary(value));
+        }
+    }
+
+    private void addFileOption(final PropertyDescriptor descriptor, final Method readMethod,
+                               final List<String> arguments) {
         try {
-            File value = (File) readMethod.invoke(options);
+            final File value = (File) readMethod.invoke(options);
             if (value != null) {
                 addStringOption(descriptor.getName(), value.getAbsolutePath(), arguments);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new GradleException("Can't convert file property to option", e);
         }
     }
 
-    private void addStringArrayOption(PropertyDescriptor descriptor, Method readMethod, List<String> arguments) {
+    private void addStringArrayOption(final PropertyDescriptor descriptor, final Method readMethod,
+                                      final List<String> arguments) {
         try {
-            String[] value = (String[]) readMethod.invoke(options);
+            final String[] value = (String[]) readMethod.invoke(options);
             if (value != null && value.length > 0) {
-                final String arrayAsString = Arrays.stream(value)
+                final String arrayAsString = stream(value)
                         .filter(StringUtils::isNotBlank)
                         .collect(Collectors.joining(","));
                 addStringOption(descriptor.getName(), arrayAsString, arguments);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new GradleException("Can't convert string array property to option", e);
         }
     }
 
-    private void addMapOption(Map<String, String> value, List<String> arguments) {
+    private void addMapOption(final Map<String, String> value, final List<String> arguments) {
         if (value != null) {
             value.entrySet().stream()
                     .filter(entry -> StringUtils.isNotBlank(entry.getKey()) && StringUtils.isNotBlank(entry.getValue()))
@@ -144,14 +175,7 @@ public class MavenOptionsToCommandLineAdapter {
         }
     }
 
-    private void addStringOption(String property, String value, List<String> arguments) {
-        if (StringUtils.isNotBlank(value)) {
-            arguments.add(createOption(property));
-            arguments.add(doubleQuoteIfNecessary(value));
-        }
-    }
-
-    private String doubleQuoteIfNecessary(String value) {
+    private String doubleQuoteIfNecessary(final String value) {
         String rc = value;
         if (QUOTE_VALIDATION_PATTERN.matcher(rc).find() && !rc.startsWith("\"")) {
             rc = '"' + rc + '"';

@@ -27,6 +27,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * A builder that allows you to build a Maven execution command and supported options depending on the operating
+ * system and Maven installation directory.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com).
+ */
 public class CommandLineCreator {
     private final MavenExecSpec specification;
     private final Project project;
@@ -36,7 +42,13 @@ public class CommandLineCreator {
     private String executable;
     private List<String> arguments;
 
-    public CommandLineCreator(MavenExecSpec specification, Project project) {
+    /**
+     * Create Maven command line builder.
+     *
+     * @param specification Options for launching a Maven process.
+     * @param project       Current project
+     */
+    public CommandLineCreator(final MavenExecSpec specification, final Project project) {
         this.specification = Objects.requireNonNull(specification, "Specification should be not null");
         this.project = Objects.requireNonNull(project, "Project should be not null");
         logger = project.getLogger();
@@ -48,17 +60,30 @@ public class CommandLineCreator {
         prepareCommandLine();
     }
 
+    /**
+     * Prepare Maven process executable for entered specifications.
+     *
+     * @return Maven process executable
+     * @see MavenDescriptor#getExecutable()
+     */
     public String getExecutable() {
         return executable;
     }
 
+    /**
+     * Prepare Maven process arguments for entered specifications.
+     *
+     * @return Command line arguments
+     * @see MavenOptionsToCommandLineAdapter#asCommandLine()
+     */
     public List<String> getArguments() {
         return arguments;
     }
 
     private void prepareCommandLine() {
         if (getMavenDir() == null) {
-            logger.info("The directory with the executable Maven file is not set. The plugin will try to find the installation by itself");
+            logger.info("The directory with the executable Maven file is not set. "
+                    + "The plugin will try to find the installation by itself");
             findMavenExecutable();
             if (getMavenDir() == null) {
                 throw new GradleException("Maven installation not found");
@@ -75,16 +100,14 @@ public class CommandLineCreator {
 
     private void findMavenExecutable() {
         findMavenInDirectory(specification.getWorkingDir());
-        if (getMavenDir() == null) {
-            if (!mavenHomeProvider.findMavenHome()) {
-                findMavenInDirectory(project.getBuildDir());
-                findMavenInDirectory(project.getProjectDir());
-                findMavenInDirectory(project.getRootDir());
-            }
+        if (getMavenDir() == null && !mavenHomeProvider.findMavenHome()) {
+            findMavenInDirectory(project.getBuildDir());
+            findMavenInDirectory(project.getProjectDir());
+            findMavenInDirectory(project.getRootDir());
         }
     }
 
-    private void findMavenInDirectory(File directory) {
+    private void findMavenInDirectory(final File directory) {
         if (getMavenDir() == null) {
             logger.info("Find Maven executable in {}", directory);
             try {

@@ -27,19 +27,30 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * A builder that allows you to build an execution command, depending on the operating system and Maven installation
+ * directory.
+ *
+ * @author Dmitry Korotych (dkorotych at gmail dot com).
+ */
 public class MavenExecutableProvider {
     private final Path mavenHome;
-    private final MemoizedSupplier<String> executableSupplier = MemoizedSupplier.create(this::build);
+    private final MemoizedSupplier<String> executableSupplier = MemoizedSupplier.of(this::build);
 
     /**
-     * Create new builder.
+     * Created a cached Maven executable command.
      *
      * @param mavenHome Maven installation directory
      */
-    public MavenExecutableProvider(Path mavenHome) {
+    public MavenExecutableProvider(final Path mavenHome) {
         this.mavenHome = mavenHome;
     }
 
+    /**
+     * Get Maven execution command.
+     *
+     * @return Maven executable command
+     */
     public String getExecutable() {
         return executableSupplier.get();
     }
@@ -47,7 +58,8 @@ public class MavenExecutableProvider {
     private String build() {
         final boolean hasWrapper = Optional.ofNullable(mavenHome)
                 .flatMap(path -> {
-                    try (final Stream<Path> files = Files.list(path)) {
+                    try (@SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock"})
+                         Stream<Path> files = Files.list(path)) {
                         return files.map(Path::toFile)
                                 .filter(MavenDescriptor::isMavenExecutionWrapperFile)
                                 .findFirst();
@@ -62,30 +74,30 @@ public class MavenExecutableProvider {
             parameters.add("cmd");
             parameters.add("/c");
         }
-        String command = "mvn" + (hasWrapper ? 'w' : "");
+        StringBuilder command = new StringBuilder("mvn" + (hasWrapper ? 'w' : ""));
         if (mavenHome != null) {
             final Path pathToRunner;
             if (hasWrapper) {
-                pathToRunner = mavenHome.resolve(command);
+                pathToRunner = mavenHome.resolve(command.toString());
             } else {
-                pathToRunner = mavenHome.resolve("bin").resolve(command);
+                pathToRunner = mavenHome.resolve("bin").resolve(command.toString());
             }
-            command = pathToRunner.toAbsolutePath().toString();
+            command = new StringBuilder(pathToRunner.toAbsolutePath().toString());
         }
         if (windows) {
-            String extension = ".cmd";
+            final String extension = ".cmd";
             if (hasWrapper) {
-                command += extension;
+                command.append(extension);
             } else {
-                boolean oldVersion = Paths.get(command + ".bat").toFile().exists();
+                final boolean oldVersion = Paths.get(command + ".bat").toFile().exists();
                 if (oldVersion) {
-                    command += ".bat";
+                    command.append(".bat");
                 } else {
-                    command += extension;
+                    command.append(extension);
                 }
             }
         }
-        parameters.add(command);
+        parameters.add(command.toString());
         return CollectionUtils.asCommandLine(parameters);
     }
 }
