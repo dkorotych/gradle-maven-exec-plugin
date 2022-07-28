@@ -139,7 +139,7 @@ class MavenOptionsToCommandLineAdapterTest {
 
     @ParameterizedTest
     @MethodSource
-    void validateDefine(Map<String, String> define, List<String> expected) throws Exception {
+    void validateDefine(Map<String, String> define, List<String> expected) {
         final MavenOptions options = new DefaultMavenOptions();
         options.setDefine(define);
         final MavenOptionsToCommandLineAdapter adapter = new MavenOptionsToCommandLineAdapter(options, null);

@@ -23,6 +23,8 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 public class DefaultMavenOptions implements MavenOptions, Serializable {
+    private static final long serialVersionUID = 5202374569318582383L;
+
     /**
      * If project list is specified, also build projects required by the list
      */
@@ -574,8 +576,12 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         DefaultMavenOptions that = (DefaultMavenOptions) o;
         return alsoMake == that.alsoMake && alsoMakeDependents == that.alsoMakeDependents && batchMode == that.batchMode && strictChecksums == that.strictChecksums && laxChecksums == that.laxChecksums && checkPluginUpdates == that.checkPluginUpdates && errors == that.errors && failAtEnd == that.failAtEnd && failFast == that.failFast && failNever == that.failNever && help == that.help && legacyLocalRepository == that.legacyLocalRepository && nonRecursive == that.nonRecursive && noPluginRegistry == that.noPluginRegistry && noPluginUpdates == that.noPluginUpdates && noSnapshotUpdates == that.noSnapshotUpdates && noTransferProgress == that.noTransferProgress && offline == that.offline && quiet == that.quiet && updateSnapshots == that.updateSnapshots && updatePlugins == that.updatePlugins && version == that.version && showVersion == that.showVersion && debug == that.debug && Objects.equals(builder, that.builder) && Objects.equals(color, that.color) && Objects.equals(define, that.define) && Objects.equals(encryptMasterPassword, that.encryptMasterPassword) && Objects.equals(encryptPassword, that.encryptPassword) && Objects.equals(file, that.file) && Objects.equals(globalSettings, that.globalSettings) && Objects.equals(globalToolchains, that.globalToolchains) && Objects.equals(logFile, that.logFile) && Arrays.equals(activateProfiles, that.activateProfiles) && Arrays.equals(projects, that.projects) && Objects.equals(resumeFrom, that.resumeFrom) && Objects.equals(settings, that.settings) && Objects.equals(toolchains, that.toolchains) && Objects.equals(threads, that.threads);
     }

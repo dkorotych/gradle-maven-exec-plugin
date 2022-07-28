@@ -59,7 +59,7 @@ class MavenExecSpecTest {
         }
     });
 
-    public static List<PropertyDescriptor> options() throws IntrospectionException {
+    public static List<PropertyDescriptor> options() {
         return SPECIFICATION_DESCRIPTORS.get();
     }
 

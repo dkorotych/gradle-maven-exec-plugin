@@ -37,9 +37,9 @@ public class MavenOptionsToCommandLineAdapter {
     public MavenOptionsToCommandLineAdapter(MavenOptions options, Set<String> supportedOptions) {
         this.options = Objects.requireNonNull(options, "Maven options should be not null");
         try {
-            final Predicate<PropertyDescriptor> predicate = supportedOptions == null ?
-                    descriptor -> true :
-                    descriptor -> {
+            final Predicate<PropertyDescriptor> predicate = supportedOptions == null
+                    ? descriptor -> true
+                    : descriptor -> {
                         final String option = createOption(descriptor.getName());
                         return supportedOptions.contains(option);
                     };

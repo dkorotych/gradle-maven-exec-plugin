@@ -71,7 +71,7 @@ class MavenExecConventionTest {
     }
 
     @Test
-    void error2() throws Exception {
+    void error2() {
         assertThatThrownBy(() -> execute(project, specification -> {
             specification.workingDir(project.getProjectDir());
             specification.mavenDir(project.file("config"))

@@ -47,6 +47,7 @@ dependencies {
     rewrite("org.openrewrite:rewrite-gradle:7.26.0")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:1.24.0")
     rewrite("org.openrewrite.recipe:rewrite-logging-frameworks:1.9.0")
+    rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.8.0")
 }
 
 gradlePlugin {

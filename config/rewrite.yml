@@ -10,3 +10,6 @@ recipeList:
   - org.openrewrite.java.testing.cleanup.BestPractices
   - org.openrewrite.java.testing.assertj.Assertj
   - org.openrewrite.java.testing.assertj.JUnitToAssertj
+  - org.openrewrite.java.cleanup.CommonStaticAnalysis
+  - org.openrewrite.java.cleanup.Cleanup
+  - org.openrewrite.java.cleanup.JavaApiBestPractices
