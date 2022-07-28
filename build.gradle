@@ -21,6 +21,7 @@ plugins {
     id 'com.gradle.plugin-publish' version '1.0.0'
     id 'net.researchgate.release' version '2.7.0'
     id "com.github.hierynomus.license" version "0.14.0"
+    id 'com.github.ben-manes.versions' version '0.42.0'
     id 'ru.vyarus.quality' version '4.8.0'
     id 'ru.vyarus.github-info' version '1.3.0'
     id 'org.openrewrite.rewrite' version '5.24.0'
@@ -46,7 +47,7 @@ dependencies {
     testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
     testImplementation 'com.google.guava:guava:31.1-jre'
 
-    rewrite("org.openrewrite:rewrite-gradle:7.26.0")
+    rewrite("org.openrewrite:rewrite-gradle:7.26.1")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:1.24.0")
     rewrite("org.openrewrite.recipe:rewrite-logging-frameworks:1.9.0")
     rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.8.0")
