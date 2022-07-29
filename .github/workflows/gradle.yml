@@ -53,10 +53,10 @@ jobs:
         run: set
       - name: Show variables
         if: ${{ matrix.java != 'windows-latest' }}
-        run: export MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)
+        run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - name: Show MAVEN_HOME
-        run: echo "$MAVEN_HOME"
+        run: echo "${{ env.MAVEN_HOME }}, $MAVEN_HOME"
       - name: Run plugin tests
         run: mvn --version
       - name: Run plugin tests
-        run: gradle --version --no-daemon
+        run: gradle functionalTest --no-daemon
