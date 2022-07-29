@@ -93,7 +93,7 @@ tasks.named('test') {
 }
 
 license {
-    header project.file('config/license-header.txt')
+    header project.file('gradle/config/license-header.txt')
     ext.year = Calendar.getInstance().get(Calendar.YEAR)
     ext.developers = 'Dmitry Korotych'
     skipExistingHeaders true
@@ -147,7 +147,7 @@ updateVersion.doFirst {
 }
 
 rewrite {
-    configFile = project.getRootProject().file("config/rewrite.yml")
+    configFile = project.getRootProject().file("gradle/config/rewrite.yml")
     activeRecipe("com.github.dkorotych.gradle.maven.exec.MavenExecPlugin")
     exclusion("**/*.gradle")
 }
