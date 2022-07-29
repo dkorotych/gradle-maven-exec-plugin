@@ -32,7 +32,7 @@ jobs:
       matrix:
         java:
           - '8'
-          - '17'
+#          - '17'
         os:
           - 'ubuntu-latest'
           - 'macos-latest'
@@ -48,6 +48,12 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: 'gradle'
+      - name: Show variables
+        if: ${{ matrix.java }} == 'windows-latest'
+        run: set
+      - name: Show variables
+        if: ${{ matrix.java }} != 'windows-latest'
+        run: export
       - name: Run plugin tests
         run: mvn --version
       - name: Run plugin tests
