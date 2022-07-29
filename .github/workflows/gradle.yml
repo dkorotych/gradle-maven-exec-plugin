@@ -26,18 +26,17 @@ jobs:
 #        run: ./gradlew build
 
   validate:
-    name: Validate on ${{ matrix.os }}
+    name: Validate on ${{ matrix.os }} and Java ${{ matrix.java }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        java: [ '8', '17' ]
-        include:
-          - os: ubuntu-latest
-            target: Linux
-          - os: macos-latest
-            target: Macos
-          - os: windows-latest
-            target: Windows
+        java:
+          - '8'
+          - '17'
+        os:
+          - 'ubuntu-latest'
+          - 'macos-latest'
+          - 'windows-latest'
     steps:
       - uses: styfle/cancel-workflow-action@0.9.1
         with:
