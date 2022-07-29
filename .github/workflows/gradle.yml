@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        java: [ '8', '11', '17', '18']
+        java: [ '8', '17' ]
         include:
           - os: ubuntu-latest
             target: Linux
@@ -52,4 +52,4 @@ jobs:
       - name: Run plugin tests
         run: mvn --version
       - name: Run plugin tests
-        run: gradle functionalTest --no-daemon
+        run: gradle --version --no-daemon
