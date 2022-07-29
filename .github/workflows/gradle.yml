@@ -53,7 +53,7 @@ jobs:
         run: set
       - name: Show variables
         if: ${{ matrix.java != 'windows-latest' }}
-        run: export MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2)
+        run: export MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)
       - name: Show MAVEN_HOME
         run: echo "$MAVEN_HOME"
       - name: Run plugin tests
