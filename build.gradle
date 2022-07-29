@@ -19,8 +19,8 @@ plugins {
     id 'java-gradle-plugin'
     id 'idea'
     id 'com.gradle.plugin-publish' version '1.0.0'
-    id 'net.researchgate.release' version '2.7.0'
-    id "com.github.hierynomus.license" version "0.14.0"
+    id 'net.researchgate.release' version '2.8.1'
+    id "com.github.hierynomus.license" version "0.15.0"
     id 'com.github.ben-manes.versions' version '0.42.0'
     id 'ru.vyarus.quality' version '4.8.0'
     id 'ru.vyarus.github-info' version '1.3.0'
@@ -29,7 +29,10 @@ plugins {
 
 apply plugin: MavenTestHelperPlugin
 
-group 'com.github.dkorotych.gradle.maven.exec'
+group = 'com.github.dkorotych.gradle.maven.exec'
+description = 'Gradle Maven Exec Plugin'
+
+def versionPattern = /\d+(?:\.\d+)+/
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -55,10 +58,10 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        'gradle-maven-exec-plugin' {
+        MavenExecPlugin {
             id = "com.github.dkorotych.gradle.maven.exec"
             implementationClass = 'com.github.dkorotych.gradle.maven.exec.MavenExecPlugin'
-            displayName = 'Gradle Maven Exec Plugin'
+            displayName = project.description
         }
     }
 }
@@ -135,10 +138,37 @@ cleanIdea.doLast {
     delete file('.idea')
 }
 
+wrapper.gradleVersion = '5.6.4'
+
+release {
+    git {
+        requireBranch = "(master|$versionPattern)"
+    }
+}
+
+dependencyUpdates {
+    checkForGradleUpdate = false
+    revision = "release"
+    resolutionStrategy {
+        componentSelection {
+            all { ComponentSelection selection ->
+                def candidate = selection.candidate
+                if (candidate.group == 'com.github.hierynomus.license'
+                        && candidate.version >= '0.16.0') {
+                    selection.reject("Plugin ${candidate.group} from version ${candidate.version} uses Gradle 7.0")
+                }
+                if (candidate.group == 'net.researchgate.release'
+                        && candidate.version >= '3.0') {
+                    selection.reject("Plugin ${candidate.group} from version ${candidate.version} uses Gradle 6.9")
+                }
+            }
+        }
+    }
+}
+
 updateVersion.doFirst {
     def file = file('README.md')
     def content = file.text
-    def versionPattern = /\d+(?:\.\d+)+/
     content = content.replaceAll("id \"com.github.dkorotych.gradle-maven-exec\" version \"${versionPattern}\"",
             "id \"com.github.dkorotych.gradle-maven-exec\" version \"${version}\"")
     content = content.replaceAll("gradle-maven-exec-plugin:${versionPattern}",
