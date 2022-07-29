@@ -51,6 +51,7 @@ dependencies {
     testImplementation 'com.google.guava:guava:31.1-jre'
 
     rewrite("org.openrewrite:rewrite-gradle:7.26.1")
+    rewrite("org.openrewrite.recipe:rewrite-github-actions:1.8.0")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:1.24.0")
     rewrite("org.openrewrite.recipe:rewrite-logging-frameworks:1.9.0")
     rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.8.0")

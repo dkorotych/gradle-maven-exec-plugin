@@ -1,6 +1,15 @@
 type: specs.openrewrite.org/v1beta/recipe
 name: com.github.dkorotych.gradle.maven.exec.MavenExecPlugin
 recipeList:
+  - org.openrewrite.github.ActionsSetupJavaAdoptOpenJDKToTemurin
+  - org.openrewrite.github.SetupJavaCaching
+  - org.openrewrite.github.AutoCancelInProgressWorkflow
+  - org.openrewrite.github.ChangeDependabotScheduleInterval:
+      packageEcosystem: github-actions
+      interval: daily
+  - org.openrewrite.github.ChangeDependabotScheduleInterval:
+      packageEcosystem: gradle
+      interval: daily
   - org.openrewrite.gradle.DependencyUseStringNotation
   - org.openrewrite.java.logging.PrintStackTraceToLogError
   - org.openrewrite.java.logging.slf4j.ParameterizedLogging
