@@ -36,7 +36,7 @@ jobs:
         os:
           - 'ubuntu-latest'
           - 'macos-latest'
-          - 'windows-latest'
+#          - 'windows-latest'
     steps:
       - uses: styfle/cancel-workflow-action@0.9.1
         with:
@@ -49,11 +49,13 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: 'gradle'
       - name: Show variables
-        if: ${{ matrix.java }} == 'windows-latest'
+        if: ${{ matrix.java == 'windows-latest' }}
         run: set
       - name: Show variables
-        if: ${{ matrix.java }} != 'windows-latest'
-        run: export
+        if: ${{ matrix.java != 'windows-latest' }}
+        run: mvn --version | grep 'Maven home:' | cut -d ":" -f 2 >> MAVEN_HOME
+      - name: Show MAVEN_HOME
+        run: echo "$MAVEN_HOME"
       - name: Run plugin tests
         run: mvn --version
       - name: Run plugin tests
