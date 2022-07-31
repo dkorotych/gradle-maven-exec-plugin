@@ -24,7 +24,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MavenExecPluginFunctionalTest {
@@ -38,17 +40,24 @@ class MavenExecPluginFunctionalTest {
             "7.5"
     })
     void canRunTask(String version) throws Exception {
-        final File source = Paths.get(getClass().getResource("/fixtures/versions").toURI()).toFile();
+        final File source = Paths.get(requireNonNull(getClass().getResource("/fixtures/versions")).toURI()).toFile();
         FileUtils.copyDirectory(source, projectDir);
         final String task = "realUseCaseTest";
+        final boolean localRun = !Boolean.getBoolean("CI");
+        final ArrayList<String> arguments = new ArrayList<>();
+        arguments.add(task);
+        if (localRun) {
+            arguments.add("--warning-mode");
+            arguments.add("all");
+        }
 
         GradleRunner runner = GradleRunner.create();
         runner.forwardOutput();
         runner.withPluginClasspath();
-        runner.withArguments(task, "--warning-mode", "all");
+        runner.withArguments(arguments);
         runner.withProjectDir(projectDir);
         runner.withGradleVersion(version);
-        runner.withDebug(true);
+        runner.withDebug(localRun);
         BuildResult result = runner.build();
 
         assertThat(result.getOutput())
