@@ -47,7 +47,7 @@ jobs:
           cache: 'gradle'
       - name: Set MAVEN_HOME
         if: ${{ matrix.os == 'windows-latest' }}
-        run: "mvn --version | select-string -pattern 'Maven home: (?<maven_home>.+)' ; 'MAVEN_HOME=' + $matches.maven_home >> $GITHUB_ENV"
+        run: "mvn --version | select-string -pattern 'Maven home: (?<maven_home>.+)' ; ('MAVEN_HOME=' + $matches.maven_home) >> $GITHUB_ENV"
       - name: Set MAVEN_HOME
         if: ${{ matrix.os != 'windows-latest' }}
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
