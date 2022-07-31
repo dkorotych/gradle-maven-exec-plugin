@@ -49,9 +49,9 @@ jobs:
       - if: ${{ matrix.os == 'windows-latest' }}
         name: Set MAVEN_HOME
         run: | 
-          mvn --version
-          select-string 'Maven home: (.+)$'
-          % { 'MAVEN_HOME=' + $_.Matches.Groups[1].Value }
+          mvn --version |
+          select-string 'Maven home: (.+)$' |
+          % { 'MAVEN_HOME=' + $_.Matches.Groups[1].Value } |
           Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - if: ${{ matrix.os != 'windows-latest' }}
         name: Set MAVEN_HOME
