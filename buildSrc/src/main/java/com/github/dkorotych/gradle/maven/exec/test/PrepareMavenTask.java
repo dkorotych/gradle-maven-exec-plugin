@@ -6,6 +6,7 @@ import org.gradle.api.Project;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.internal.os.OperatingSystem;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,6 +26,11 @@ public class PrepareMavenTask extends DefaultTask {
         return "prepareMaven_" + version;
     }
 
+    @Input
+    public String getVersion() {
+        return version;
+    }
+
     public void setVersion(String version) {
         this.version = version;
         Project project = getProject();
@@ -32,11 +38,6 @@ public class PrepareMavenTask extends DefaultTask {
         outputDirectory.mkdirs();
         getOutputs().dir(outputDirectory);
         project.getExtensions().getExtraProperties().set("maven-" + version, outputDirectory);
-    }
-
-    @Input
-    public String getVersion() {
-        return version;
     }
 
     @TaskAction
@@ -91,7 +92,7 @@ public class PrepareMavenTask extends DefaultTask {
                     .filter(((Predicate<String>) s -> s.trim().isEmpty()).negate())
                     .map(Paths::get)
                     .map(path -> path.resolve("bin"))
-                    .map(path -> path.resolve("mvn"))
+                    .map(path -> path.resolve("mvn" + (OperatingSystem.current().isWindows() ? ".cmd" : "")))
                     .map(Path::toAbsolutePath)
                     .map(Path::toString)
                     .orElseThrow(() -> new GradleException("Maven installation not found by MAVEN_HOME environment variable"));
