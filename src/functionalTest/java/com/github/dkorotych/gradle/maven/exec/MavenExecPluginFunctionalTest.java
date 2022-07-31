@@ -18,7 +18,6 @@ package com.github.dkorotych.gradle.maven.exec;
 import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -28,7 +27,6 @@ import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Disabled
 class MavenExecPluginFunctionalTest {
     @TempDir
     File projectDir;

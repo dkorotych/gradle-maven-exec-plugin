@@ -36,7 +36,7 @@ jobs:
         os:
           - 'ubuntu-latest'
           - 'macos-latest'
-#          - 'windows-latest'
+          - 'windows-latest'
     steps:
       - uses: styfle/cancel-workflow-action@0.9.1
         with:
@@ -48,15 +48,11 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: 'gradle'
-      - name: Show variables
+      - name: Set MAVEN_HOME
         if: ${{ matrix.java == 'windows-latest' }}
-        run: set
-      - name: Show variables
+        run: echo "MAVEN_HOME=((Get-Command mvn).Source)" >> $GITHUB_ENV
+      - name: Set MAVEN_HOME
         if: ${{ matrix.java != 'windows-latest' }}
-        run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
-      - name: Show MAVEN_HOME
-        run: echo "${{ env.MAVEN_HOME }}, $MAVEN_HOME"
-      - name: Run plugin tests
-        run: mvn --version
+        run: echo "MAVEN_HOME=$(which mvn)" >> $GITHUB_ENV
       - name: Run plugin tests
         run: gradle functionalTest --no-daemon
