@@ -45,11 +45,11 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: 'gradle'
-      - name: Set MAVEN_EXEC
+      - name: Set MAVEN_HOME
         if: ${{ matrix.os == 'windows-latest' }}
-        run: echo "MAVEN_EXEC=((Get-Command mvn).Source)" >> $GITHUB_ENV
-      - name: Set MAVEN_EXEC
+        run: mvn --version | select-string -pattern 'Maven home:: (?<maven_home>.+)' ; 'MAVEN_HOME=' + $matches.maven_home >> $GITHUB_ENV
+      - name: Set MAVEN_HOME
         if: ${{ matrix.os != 'windows-latest' }}
-        run: echo "MAVEN_EXEC=$(which mvn)" >> $GITHUB_ENV
+        run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - name: Run plugin tests
-        run: gradle functionalTest --no-daemon
+        run: echo $MAVEN_HOME; gradle functionalTest --no-daemon

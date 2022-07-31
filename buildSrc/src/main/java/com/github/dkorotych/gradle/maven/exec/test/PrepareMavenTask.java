@@ -94,12 +94,7 @@ public class PrepareMavenTask extends DefaultTask {
                     .map(path -> path.resolve("mvn"))
                     .map(Path::toAbsolutePath)
                     .map(Path::toString)
-                    .orElseGet(() -> Optional.ofNullable(System.getenv("MAVEN_EXEC"))
-                            .filter(((Predicate<String>) s -> s.trim().isEmpty()).negate())
-                            .map(Paths::get)
-                            .map(Path::toAbsolutePath)
-                            .map(Path::toString)
-                            .orElseThrow(() -> new GradleException("Maven installation not found by MAVEN_HOME or MAVEN_EXEC environment variables")));
+                    .orElseThrow(() -> new GradleException("Maven installation not found by MAVEN_HOME environment variable"));
             project.getExtensions().getExtraProperties().set(key, maven);
         }
         return maven;
