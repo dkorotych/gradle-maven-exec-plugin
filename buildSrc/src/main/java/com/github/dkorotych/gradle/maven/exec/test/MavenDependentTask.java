@@ -6,6 +6,7 @@ import org.gradle.api.Task;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
+import org.gradle.internal.os.OperatingSystem;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -36,7 +37,7 @@ public abstract class MavenDependentTask extends DefaultTask {
     @Internal
     protected String getMavenExecutable() {
         return Optional.ofNullable(getMavenHome())
-                .map(path -> path.resolve("mvnw"))
+                .map(path -> path.resolve("mvnw" + (OperatingSystem.current().isWindows() ? ".cmd" : "")))
                 .map(Path::toAbsolutePath)
                 .map(Path::toString)
                 .orElse(null);
