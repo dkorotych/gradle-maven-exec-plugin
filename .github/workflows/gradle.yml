@@ -34,6 +34,7 @@ jobs:
           - '8'
 #          - '11'
 #          - '17'
+#          - '18'
         os:
 #          - 'ubuntu-latest'
 #          - 'macos-latest'

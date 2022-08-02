@@ -1,6 +1,6 @@
 Apache Maven 3.5.0 (ff8f5e7444045639af65f6095c62210b5713f426; 2017-04-03T22:39:06+03:00)
 Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.5.0-bin/2dec994/apache-maven-3.5.0
-Java version: 11.0.15, vendor: Private Build
-Java home: /usr/lib/jvm/java-11-openjdk-amd64
+Java version: 1.8.0_332, vendor: Temurin
+Java home: /home/dkorotych/.sdkman/candidates/java/8.0.332-tem/jre
 Default locale: ru_RU, platform encoding: UTF-8
 OS name: "linux", version: "5.15.0-41-generic", arch: "amd64", family: "unix"
