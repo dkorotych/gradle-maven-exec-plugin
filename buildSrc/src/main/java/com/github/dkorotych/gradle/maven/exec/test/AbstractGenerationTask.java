@@ -3,7 +3,6 @@ package com.github.dkorotych.gradle.maven.exec.test;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,8 +13,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.LINE_SEPARATOR;
 
 abstract class AbstractGenerationTask extends MavenDependentTask {
     private final String fileName;
@@ -45,7 +42,7 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
         try (OutputStream outputStream = Files.newOutputStream(outputFile.toPath())) {
             project.exec(execSpec -> {
                 execSpec.executable(getMavenExecutable())
-                        .workingDir(System.getProperty("java.io.tmpdir"));
+                        .workingDir(outputFile.getParentFile());
                 execSpec.setStandardOutput(outputStream);
                 execSpec.setErrorOutput(errorStream);
                 execSpec.setArgs(options);
