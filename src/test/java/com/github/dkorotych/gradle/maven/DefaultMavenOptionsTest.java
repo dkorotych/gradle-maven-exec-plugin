@@ -24,12 +24,20 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.google.code.beanmatchers.BeanMatchers.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,6 +60,32 @@ class DefaultMavenOptionsTest {
                 hasValidBeanEquals(),
                 hasValidBeanToString()
         ));
+    }
+
+    @Test
+    void allSupportedOptions() throws Exception {
+        final Path dir = Paths.get(DefaultMavenOptionsTest.class.getResource("/fixtures/descriptor").toURI());
+        final Set<String> allOptions = new HashSet<>();
+        try (DirectoryStream<Path> paths = Files.newDirectoryStream(dir, entry -> entry.toFile().isDirectory())) {
+            for (Path path : paths) {
+                try (Stream<String> lines = Files.lines(path.resolve("options.txt"), UTF_8)) {
+                    lines.forEach(allOptions::add);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        lookLikeAPropertyAccess()
+                .map(MavenOptionsToCommandLineAdapterTest::createOptionName)
+                .forEach(option -> {
+                    final boolean remove = allOptions.remove(option);
+                    if (!remove) {
+                        fail("Option '" + option + "' exists but this is unsupported options");
+                    }
+                });
+        if (!allOptions.isEmpty()) {
+            fail(allOptions + " found in option files but not found in class");
+        }
     }
 
     @ParameterizedTest

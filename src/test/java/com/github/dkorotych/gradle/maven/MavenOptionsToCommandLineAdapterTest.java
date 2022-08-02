@@ -188,7 +188,7 @@ class MavenOptionsToCommandLineAdapterTest {
                 .filter(descriptor -> descriptor.getPropertyType().equals(typeClass));
     }
 
-    private static String createOptionName(PropertyDescriptor descriptor) {
+    static String createOptionName(PropertyDescriptor descriptor) {
         return "--" + descriptor.getName()
                 .replaceAll("([A-Z])", "-$1")
                 .toLowerCase();

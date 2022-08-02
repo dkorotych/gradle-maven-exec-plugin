@@ -49,7 +49,7 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
             }).assertNormalExitValue();
         } catch (Exception e) {
             String description = buildCauseMessagesWithoutLast(e)
-                    .collect(Collectors.joining(System.getProperty("line.separator")));
+                    .collect(Collectors.joining(System.lineSeparator()));
             if (description.trim().isEmpty()) {
                 description = e.getMessage();
             }

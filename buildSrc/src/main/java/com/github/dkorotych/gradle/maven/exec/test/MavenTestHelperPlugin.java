@@ -42,10 +42,5 @@ public class MavenTestHelperPlugin implements Plugin<Project> {
                     });
             prepareTestEnvironments.configure(task -> task.dependsOn(generateVersionTask, generateHelpTask));
         }
-        project.getTasks().register("generateOptionsSource", GenerateOptionsSource.class, task -> {
-            project.getTasks()
-                    .withType(GenerateHelpTask.class)
-                    .forEach(task::dependsOn);
-        });
     }
 }
