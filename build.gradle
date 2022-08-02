@@ -111,7 +111,7 @@ gradleEnterprise {
             tag project.version
             publishAlways()
             uploadInBackground = false
-            link "VCS", github.vcsUrl + "/${System.getProperty('GITHUB_REF_NAME')}"
+            link "VCS", github.vcsUrl + "/tree/${System.getenv('GITHUB_REF_NAME')}"
         } else {
             tag "local"
         }
