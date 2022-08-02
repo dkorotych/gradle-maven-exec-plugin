@@ -45,7 +45,7 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
         try (OutputStream outputStream = Files.newOutputStream(outputFile.toPath())) {
             result = project.exec(execSpec -> {
                 execSpec.executable(getMavenExecutable())
-                        .workingDir(outputFile.getParentFile());
+                        .workingDir(getMavenHome());
                 execSpec.setStandardOutput(outputStream);
                 execSpec.setErrorOutput(errorStream);
                 execSpec.setArgs(options);
