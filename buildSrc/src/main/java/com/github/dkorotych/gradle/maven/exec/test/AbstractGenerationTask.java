@@ -3,12 +3,19 @@ package com.github.dkorotych.gradle.maven.exec.test;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.internal.impldep.org.apache.commons.lang.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.LINE_SEPARATOR;
 
 abstract class AbstractGenerationTask extends MavenDependentTask {
     private final String fileName;
@@ -44,11 +51,36 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
                 execSpec.setArgs(options);
             }).assertNormalExitValue();
         } catch (Exception e) {
-            String description = errorStream.toString();
+            String description = buildCauseMessagesWithoutLast(e)
+                    .collect(Collectors.joining(System.getProperty("line.separator")));
             if (description.trim().isEmpty()) {
                 description = e.getMessage();
             }
             throw new GradleException(description, e);
         }
+    }
+
+    private Stream<String> buildCauseMessagesWithoutLast(final Exception e) {
+        final Iterator<Throwable> iterator = new Iterator<>() {
+            private Throwable current = e;
+
+            @Override
+            public boolean hasNext() {
+                return current.getCause() != null;
+            }
+
+            @Override
+            public Throwable next() {
+                current = current.getCause();
+                return current;
+            }
+        };
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator,
+                        Spliterator.ORDERED | Spliterator.IMMUTABLE), false)
+                .filter(exception -> Objects.nonNull(exception.getCause()))
+                .map(Throwable::getMessage)
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(((Predicate<String>) String::isEmpty).negate());
     }
 }
