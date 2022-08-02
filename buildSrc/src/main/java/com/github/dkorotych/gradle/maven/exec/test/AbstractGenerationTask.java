@@ -61,7 +61,7 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
     }
 
     private Stream<String> buildCauseMessagesWithoutLast(final Exception e) {
-        final Iterator<Throwable> iterator = new Iterator<>() {
+        final Iterator<Throwable> iterator = new Iterator<Throwable>() {
             private Throwable current = e;
 
             @Override
