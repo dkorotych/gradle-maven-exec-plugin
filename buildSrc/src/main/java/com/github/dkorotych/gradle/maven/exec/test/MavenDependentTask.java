@@ -36,10 +36,17 @@ public abstract class MavenDependentTask extends DefaultTask {
 
     @Internal
     protected String getMavenExecutable() {
+        final boolean windows = OperatingSystem.current().isWindows();
         return Optional.ofNullable(getMavenHome())
-                .map(path -> path.resolve("mvnw" + (OperatingSystem.current().isWindows() ? ".cmd" : "")))
+                .map(path -> path.resolve("mvnw" + (windows ? ".cmd" : "")))
                 .map(Path::toAbsolutePath)
                 .map(Path::toString)
+                .map(command -> {
+                    if (windows) {
+                        return "cmd /c \"" + command + '"';
+                    }
+                    return command;
+                })
                 .orElse(null);
     }
 }

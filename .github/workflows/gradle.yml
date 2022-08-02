@@ -47,7 +47,7 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: 'gradle'
       - if: ${{ matrix.os == 'windows-latest' }}
-        name: Set MAVEN_HOME
+        name: Set MAVEN_HOME (Windows)
         run: | 
           mvn --version |
           select-string 'Maven home: (.+)$' |
@@ -56,5 +56,5 @@ jobs:
       - if: ${{ matrix.os != 'windows-latest' }}
         name: Set MAVEN_HOME
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
-      - name: Run plugin tests
+      - name: Run plugin tests.java
         run: gradle functionalTest --no-daemon
