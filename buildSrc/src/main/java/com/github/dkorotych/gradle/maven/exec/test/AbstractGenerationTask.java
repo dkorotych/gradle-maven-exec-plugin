@@ -1,8 +1,8 @@
 package com.github.dkorotych.gradle.maven.exec.test;
 
-import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.process.ExecResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -39,21 +39,26 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
     public void generate() {
         final Project project = getProject();
         final ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
+        ExecResult result = null;
         try (OutputStream outputStream = Files.newOutputStream(outputFile.toPath())) {
-            project.exec(execSpec -> {
+            result = project.exec(execSpec -> {
                 execSpec.executable(getMavenExecutable())
                         .workingDir(outputFile.getParentFile());
                 execSpec.setStandardOutput(outputStream);
                 execSpec.setErrorOutput(errorStream);
                 execSpec.setArgs(options);
-            }).assertNormalExitValue();
+            });
         } catch (Exception e) {
             String description = buildCauseMessagesWithoutLast(e)
                     .collect(Collectors.joining(System.getProperty("line.separator")));
-            if (description.trim().isEmpty()) {
-                description = e.getMessage();
+            System.out.println("description = " + description);
+//            if (description.trim().isEmpty()) {
+//                description = e.getMessage();
+//            }
+//            throw new GradleException(description, e);
+            if (result != null) {
+                result.rethrowFailure();
             }
-            throw new GradleException(description, e);
         }
     }
 
