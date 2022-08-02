@@ -80,10 +80,17 @@ public class MavenExecutableProvider {
             }
             command = new StringBuilder(pathToRunner.toAbsolutePath().toString());
         }
-        if (windows && !hasWrapper) {
-            final boolean oldVersion = Paths.get(command + ".bat").toFile().exists();
-            if (oldVersion) {
-                command.append(".bat");
+        if (windows) {
+            final String extension = ".cmd";
+            if (hasWrapper) {
+                command.append(extension);
+            } else {
+                final boolean oldVersion = Paths.get(command + ".bat").toFile().exists();
+                if (oldVersion) {
+                    command.append(".bat");
+                } else {
+                    command.append(extension);
+                }
             }
         }
         parameters.add(command.toString());

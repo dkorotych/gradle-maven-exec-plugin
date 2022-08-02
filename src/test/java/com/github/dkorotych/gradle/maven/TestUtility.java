@@ -94,7 +94,7 @@ public final class TestUtility {
 
         }
         commandLine.add((path != null ? path.getAbsolutePath() + File.separatorChar : "") + "mvn"
-                + (useWrapper ? 'w' : "") + (os == WINDOWS && !useWrapper && oldVersion ? ".bat" : ""));
+                + (useWrapper ? 'w' : "") + (os == WINDOWS ? useWrapper ? ".cmd" : oldVersion ? ".bat" : ".cmd" : ""));
         commandLine.addAll(Arrays.asList(arguments));
         return commandLine;
     }
