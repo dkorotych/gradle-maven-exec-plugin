@@ -87,10 +87,6 @@ public final class TestUtility {
 
     public static List<String> commandLine(File path, OperatingSystem os, boolean oldVersion, boolean useWrapper, String... arguments) {
         List<String> commandLine = new ArrayList<>();
-        if (os == WINDOWS) {
-            commandLine.add("cmd");
-            commandLine.add("/c");
-        }
         if (path != null) {
             if (!useWrapper) {
                 path = path.toPath().resolve("bin").toFile();
@@ -98,7 +94,7 @@ public final class TestUtility {
 
         }
         commandLine.add((path != null ? path.getAbsolutePath() + File.separatorChar : "") + "mvn"
-                + (useWrapper ? 'w' : "") + (os == WINDOWS ? useWrapper ? ".cmd" : oldVersion ? ".bat" : ".cmd" : ""));
+                + (useWrapper ? 'w' : "") + (os == WINDOWS && !useWrapper && oldVersion ? ".bat" : ""));
         commandLine.addAll(Arrays.asList(arguments));
         return commandLine;
     }

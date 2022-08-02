@@ -70,10 +70,6 @@ public class MavenExecutableProvider {
                 .isPresent();
         final boolean windows = OperatingSystem.current().isWindows();
         final List<String> parameters = new ArrayList<>();
-        if (windows) {
-            parameters.add("cmd");
-            parameters.add("/c");
-        }
         StringBuilder command = new StringBuilder("mvn" + (hasWrapper ? 'w' : ""));
         if (mavenHome != null) {
             final Path pathToRunner;
@@ -84,17 +80,10 @@ public class MavenExecutableProvider {
             }
             command = new StringBuilder(pathToRunner.toAbsolutePath().toString());
         }
-        if (windows) {
-            final String extension = ".cmd";
-            if (hasWrapper) {
-                command.append(extension);
-            } else {
-                final boolean oldVersion = Paths.get(command + ".bat").toFile().exists();
-                if (oldVersion) {
-                    command.append(".bat");
-                } else {
-                    command.append(extension);
-                }
+        if (windows && !hasWrapper) {
+            final boolean oldVersion = Paths.get(command + ".bat").toFile().exists();
+            if (oldVersion) {
+                command.append(".bat");
             }
         }
         parameters.add(command.toString());
