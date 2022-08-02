@@ -103,9 +103,10 @@ gradleEnterprise {
         termsOfServiceAgree = "yes"
         if (System.getenv("CI")) {
             tag "GitHub"
+            tag project.version
             publishAlways()
             uploadInBackground = false
-            link "VCS", "https://github.com/myorg/sample/tree/${System.getProperty("vcs.branch")}"
+            link "VCS", github.vcsUrl + "/${System.getProperty('GITHUB_REF_NAME')}"
         } else {
             tag "local"
         }
