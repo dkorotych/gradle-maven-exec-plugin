@@ -57,6 +57,11 @@ dependencies {
     rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.8.0")
 }
 
+github {
+    user 'dkorotych'
+    license 'Apache'
+}
+
 gradlePlugin {
     plugins {
         MavenExecPlugin {
@@ -121,11 +126,6 @@ license {
     skipExistingHeaders true
     strictCheck true
     exclude "**/fixtures/**"
-}
-
-github {
-    user 'dkorotych'
-    license 'Apache'
 }
 
 javadoc {
