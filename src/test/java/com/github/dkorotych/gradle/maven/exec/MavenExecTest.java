@@ -162,6 +162,7 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
 
     @Test
     void testCopyTo() {
+        //noinspection ConstantConditions
         assertThatThrownBy(() -> specification.copyTo(null))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasAllNullFieldsOrProperties();

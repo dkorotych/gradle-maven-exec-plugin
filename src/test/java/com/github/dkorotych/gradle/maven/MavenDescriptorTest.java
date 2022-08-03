@@ -27,6 +27,7 @@ import org.mockito.Answers;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -62,6 +64,43 @@ class MavenDescriptorTest {
                         throw new RuntimeException(e);
                     }
                 });
+    }
+
+    private static List<File> descriptorFixtures() throws Exception {
+        final URL resource = MavenDescriptorTest.class.getResource("/fixtures/descriptor");
+        final Path path = Paths.get(requireNonNull(resource).toURI());
+        try (final Stream<Path> paths = Files.list(path)) {
+            return paths.map(Path::toFile)
+                    .filter(File::isDirectory)
+                    .sorted(Comparator.comparing(File::getName))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    private static String getVersion(File directory) throws IOException {
+        return getText(directory, "version.txt");
+    }
+
+    private static String getHelp(File directory) throws IOException {
+        return getText(directory, "help.txt");
+    }
+
+    private static Collection<String> getOptions(File directory) throws Exception {
+        try (Stream<String> lines = Files.lines(resolve(directory, "options.txt").toPath(), UTF_8)) {
+            return lines.collect(Collectors.toList());
+        }
+    }
+
+    private static String getText(File directory, String fileName) throws IOException {
+        return FileUtils.readFileToString(resolve(directory, fileName), UTF_8);
+    }
+
+    private static File resolve(File directory, String fileName) {
+        return directory.toPath()
+                .resolve(fileName)
+                .normalize()
+                .toAbsolutePath()
+                .toFile();
     }
 
     @ParameterizedTest(name = "getVersion({0})")
@@ -115,42 +154,6 @@ class MavenDescriptorTest {
                 .doesNotHaveDuplicates()
                 .allMatch(option -> option.startsWith("--"))
                 .doesNotContain("--color");
-    }
-
-    private static List<File> descriptorFixtures() throws Exception {
-        final Path path = Paths.get(MavenDescriptorTest.class.getResource("/fixtures/descriptor").toURI());
-        try (final Stream<Path> paths = Files.list(path)) {
-            return paths.map(Path::toFile)
-                    .filter(File::isDirectory)
-                    .sorted(Comparator.comparing(File::getName))
-                    .collect(Collectors.toList());
-        }
-    }
-
-    private static String getVersion(File directory) throws IOException {
-        return getText(directory, "version.txt");
-    }
-
-    private static String getHelp(File directory) throws IOException {
-        return getText(directory, "help.txt");
-    }
-
-    private static Collection<String> getOptions(File directory) throws Exception {
-        try (Stream<String> lines = Files.lines(resolve(directory, "options.txt").toPath(), UTF_8)) {
-            return lines.collect(Collectors.toList());
-        }
-    }
-
-    private static String getText(File directory, String fileName) throws IOException {
-        return FileUtils.readFileToString(resolve(directory, fileName), UTF_8);
-    }
-
-    private static File resolve(File directory, String fileName) {
-        return directory.toPath()
-                .resolve(fileName)
-                .normalize()
-                .toAbsolutePath()
-                .toFile();
     }
 
     private MavenDescriptor createMavenDescriptor(String options, String text) {

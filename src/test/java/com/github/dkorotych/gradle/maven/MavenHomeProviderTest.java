@@ -29,6 +29,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,6 +37,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -44,10 +46,11 @@ class MavenHomeProviderTest {
     private MavenHomeProvider provider;
 
     public static Stream<File> setIncorrectMavenHomeAsFile() throws Exception {
+        final URL resource = MavenHomeProviderTest.class.getResource("");
         final Stream.Builder<File> builder = Stream.<File>builder()
                 .add(null)
                 .add(Paths.get("").toFile())
-                .add(Paths.get(MavenHomeProviderTest.class.getResource("").toURI()).toFile())
+                .add(Paths.get(requireNonNull(resource).toURI()).toFile())
                 .add(createTempFile());
         for (final String name : Arrays.asList("bin", "mvn", "mvn.bat", "mvn.cmd", "demo", "empty", "config")) {
             File _1 = createTempDirectory().resolve(name).toFile();
