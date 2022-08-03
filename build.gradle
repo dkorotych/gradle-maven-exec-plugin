@@ -132,7 +132,7 @@ javadoc {
     options {
         links("https://docs.oracle.com/javase/${JavaVersion.toVersion(project.sourceCompatibility).majorVersion}/docs/api/",
                 "https://docs.gradle.org/${gradle.gradleVersion}/javadoc/",
-                "http://docs.groovy-lang.org/${GroovySystem.version}/html/gapi/")
+                "https://docs.groovy-lang.org/${GroovySystem.version}/html/gapi/")
     }
 }
 
