@@ -18,6 +18,7 @@ package com.github.dkorotych.gradle.maven.exec;
 import com.github.dkorotych.gradle.maven.MavenOptions;
 import groovy.lang.Closure;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.Optional;
 import org.gradle.process.BaseExecSpec;
@@ -41,7 +42,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
      *
      * @return The Maven directory
      */
-    @InputFile
+    @InputDirectory
     @Optional
     File getMavenDir();
 

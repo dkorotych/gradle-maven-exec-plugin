@@ -3,6 +3,11 @@ plugins {
 }
 
 println "Validate work with Gradle: ${gradle.gradleVersion}"
+File maven = null
+if (System.getProperty("maven-home")) {
+    maven = file(System.getProperty("maven-home"))
+    println "Validate work with Maven: ${maven.name}"
+}
 
 tasks.register("realUseCaseTest") {
     group = "verification"
@@ -120,4 +125,25 @@ task checkMavenApplication3 {
             quiet true
         }
     }
+}
+
+tasks.register("validate") {
+    group = "verification"
+    dependsOn = ["validate1", "validate2"]
+}
+
+task("validate1") {
+    doLast {
+        mavenexec {
+            mavenDir maven
+            goals "validate"
+            quiet true
+        }
+    }
+}
+
+task("validate2", type: MavenExec) {
+    mavenDir maven
+    goals "validate"
+    quiet true
 }
