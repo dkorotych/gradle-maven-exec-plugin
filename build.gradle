@@ -234,26 +234,3 @@ rewrite {
 //    content += metrics
 //    readmeFile.text = content
 //}
-
-task additionalUseCaseTest(type: GradleBuild) {
-    dependsOn 'install'
-    group = 'verification'
-    buildFile = file('useCase.gradle')
-    tasks = ['checkMavenApplication3']
-}
-
-task realUseCaseTest(type: GradleBuild) {
-    dependsOn 'install'
-    group = 'verification'
-    buildFile = file('useCase.gradle')
-    def useCaseTasks = ['checkMavenApplication', 'checkMavenApplication2']
-    useCaseTasks.addAll(additionalUseCaseTest.tasks)
-    tasks = useCaseTasks
-}
-
-task kotlinUseCaseTest(type: GradleBuild) {
-    dependsOn 'install'
-    group = 'verification'
-    buildFile = file('useCase.gradle.kts')
-    tasks = ['checkMavenApplication', 'checkMavenApplication2', 'checkMavenApplication3']
-}
