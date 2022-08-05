@@ -16,14 +16,11 @@
 package com.github.dkorotych.gradle.maven;
 
 import org.gradle.internal.os.OperatingSystem;
-import org.gradle.util.CollectionUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -69,17 +66,7 @@ public class MavenExecutableProvider {
                 })
                 .isPresent();
         final boolean windows = OperatingSystem.current().isWindows();
-        final List<String> parameters = new ArrayList<>();
-        StringBuilder command = new StringBuilder("mvn" + (hasWrapper ? 'w' : ""));
-        if (mavenHome != null) {
-            final Path pathToRunner;
-            if (hasWrapper) {
-                pathToRunner = mavenHome.resolve(command.toString());
-            } else {
-                pathToRunner = mavenHome.resolve("bin").resolve(command.toString());
-            }
-            command = new StringBuilder(pathToRunner.toAbsolutePath().toString());
-        }
+        final StringBuilder command = new StringBuilder("mvn" + (hasWrapper ? 'w' : ""));
         if (windows) {
             final String extension = ".cmd";
             if (hasWrapper) {
@@ -93,7 +80,15 @@ public class MavenExecutableProvider {
                 }
             }
         }
-        parameters.add(command.toString());
-        return CollectionUtils.asCommandLine(parameters);
+        if (mavenHome != null) {
+            final Path pathToRunner;
+            if (hasWrapper) {
+                pathToRunner = mavenHome.resolve(command.toString());
+            } else {
+                pathToRunner = mavenHome.resolve("bin").resolve(command.toString());
+            }
+            return pathToRunner.toAbsolutePath().toString();
+        }
+        return command.toString();
     }
 }
