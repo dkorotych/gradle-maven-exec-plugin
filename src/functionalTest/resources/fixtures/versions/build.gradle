@@ -129,7 +129,8 @@ task checkMavenApplication3 {
 
 tasks.register("validate") {
     group = "verification"
-    dependsOn = ["validate1", "validate2"]
+//    dependsOn = ["validate1", "validate2"]
+    dependsOn = ["validate2"]
 }
 
 task("validate1") {
