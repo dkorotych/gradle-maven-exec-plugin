@@ -55,7 +55,6 @@ public class MavenExecConvention {
         Objects.requireNonNull(configure, "Configure closure should not be null");
         try {
             return project.exec(execSpec -> {
-                execSpec.workingDir(project.getProjectDir());
                 final MavenExecSpecDelegate delegate = new MavenExecSpecDelegate(execSpec, project);
                 ClosureBackedAction.execute(delegate, configure);
                 execSpec.setExecutable(delegate.getExecutable());

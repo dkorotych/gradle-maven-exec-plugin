@@ -42,7 +42,6 @@ public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecS
      */
     public MavenExec() {
         super(MavenExec.class);
-        setWorkingDir(getProject().getProjectDir());
     }
 
     @Override
