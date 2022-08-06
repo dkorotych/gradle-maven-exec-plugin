@@ -129,14 +129,14 @@ task checkMavenApplication3 {
 
 tasks.register("validate") {
     group = "verification"
-//    dependsOn = ["validate1", "validate2"]
-    dependsOn = ["validate2"]
+    dependsOn = ["validate1", "validate2"]
 }
 
 task("validate1") {
     doLast {
         mavenexec {
             mavenDir maven
+            workingDir projectDir
             goals "validate"
             quiet true
         }
@@ -145,6 +145,7 @@ task("validate1") {
 
 task("validate2", type: MavenExec) {
     mavenDir maven
+    workingDir projectDir
     goals "validate"
     quiet true
 }
