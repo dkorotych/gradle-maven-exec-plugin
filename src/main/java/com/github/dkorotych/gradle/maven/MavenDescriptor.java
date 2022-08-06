@@ -147,8 +147,7 @@ public class MavenDescriptor {
         final ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
         try {
             project.exec(execSpec -> {
-                execSpec.executable(getExecutable())
-                        .workingDir(SystemUtils.getJavaIoTmpDir());
+                execSpec.executable(getExecutable());
                 execSpec.setStandardOutput(outputStream);
                 execSpec.setErrorOutput(errorStream);
                 execSpec.setArgs(Collections.singletonList(option));
