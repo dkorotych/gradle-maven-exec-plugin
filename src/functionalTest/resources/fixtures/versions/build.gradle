@@ -136,7 +136,7 @@ task("validate1") {
     doLast {
         mavenexec {
             mavenDir maven
-            workingDir projectDir
+            workingDir buildDir
             goals "validate"
             quiet true
         }
@@ -145,7 +145,7 @@ task("validate1") {
 
 task("validate2", type: MavenExec) {
     mavenDir maven
-    workingDir projectDir
+    workingDir buildDir
     goals "validate"
     quiet true
 }

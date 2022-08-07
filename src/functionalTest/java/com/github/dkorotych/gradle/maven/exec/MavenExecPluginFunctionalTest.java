@@ -58,7 +58,7 @@ class MavenExecPluginFunctionalTest {
 //                "7.2",
 //                "7.3.3",
 //                "7.4.2",
-                "7.5"
+                "7.5.1"
         );
     }
 
