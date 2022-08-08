@@ -134,7 +134,7 @@ class MavenExecPluginFunctionalTest {
             System.setProperty("maven-home", mavenVersion);
         }
 
-        final boolean localRun = !Boolean.getBoolean("CI");
+        final boolean localRun = Boolean.parseBoolean(System.getenv("CI"));
         final ArrayList<String> arguments = new ArrayList<>();
         arguments.add(task);
         if (localRun) {
