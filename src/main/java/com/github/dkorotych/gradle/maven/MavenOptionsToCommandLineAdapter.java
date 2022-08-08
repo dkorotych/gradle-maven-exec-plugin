@@ -38,7 +38,6 @@ import static java.util.Arrays.stream;
  */
 public class MavenOptionsToCommandLineAdapter {
     private static final Pattern OPTION_PATTERN = Pattern.compile("(\\p{Upper})");
-    private static final Pattern QUOTE_VALIDATION_PATTERN = Pattern.compile("\\s");
     private final MavenOptions options;
     private final List<PropertyDescriptor> descriptors;
 
@@ -176,10 +175,9 @@ public class MavenOptionsToCommandLineAdapter {
     }
 
     private String doubleQuoteIfNecessary(final String value) {
-        String rc = value;
-        if (QUOTE_VALIDATION_PATTERN.matcher(rc).find() && !rc.startsWith("\"")) {
-            rc = '"' + rc + '"';
+        if (StringUtils.containsWhitespace(value) && !value.startsWith("\"")) {
+            return '"' + value + '"';
         }
-        return rc;
+        return value;
     }
 }
