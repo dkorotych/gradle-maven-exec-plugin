@@ -20,6 +20,7 @@ import org.gradle.api.GradleException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -81,7 +82,7 @@ public class MavenHomeProvider {
                         try (Stream<Path> files = Files.find(file.toPath(), 2, (path, basicFileAttributes) -> {
                             final File currentFile = path.toFile();
                             return isMavenExecutionFile(currentFile) || isMavenExecutionWrapperFile(currentFile);
-                        })) {
+                        }, FileVisitOption.FOLLOW_LINKS)) {
                             final Path mavenExecutionFile = files.findFirst().orElse(null);
                             if (mavenExecutionFile != null) {
                                 setMavenHome(mavenExecutionFile);
