@@ -71,18 +71,10 @@ public class MavenHomeProvider {
     public void setMavenHome(final File dir) {
         mavenHome = Optional.ofNullable(dir)
                 .filter(File::exists)
-                .map(file -> {
-                    try {
-                        System.err.println("canonical file = " + file.getCanonicalFile());
-                        return file.getCanonicalFile();
-                    } catch (IOException e) {
-                        throw new GradleException("Can't create canonical file name", e);
-                    }
-                })
-                .map(file -> {
-                        System.err.println("absolute file = " + file.getAbsoluteFile());
-                        return file.getAbsoluteFile();
-                })
+                .map(File::toPath)
+                .map(Path::normalize)
+                .map(Path::toAbsolutePath)
+                .map(Path::toFile)
                 .map(file -> {
                     File returnValue = null;
                     if (file.isDirectory()) {
