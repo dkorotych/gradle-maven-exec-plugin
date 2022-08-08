@@ -57,7 +57,7 @@ public class MavenExecConvention {
             return project.exec(execSpec -> {
                 final MavenExecSpecDelegate delegate = new MavenExecSpecDelegate(execSpec, project);
                 ClosureBackedAction.execute(delegate, configure);
-                execSpec.setExecutable(delegate.getExecutable());
+                execSpec.setCommandLine(delegate.getCommandLine());
             }).assertNormalExitValue();
         } catch (Exception exception) {
             if (exception.getCause() != null) {
