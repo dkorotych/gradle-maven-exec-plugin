@@ -65,4 +65,4 @@ jobs:
         name: Run plugin tests
         with:
           gradle-version: wrapper
-          arguments: functionalTest --scan
+          arguments: test functionalTest --scan
