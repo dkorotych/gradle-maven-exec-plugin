@@ -21,11 +21,9 @@ import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 import org.gradle.process.ExecResult;
 import org.gradle.util.ClosureBackedAction;
+import org.gradle.util.CollectionUtils;
 
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.stream.StreamSupport;
 
 /**
@@ -57,7 +55,9 @@ public class MavenExecConvention {
             return project.exec(execSpec -> {
                 final MavenExecSpecDelegate delegate = new MavenExecSpecDelegate(execSpec, project);
                 ClosureBackedAction.execute(delegate, configure);
-                execSpec.setCommandLine(delegate.getCommandLine());
+                final List<String> commandLine = delegate.getCommandLine();
+                execSpec.setCommandLine(commandLine);
+                project.getLogger().info("Execute Maven command: {}", CollectionUtils.asCommandLine(commandLine));
             }).assertNormalExitValue();
         } catch (Exception exception) {
             if (exception.getCause() != null) {

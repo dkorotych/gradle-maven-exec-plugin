@@ -49,6 +49,7 @@ public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecS
         final CommandLineCreator commandLineCreator = new CommandLineCreator(this, getProject());
         super.setExecutable(commandLineCreator.getExecutable());
         super.setArgs(commandLineCreator.getArguments());
+        getLogger().info("Maven executable: {}, arguments: {}", super.getExecutable(), super.getArgs());
         super.exec();
     }
 
