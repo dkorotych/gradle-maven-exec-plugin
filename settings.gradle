@@ -13,4 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+plugins {
+    id "com.gradle.enterprise" version "3.10.3"
+}
+
 rootProject.name = 'gradle-maven-exec-plugin'
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+        if (System.getenv("CI")) {
+            tag "GitHub"
+            tag project.version
+            publishAlways()
+            uploadInBackground = false
+            link "VCS", github.vcsUrl + "/tree/${System.getenv('GITHUB_REF_NAME')}"
+        } else {
+            tag "local"
+        }
+        tag System.getProperty("os.name")
+    }
+}

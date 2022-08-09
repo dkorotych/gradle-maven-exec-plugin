@@ -34,7 +34,6 @@ import static java.util.Objects.requireNonNull;
 public abstract class AbstractFunctionalTest {
     public static Collection<String> supportedGradleVersion() {
         return Arrays.asList(
-                "5.6.4",
                 "6.0.1",
                 "6.1.1",
                 "6.2.1",
