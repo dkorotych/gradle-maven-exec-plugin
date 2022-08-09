@@ -3,7 +3,6 @@ name: com.github.dkorotych.gradle.maven.exec.MavenExecPlugin
 recipeList:
   - org.openrewrite.github.ActionsSetupJavaAdoptOpenJDKToTemurin
   - org.openrewrite.github.SetupJavaCaching
-  - org.openrewrite.github.AutoCancelInProgressWorkflow
   - org.openrewrite.github.ChangeDependabotScheduleInterval:
       packageEcosystem: github-actions
       interval: daily
