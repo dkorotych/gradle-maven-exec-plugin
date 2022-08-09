@@ -1,5 +1,5 @@
 Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
-Maven home: /home/dkorotych/.sdkman/candidates/maven/current
-Java version: 1.8.0_232, vendor: Azul Systems, Inc., runtime: /home/dkorotych/.sdkman/candidates/java/8u232-zulu/jre
+Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.6.3-bin/cf3cf814/apache-maven-3.6.3
+Java version: 1.8.0_342, vendor: Temurin, runtime: /home/dkorotych/.sdkman/candidates/java/8.0.342-tem/jre
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "5.0.0-36-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "5.15.0-43-generic", arch: "amd64", family: "unix"

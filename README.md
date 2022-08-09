@@ -2,7 +2,7 @@
 
 # [gradle-maven-exec-plugin](https://plugins.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec)
 
-Gradle plugin which provides an Maven exec task
+Gradle plugin which provides a Maven exec task
 
 [![Build Status](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin.svg?branch=master)](https://travis-ci.org/dkorotych/gradle-maven-exec-plugin)
 [![codecov](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin)
@@ -44,11 +44,11 @@ plugins {
 ## Usage
 
 This plugin enables a `MavenExec` task type in your buildscript which behaves exactly like a typical Gradle
-`Exec` task, except that it normalizes calls to work across operating systems. It does this by:
+`Exec` task, except that it normalizes calls to work across operating systems.
+It does this by:
 
 1. Automatic generation of correct command line
-2. Prepending `mvn.cmd` command with `cmd /c` on Windows
-3. Used Maven Wrapper if it exists in project
+2. Used Maven Wrapper if it exists in a project
 3. It is forbidden to direct control of the command line arguments
 4. Removing unsupported command-line options when you call different Maven versions
 
@@ -128,4 +128,5 @@ task generateAndExecuteApplication {
 ```
 
 ## F.A.Q
-If you run into any issues, consult the [F.A.Q.](https://github.com/dkorotych/gradle-maven-exec-plugin/blob/master/FAQ.md) first.
+If you run into any issues,
+consult the [F.A.Q.](https://github.com/dkorotych/gradle-maven-exec-plugin/blob/master/FAQ.md) first.

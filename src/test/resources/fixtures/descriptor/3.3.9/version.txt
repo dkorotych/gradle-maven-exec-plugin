@@ -1,6 +1,6 @@
 Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-10T19:41:47+03:00)
-Maven home: /usr/share/maven3
-Java version: 1.8.0_111, vendor: Oracle Corporation
-Java home: /usr/lib/jvm/java-8-oracle/jre
+Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.3.9-bin/6d5080f4/apache-maven-3.3.9
+Java version: 1.8.0_342, vendor: Temurin
+Java home: /home/dkorotych/.sdkman/candidates/java/8.0.342-tem/jre
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "3.19.0-32-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "5.15.0-43-generic", arch: "amd64", family: "unix"

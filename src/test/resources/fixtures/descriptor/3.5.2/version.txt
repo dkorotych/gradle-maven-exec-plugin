@@ -1,6 +1,0 @@
-Apache Maven 3.5.2 (138edd61fd100ec658bfa2d307c43b76940a5d7d; 2017-10-18T10:58:13+03:00)
-Maven home: /home/dkorotych/.sdkman/candidates/maven/current
-Java version: 1.8.0_151, vendor: Oracle Corporation
-Java home: /usr/lib/jvm/java-8-openjdk-amd64/jre
-Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "4.13.0-36-generic", arch: "amd64", family: "unix"

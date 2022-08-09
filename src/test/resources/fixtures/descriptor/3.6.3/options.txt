@@ -22,6 +22,7 @@
 --no-plugin-registry
 --no-plugin-updates
 --no-snapshot-updates
+--no-transfer-progress
 --offline
 --activate-profiles
 --projects

@@ -1,5 +1,0 @@
-Apache Maven 3.8.1 (05c21c65bdfed0f71a2f2ada8b84da59348c4c5d)
-Maven home: /home/dkorotych/.sdkman/candidates/maven/current
-Java version: 11.0.10, vendor: AdoptOpenJDK, runtime: /home/dkorotych/.sdkman/candidates/java/11.0.10.hs-adpt
-Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "5.4.0-70-generic", arch: "amd64", family: "unix"
