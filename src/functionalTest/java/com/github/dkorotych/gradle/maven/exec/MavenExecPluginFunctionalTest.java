@@ -18,14 +18,15 @@ package com.github.dkorotych.gradle.maven.exec;
 import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
@@ -39,11 +40,10 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MavenExecPluginFunctionalTest {
-    @TempDir
     private File projectDir;
 
     public static Collection<String> supportedGradleVersion() {
-        return Arrays.asList(
+        return Collections.singletonList(
 //                "5.6.4",
 //                "6.0.1",
 //                "6.1.1",
@@ -96,14 +96,23 @@ class MavenExecPluginFunctionalTest {
     }
 
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp() throws Exception {
+        projectDir = Files.createTempDirectory("functional").toFile();
         final URL resource = MavenExecPluginFunctionalTest.class.getResource("/fixtures/versions");
         final File source = Paths.get(requireNonNull(resource).toURI()).toFile();
         FileUtils.copyDirectory(source, projectDir);
     }
 
+    @AfterEach
+    void tearDown() {
+        try {
+            FileUtils.deleteDirectory(projectDir);
+        } catch (IOException ignore) {
+        }
+    }
+
     @Test
-    void realUseCaseTest() throws Exception {
+    void realUseCaseTest() {
         final String task = "realUseCaseTest";
         final String version = supportedGradleVersion().stream().max(Comparator.naturalOrder()).get();
         BuildResult result = execute(version, null, task);
