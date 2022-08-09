@@ -12,7 +12,7 @@ if (System.getProperty("maven-home")) {
 tasks.register("realUseCaseTest") {
     group = "verification"
     dependsOn = ["checkMavenApplication", "checkMavenApplication2", "checkMavenApplication3"]
-    it.finalizedBy("${it.name}Clean")
+    finalizedBy("realUseCaseTestClean")
 }
 
 tasks.register("realUseCaseTestClean") {
@@ -140,6 +140,7 @@ task checkMavenApplication3 {
 tasks.register("validate") {
     group = "verification"
     dependsOn = ["validate1", "validate2"]
+    finalizedBy("realUseCaseTestClean")
 }
 
 task("validate1") {
