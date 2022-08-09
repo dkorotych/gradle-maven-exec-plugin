@@ -94,10 +94,6 @@ tasks.register('functionalTest', Test) {
 
 gradlePlugin.testSourceSets(sourceSets.functionalTest)
 
-tasks.named('check') {
-    dependsOn(tasks.functionalTest)
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }

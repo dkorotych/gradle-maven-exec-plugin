@@ -17,90 +17,23 @@ package com.github.dkorotych.gradle.maven.exec;
 
 import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.gradle.testkit.runner.BuildResult;
-import org.gradle.testkit.runner.GradleRunner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.net.URL;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Stream;
 
-import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MavenExecPluginFunctionalTest {
+class MavenExecPluginFunctionalTest extends AbstractFunctionalTest {
     private File projectDir;
-
-    public static Collection<String> supportedGradleVersion() {
-        return Arrays.asList(
-                "5.6.4",
-                "6.0.1",
-                "6.1.1",
-                "6.2.1",
-                "6.3",
-                "6.4.1",
-                "6.5.1",
-                "6.6.1",
-                "6.7.1",
-                "6.8.3",
-                "6.9.2",
-                "7.0.2",
-                "7.1.1",
-                "7.2",
-                "7.3.3",
-                "7.4.2",
-                "7.5.1"
-        );
-    }
-
-    public static Collection<String> supportedMavenVersion() {
-        try {
-            final URL resource = MavenExecPluginFunctionalTest.class.getResource("/");
-            final Path dir = Paths.get(Objects.requireNonNull(resource).toURI())
-                    .getParent()
-                    .getParent()
-                    .getParent()
-                    .resolve("maven");
-            final List<String> versions = new ArrayList<>();
-            try (DirectoryStream<Path> paths = Files.newDirectoryStream(dir, entry -> entry.toFile().isDirectory())) {
-                for (Path path : paths) {
-                    versions.add(path.toAbsolutePath().toString());
-                }
-            }
-            versions.sort(Comparator.naturalOrder());
-            return versions;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Stream<Arguments> validate() {
-        final Stream.Builder<Arguments> builder = Stream.builder();
-        for (String gradle : supportedGradleVersion()) {
-            for (String maven : supportedMavenVersion()) {
-                builder.accept(Arguments.of(gradle, maven));
-            }
-        }
-        return builder.build();
-    }
 
     @BeforeEach
     void setUp() throws Exception {
         projectDir = Files.createTempDirectory("functional").toFile();
-        final URL resource = MavenExecPluginFunctionalTest.class.getResource("/fixtures/versions");
-        final File source = Paths.get(requireNonNull(resource).toURI()).toFile();
-        FileUtils.copyDirectory(source, projectDir);
+        prepareProject(projectDir);
     }
 
     @AfterEach
@@ -114,8 +47,8 @@ class MavenExecPluginFunctionalTest {
     @Test
     void realUseCaseTest() {
         final String task = "realUseCaseTest";
-        final String version = supportedGradleVersion().stream().max(Comparator.naturalOrder()).get();
-        BuildResult result = execute(version, null, task);
+        final String version = maximalSupportedGradleVersion();
+        BuildResult result = execute(projectDir, version, null, task);
 
         assertThat(result.getOutput())
                 .isNotBlank()
@@ -123,44 +56,5 @@ class MavenExecPluginFunctionalTest {
                 .contains("[INFO] >>> maven-archetype-plugin")
                 .contains("[INFO] BUILD SUCCESS")
                 .contains("> Task :" + task);
-    }
-
-    @ParameterizedTest
-    @MethodSource
-    void validate(String gradleVersion, String mavenVersion) throws Exception {
-        final String task = "validate";
-        final Path mavenHome = Paths.get(mavenVersion);
-        FileUtils.copyDirectory(mavenHome.toFile(), projectDir);
-        final BuildResult result = execute(gradleVersion, mavenVersion, task);
-
-        assertThat(result.getOutput())
-                .isNotBlank()
-                .contains("Validate work with Gradle: " + gradleVersion)
-                .contains("Maven: " + mavenHome.getFileName())
-                .contains("BUILD SUCCESSFUL")
-                .contains("> Task :" + task);
-    }
-
-    private BuildResult execute(String gradleVersion, String mavenVersion, String task) {
-        if (mavenVersion != null) {
-            System.setProperty("maven-home", mavenVersion);
-        }
-
-        final boolean localRun = Boolean.parseBoolean(System.getenv("CI"));
-        final ArrayList<String> arguments = new ArrayList<>();
-        arguments.add(task);
-        if (localRun) {
-            arguments.add("--warning-mode");
-            arguments.add("all");
-        }
-
-        final GradleRunner runner = GradleRunner.create();
-        runner.forwardStdOutput(new StringWriter());
-        runner.withPluginClasspath();
-        runner.withArguments(arguments);
-        runner.withProjectDir(projectDir);
-        runner.withGradleVersion(gradleVersion);
-        runner.withDebug(localRun);
-        return runner.build();
     }
 }
