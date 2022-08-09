@@ -18,6 +18,7 @@ package com.github.dkorotych.gradle.maven;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -92,10 +93,18 @@ class MavenOptionsToCommandLineAdapterTest {
         return filterDescriptors(File.class)
                 .flatMap(descriptor -> {
                     final String option = createOptionName(descriptor);
+                    String tmpPath = tmpDir.getAbsolutePath();
+                    if (StringUtils.containsWhitespace(tmpPath)) {
+                        tmpPath = '"' + tmpPath + '"';
+                    }
+                    String userPath = file.getAbsolutePath();
+                    if (StringUtils.containsWhitespace(userPath)) {
+                        userPath = '"' + userPath + '"';
+                    }
                     return Stream.of(
                             Arguments.of(descriptor, null, Collections.emptyList()),
-                            Arguments.of(descriptor, tmpDir, ImmutableList.of(option, tmpDir.getAbsolutePath())),
-                            Arguments.of(descriptor, file, ImmutableList.of(option, file.getAbsolutePath()))
+                            Arguments.of(descriptor, tmpDir, ImmutableList.of(option, tmpPath)),
+                            Arguments.of(descriptor, file, ImmutableList.of(option, userPath))
                     );
                 });
     }
@@ -117,6 +126,17 @@ class MavenOptionsToCommandLineAdapterTest {
                 });
     }
 
+    private static Stream<PropertyDescriptor> filterDescriptors(Class<?> typeClass) {
+        return Arrays.stream(DESCRIPTORS)
+                .filter(descriptor -> descriptor.getPropertyType().equals(typeClass));
+    }
+
+    static String createOptionName(PropertyDescriptor descriptor) {
+        return "--" + descriptor.getName()
+                .replaceAll("([A-Z])", "-$1")
+                .toLowerCase();
+    }
+
     @Test
     void nullOptions() {
         assertThatThrownBy(() -> new MavenOptionsToCommandLineAdapter(null, null))
@@ -135,7 +155,6 @@ class MavenOptionsToCommandLineAdapterTest {
     void validateBooleanWithSupportedOptions(PropertyDescriptor property, boolean value, List<String> expected) throws Exception {
         validateOption(property, value, Collections.emptyList(), Collections.emptySet());
     }
-
 
     @ParameterizedTest
     @MethodSource
@@ -181,17 +200,6 @@ class MavenOptionsToCommandLineAdapterTest {
     @MethodSource("validateString")
     void validateStringWithSupportedOptions(PropertyDescriptor property, String value, List<String> expected) throws Exception {
         validateOption(property, value, Collections.emptyList(), Collections.emptySet());
-    }
-
-    private static Stream<PropertyDescriptor> filterDescriptors(Class<?> typeClass) {
-        return Arrays.stream(DESCRIPTORS)
-                .filter(descriptor -> descriptor.getPropertyType().equals(typeClass));
-    }
-
-    static String createOptionName(PropertyDescriptor descriptor) {
-        return "--" + descriptor.getName()
-                .replaceAll("([A-Z])", "-$1")
-                .toLowerCase();
     }
 
     private void validateOption(PropertyDescriptor property, Object value, List<String> expected, Set<String> supportedOptions) throws IllegalAccessException, InvocationTargetException {
