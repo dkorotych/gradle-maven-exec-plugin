@@ -141,7 +141,7 @@ class MavenDescriptorTest {
         final MavenDescriptor descriptor = new MavenDescriptor(project.getProjectDir().toPath(), project);
         assertThat(descriptor.getVersion())
                 .isNotBlank()
-                .isEqualTo("3.5.0");
+                .isEqualTo("3.0.4");
     }
 
     @Test
