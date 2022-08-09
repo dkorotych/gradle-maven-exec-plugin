@@ -85,7 +85,7 @@ class MavenExecPluginFunctionalTest {
         }
     }
 
-    public static Stream<Arguments> validate() throws Exception {
+    public static Stream<Arguments> validate() {
         final Stream.Builder<Arguments> builder = Stream.builder();
         for (String gradle : supportedGradleVersion()) {
             for (String maven : supportedMavenVersion()) {

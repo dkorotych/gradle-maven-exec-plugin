@@ -1,5 +1,3 @@
-import java.nio.file.Files
-
 plugins {
     id('com.github.dkorotych.gradle.maven.exec')
 }
@@ -14,6 +12,13 @@ if (System.getProperty("maven-home")) {
 tasks.register("realUseCaseTest") {
     group = "verification"
     dependsOn = ["checkMavenApplication", "checkMavenApplication2", "checkMavenApplication3"]
+    it.finalizedBy("${it.name}Clean")
+}
+
+tasks.register("realUseCaseTestClean") {
+    doLast {
+        tasks.findByName('checkMavenApplication').outputFile.delete()
+    }
 }
 
 def groupId = 'com.mycompany.app'
@@ -43,7 +48,9 @@ task packageMavenApplication(type: MavenExec, dependsOn: 'generateMavenApplicati
 }
 
 task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication') {
-    def outputFile = file("$buildDir/output1.txt")
+    ext {
+        outputFile = file("$buildDir/output1.txt")
+    }
     workingDir generateMavenApplication.outputDir
     classpath file("${generateMavenApplication.outputDir}/target/${artifactId}-1.0-SNAPSHOT.jar")
     if (gradle.gradleVersion > '7.1') {
@@ -54,9 +61,7 @@ task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication')
     def outputStream = outputFile.newOutputStream()
     standardOutput outputStream
     doLast {
-        outputStream.close()
         assert outputFile.text.trim() == 'Hello World!'
-        Files.delete(outputFile.toPath())
     }
 }
 
