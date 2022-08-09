@@ -34,10 +34,10 @@ jobs:
     strategy:
       matrix:
         java:
-          - '8'
-          - '11'
-          - '17'
-          - '18'
+          - 8
+          - 11
+          - 17
+          - 18
         os:
           - 'ubuntu-latest'
           - 'macos-latest'
@@ -62,14 +62,14 @@ jobs:
         name: Set MAVEN_HOME
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - uses: gradle/gradle-build-action@v2
-        if: ${{ matrix.java < '17' }}
+        if: ${{ matrix.java < 17 }}
         name: Run plugin tests
         with:
           gradle-version: wrapper
           arguments: functionalTest --scan
       - uses: gradle/gradle-build-action@v2
-        if: ${{ matrix.java >= '17' }}
+        if: ${{ matrix.java >= 17 }}
         name: Run plugin tests
         with:
-            gradle-version: release
+            gradle-version: current
             arguments: functionalTest --scan
