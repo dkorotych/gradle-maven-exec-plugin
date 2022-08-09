@@ -112,8 +112,9 @@ public class CommandLineCreator {
             logger.info("Find Maven executable in {}", directory);
             try {
                 mavenHomeProvider.setMavenHome(directory);
+                specification.setMavenDir(directory);
             } catch (IncorrectMavenInstallationDirectoryException ignored) {
-                logger.info("Maven executable not found {}", directory);
+                logger.debug("Maven executable not found {}", directory);
             }
         }
     }
