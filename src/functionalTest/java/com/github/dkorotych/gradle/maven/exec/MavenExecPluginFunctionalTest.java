@@ -86,6 +86,7 @@ class MavenExecPluginFunctionalTest {
         for (String gradle : supportedGradleVersion()) {
             for (String maven : supportedMavenVersion()) {
                 final File projectDir = prepareProject();
+                FileUtils.copyDirectory(Paths.get(maven).toFile(), projectDir);
                 builder.accept(Arguments.of(projectDir, gradle, maven));
             }
         }
