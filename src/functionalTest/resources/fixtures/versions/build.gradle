@@ -49,9 +49,10 @@ task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication')
     } else {
         main "${groupId}.App"
     }
-    standardOutput new FileOutputStream(outputFile)
+    def outputStream = outputFile.newOutputStream()
+    standardOutput outputStream
     doLast {
-        standardOutput.close()
+        outputStream.close()
         assert outputFile.text.trim() == 'Hello World!'
     }
 }
