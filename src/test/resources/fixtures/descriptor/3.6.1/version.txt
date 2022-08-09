@@ -1,5 +1,0 @@
-Apache Maven 3.6.1 (d66c9c0b3152b2e69ee9bac180bb8fcc8e6af555; 2019-04-04T22:00:29+03:00)
-Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.6.1-bin/ced06cd4/apache-maven-3.6.1
-Java version: 1.8.0_332, vendor: Temurin, runtime: /home/dkorotych/.sdkman/candidates/java/8.0.332-tem/jre
-Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "5.15.0-41-generic", arch: "amd64", family: "unix"

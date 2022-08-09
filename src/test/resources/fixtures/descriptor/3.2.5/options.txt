@@ -14,7 +14,6 @@
 --fail-fast
 --fail-never
 --global-settings
---global-toolchains
 --help
 --log-file
 --legacy-local-repository
@@ -22,17 +21,16 @@
 --no-plugin-registry
 --no-plugin-updates
 --no-snapshot-updates
---no-transfer-progress
 --offline
 --activate-profiles
 --projects
 --quiet
 --resume-from
 --settings
---toolchains
 --threads
+--toolchains
 --update-snapshots
 --update-plugins
---version
 --show-version
+--version
 --debug

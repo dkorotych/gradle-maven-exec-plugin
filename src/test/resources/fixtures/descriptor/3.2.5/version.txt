@@ -1,5 +1,5 @@
-Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-10T19:41:47+03:00)
-Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.3.9-bin/6d5080f4/apache-maven-3.3.9
+Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T20:29:23+03:00)
+Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.2.5-bin/a0bc0cd4/apache-maven-3.2.5
 Java version: 1.8.0_342, vendor: Temurin
 Java home: /home/dkorotych/.sdkman/candidates/java/8.0.342-tem/jre
 Default locale: ru_RU, platform encoding: UTF-8

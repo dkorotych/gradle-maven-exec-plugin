@@ -7,21 +7,12 @@ import org.gradle.api.tasks.TaskProvider;
 
 public class MavenTestHelperPlugin implements Plugin<Project> {
     private static final String[] SUPPORTED_MAVEN_VERSIONS = new String[]{
-            "3.0.5",
+            "3.0.4",
+            "3.1.1",
+            "3.2.5",
             "3.3.9",
-            "3.5.0",
-            "3.5.2",
-            "3.5.3",
             "3.5.4",
-            "3.6.0",
-            "3.6.1",
-            "3.6.2",
             "3.6.3",
-            "3.8.1",
-            "3.8.2",
-            "3.8.3",
-            "3.8.4",
-            "3.8.5",
             "3.8.6"
     };
 
