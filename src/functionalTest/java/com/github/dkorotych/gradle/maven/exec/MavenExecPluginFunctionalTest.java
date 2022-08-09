@@ -18,13 +18,13 @@ package com.github.dkorotych.gradle.maven.exec;
 import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
@@ -38,8 +38,6 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MavenExecPluginFunctionalTest {
-    private static File projectDir;
-
     public static Collection<String> supportedGradleVersion() {
         return Arrays.asList(
 //                "5.6.4",
@@ -83,29 +81,31 @@ class MavenExecPluginFunctionalTest {
         }
     }
 
-    public static Stream<Arguments> validate() {
+    public static Stream<Arguments> validate() throws Exception {
         final Stream.Builder<Arguments> builder = Stream.builder();
-        supportedGradleVersion().forEach(gradle -> {
+        for (String gradle : supportedGradleVersion()) {
             for (String maven : supportedMavenVersion()) {
-                builder.accept(Arguments.of(gradle, maven));
+                final File projectDir = prepareProject();
+                builder.accept(Arguments.of(projectDir, gradle, maven));
             }
-        });
+        }
         return builder.build();
     }
 
-    @BeforeAll
-    static void beforeAll() throws Exception {
-        projectDir = Files.createTempDirectory("functional").toFile();
+    private static File prepareProject() throws Exception {
+        final File projectDir = Files.createTempDirectory("functional").toFile();
         final URL resource = MavenExecPluginFunctionalTest.class.getResource("/fixtures/versions");
         final File source = Paths.get(requireNonNull(resource).toURI()).toFile();
         FileUtils.copyDirectory(source, projectDir);
+        return projectDir;
     }
 
     @Test
     void realUseCaseTest() throws Exception {
         final String task = "realUseCaseTest";
         final String version = supportedGradleVersion().stream().max(Comparator.naturalOrder()).get();
-        BuildResult result = execute(version, null, task);
+        final File projectDir = prepareProject();
+        BuildResult result = execute(projectDir, version, null, task);
 
         assertThat(result.getOutput())
                 .isNotBlank()
@@ -113,13 +113,14 @@ class MavenExecPluginFunctionalTest {
                 .contains("[INFO] >>> maven-archetype-plugin")
                 .contains("[INFO] BUILD SUCCESS")
                 .contains("> Task :" + task);
+        deleteProject(projectDir);
     }
 
     @ParameterizedTest
     @MethodSource
-    void validate(String gradleVersion, String mavenVersion) throws Exception {
+    void validate(File projectDir, String gradleVersion, String mavenVersion) throws Exception {
         final String task = "validate";
-        final BuildResult result = execute(gradleVersion, mavenVersion, task);
+        final BuildResult result = execute(projectDir, gradleVersion, mavenVersion, task);
 
         assertThat(result.getOutput())
                 .isNotBlank()
@@ -127,9 +128,10 @@ class MavenExecPluginFunctionalTest {
                 .contains("Maven: " + Paths.get(mavenVersion).getFileName())
                 .contains("BUILD SUCCESSFUL")
                 .contains("> Task :" + task);
+        deleteProject(projectDir);
     }
 
-    private BuildResult execute(String gradleVersion, String mavenVersion, String task) throws Exception {
+    private BuildResult execute(File projectDir, String gradleVersion, String mavenVersion, String task) throws Exception {
         if (mavenVersion != null) {
             System.setProperty("maven-home", mavenVersion);
         }
@@ -150,5 +152,9 @@ class MavenExecPluginFunctionalTest {
         runner.withGradleVersion(gradleVersion);
         runner.withDebug(localRun);
         return runner.build();
+    }
+
+    private void deleteProject(File projectDir) throws IOException {
+        FileUtils.deleteDirectory(projectDir);
     }
 }
