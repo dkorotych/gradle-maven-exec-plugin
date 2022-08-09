@@ -97,6 +97,23 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+        if (System.getenv("CI")) {
+            tag "GitHub"
+            tag project.version
+            publishAlways()
+            uploadInBackground = false
+            link "VCS", github.vcsUrl + "/tree/${System.getenv('GITHUB_REF_NAME')}"
+        } else {
+            tag "local"
+        }
+        tag System.getProperty("os.name")
+    }
+}
+
 license {
     header project.file('gradle/config/license-header.txt')
     ext.year = Calendar.getInstance().get(Calendar.YEAR)
