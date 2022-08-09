@@ -41,7 +41,7 @@ task packageMavenApplication(type: MavenExec, dependsOn: 'generateMavenApplicati
 }
 
 task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication') {
-    def outputFile = file("$buildDir/output.txt")
+    def outputFile = file("$buildDir/output1.txt")
     workingDir generateMavenApplication.outputDir
     classpath file("${generateMavenApplication.outputDir}/target/${artifactId}-1.0-SNAPSHOT.jar")
     if (gradle.gradleVersion > '7.1') {
@@ -52,7 +52,6 @@ task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication')
     standardOutput new FileOutputStream(outputFile)
     doLast {
         assert outputFile.text.trim() == 'Hello World!'
-        standardOutput.close()
     }
 }
 
@@ -62,7 +61,7 @@ task checkMavenApplication2 {
         def application = artifactId + '-second'
         def applicationDir = file("$buildDir/$application")
         delete applicationDir
-        def outputFile = file("$buildDir/output.txt")
+        def outputFile = file("$buildDir/output2.txt")
         mavenexec {
             workingDir buildDir
             goals 'archetype:generate'
