@@ -51,6 +51,7 @@ task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication')
     }
     standardOutput new FileOutputStream(outputFile)
     doLast {
+        standardOutput.close()
         assert outputFile.text.trim() == 'Hello World!'
     }
 }
