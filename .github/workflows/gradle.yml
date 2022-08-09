@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set MAVEN_HOME
-        if: ${{ $RUNNER_OS != 'Windows' }}
+        if: ${{ RUNNER_OS != 'Windows' }}
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - name: Set MAVEN_HOME (Windows)
         if: ${{ $RUNNER_OS == 'Windows' }}
