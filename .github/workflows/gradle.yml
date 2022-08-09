@@ -6,7 +6,23 @@ env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false"
 
 jobs:
+  setup-maven-home:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set MAVEN_HOME
+        if: ${{ $RUNNER_OS != 'Windows' }}
+        run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
+      - name: Set MAVEN_HOME (Windows)
+        if: ${{ $RUNNER_OS == 'Windows' }}
+        run: |
+         mvn --version |
+         select-string 'Maven home: (.+)$' |
+         % { 'MAVEN_HOME=' + $_.Matches.Groups[1].Value } |
+         Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
   build:
+    needs:
+      - setup-maven-home
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,14 +32,14 @@ jobs:
           distribution: 'temurin'
           java-version: 8
           cache: 'gradle'
-      - name: Set MAVEN_HOME
-        run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: wrapper
           arguments: check functionalTest
 
   validate:
+    needs:
+      - setup-maven-home
     name: Validate on ${{ matrix.os }} and Java ${{ matrix.java }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -45,16 +61,6 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: 'gradle'
-      - if: ${{ matrix.os == 'windows-latest' }}
-        name: Set MAVEN_HOME (Windows)
-        run: |
-          mvn --version |
-          select-string 'Maven home: (.+)$' |
-          % { 'MAVEN_HOME=' + $_.Matches.Groups[1].Value } |
-          Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-      - if: ${{ matrix.os != 'windows-latest' }}
-        name: Set MAVEN_HOME
-        run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - uses: gradle/gradle-build-action@v2
         if: ${{ matrix.java < 17 }}
         name: Run plugin tests
