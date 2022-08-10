@@ -16,7 +16,6 @@
 plugins {
     id "com.github.hierynomus.license" version "0.15.0"
     id 'ru.vyarus.quality' version '4.8.0'
-    id 'org.openrewrite.rewrite' version '5.26.3'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -28,11 +27,6 @@ repositories {
 
 dependencies {
     implementation("org.apache.commons:commons-lang3:3.12.0")
-
-    rewrite("org.openrewrite:rewrite-gradle:7.27.3")
-    rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:1.26.1")
-    rewrite("org.openrewrite.recipe:rewrite-logging-frameworks:1.10.1")
-    rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.9.1")
 }
 
 license {
@@ -41,9 +35,4 @@ license {
     ext.developers = 'Dmitry Korotych'
     skipExistingHeaders true
     strictCheck true
-}
-
-rewrite {
-    configFile = file('../gradle/config/rewrite.yml')
-    activeRecipe('com.github.dkorotych.gradle.maven.exec.MavenExecPlugin')
 }
