@@ -34,6 +34,8 @@ jobs:
           fail_ci_if_error: true
       - name: Codacy Coverage Reporter
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v1.6
 
   validate:
     name: Validate on ${{ matrix.os }} and Java ${{ matrix.java }}
