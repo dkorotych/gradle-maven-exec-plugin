@@ -1,11 +1,11 @@
-> ## The plugin does not work in Gradle versions from 7. It is currently being rewritten and it is not certain that this will be possible with the current functionality
+> ## The plugin does not work in Gradle versions from 7. It is currently being rewritten, and it is not certain that this will be possible with the current functionality
 
 # [gradle-maven-exec-plugin](https://plugins.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec)
 
 Gradle plugin which provides a Maven exec task
 
 [![Build Status](https://github.com/dkorotych/gradle-maven-exec-plugin/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/dkorotych/gradle-maven-exec-plugin/actions/workflows/gradle.yml)
-[![codecov](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin)
+[![codecov](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin/branch/master/graph/badge.svg?token=1zdFJxubOd)](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7c2907ecd1d749deb5c3765bd86cbf72)](https://www.codacy.com/app/dkorotych/gradle-maven-exec-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dkorotych/gradle-maven-exec-plugin&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/7c2907ecd1d749deb5c3765bd86cbf72)](https://www.codacy.com/app/dkorotych/gradle-maven-exec-plugin?utm_source=github.com&utm_medium=referral&utm_content=dkorotych/gradle-maven-exec-plugin&utm_campaign=Badge_Coverage)
 [![license](https://img.shields.io/github/license/dkorotych/gradle-maven-exec-plugin.svg)](https://github.com/dkorotych/gradle-maven-exec-plugin.git)
