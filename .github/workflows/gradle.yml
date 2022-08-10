@@ -21,7 +21,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: wrapper
-          arguments: check functionalTest
+          arguments: check
 
   validate:
     name: Validate on ${{ matrix.os }} and Java ${{ matrix.java }}
