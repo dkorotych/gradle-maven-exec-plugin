@@ -37,6 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.gradle.util.CollectionUtils.asCommandLine;
 
+@SuppressWarnings("OverloadMethodsDeclarationOrder")
 class CommandLineCreatorTest {
     private static Project project;
 
@@ -49,7 +50,7 @@ class CommandLineCreatorTest {
 
     public static Stream<Arguments> validate() {
         final ExecSpec delegate = createExecSpec(project);
-        MavenExecSpecDelegate delegate1 = new MavenExecSpecDelegate(delegate, project);
+        final MavenExecSpecDelegate delegate1 = new MavenExecSpecDelegate(delegate, project);
         delegate1.setOffline(true);
         delegate1.setUpdatePlugins(true);
         delegate1.setGoals(ImmutableList.of("verify"));

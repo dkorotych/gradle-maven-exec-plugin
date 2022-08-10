@@ -29,10 +29,15 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
+import static java.util.Objects.requireNonNull;
 import static org.gradle.internal.os.OperatingSystem.*;
 
+@SuppressWarnings("MissingJavadocType")
 public final class TestUtility {
     private TestUtility() {
     }
@@ -48,11 +53,12 @@ public final class TestUtility {
     }
 
     public static void prepareProject(boolean withWrapper, File destination) throws Exception {
-        final URI uri = Objects.requireNonNull(TestUtility.class.getResource("/fixtures/wrapper/with" + (withWrapper ? "" : "out"))).toURI();
+        final String directory = "/fixtures/wrapper/with" + (withWrapper ? "" : "out");
+        final URI uri = requireNonNull(TestUtility.class.getResource(directory)).toURI();
         final File source = Paths.get(uri).toFile();
         FileUtils.copyDirectory(source, destination);
         if (withWrapper) {
-            Path path = destination.toPath();
+            final Path path = destination.toPath();
             for (String name : Arrays.asList("mvnw", "mvnw.cmd")) {
                 path.resolve(name).toFile().setExecutable(true);
             }
@@ -85,15 +91,24 @@ public final class TestUtility {
         return commandLine(path, OperatingSystem.current(), false, true, arguments);
     }
 
-    public static List<String> commandLine(File path, OperatingSystem os, boolean oldVersion, boolean useWrapper, String... arguments) {
-        List<String> commandLine = new ArrayList<>();
+    public static List<String> commandLine(final File path, OperatingSystem os, boolean oldVersion, boolean useWrapper,
+                                           String... arguments) {
+        final List<String> commandLine = new ArrayList<>();
+        File pathToMaven = path;
         if (path != null) {
             if (!useWrapper) {
-                path = path.toPath().resolve("bin").toFile();
+                pathToMaven = path.toPath().resolve("bin").toFile();
             }
 
         }
-        commandLine.add((path != null ? path.toPath().normalize().toFile().getAbsolutePath() + File.separatorChar : "") + "mvn"
+        final String mavenHome = Optional.ofNullable(pathToMaven)
+                .map(File::toPath)
+                .map(Path::normalize)
+                .map(Path::toFile)
+                .map(File::getAbsolutePath)
+                .map(absolutePath -> absolutePath + File.separatorChar)
+                .orElse("");
+        commandLine.add(mavenHome + "mvn"
                 + (useWrapper ? 'w' : "") + (os == WINDOWS ? useWrapper ? ".cmd" : oldVersion ? ".bat" : ".cmd" : ""));
         commandLine.addAll(Arrays.asList(arguments));
         return commandLine;

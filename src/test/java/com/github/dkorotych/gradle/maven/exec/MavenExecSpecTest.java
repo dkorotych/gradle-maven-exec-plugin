@@ -18,7 +18,6 @@ package com.github.dkorotych.gradle.maven.exec;
 import com.github.dkorotych.gradle.maven.DefaultMavenOptions;
 import com.github.dkorotych.gradle.maven.MavenOptions;
 import com.github.dkorotych.gradle.maven.MemoizedSupplier;
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,18 +33,20 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static com.google.common.collect.ImmutableMap.of;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 
+@SuppressWarnings("OverloadMethodsDeclarationOrder")
 class MavenExecSpecTest {
     private static final Supplier<List<PropertyDescriptor>> SPECIFICATION_DESCRIPTORS = MemoizedSupplier.of(() -> {
-        final List<String> skipThis = Arrays.asList("mavenDir", "goals", "options");
+        final List<String> skip = Arrays.asList("mavenDir", "goals", "options");
         try {
             return Arrays.stream(Introspector.getBeanInfo(MavenExecSpec.class).getPropertyDescriptors())
-                    .filter(((Predicate<PropertyDescriptor>) descriptor -> skipThis.contains(descriptor.getName())).negate())
+                    .filter(((Predicate<PropertyDescriptor>) d -> skip.contains(d.getName())).negate())
                     .collect(Collectors.toList());
         } catch (IntrospectionException e) {
             throw new RuntimeException(e);
@@ -83,7 +84,7 @@ class MavenExecSpecTest {
         final MavenExecSpec specification = spy(MavenExecSpec.class);
         final MavenOptions options = spy(DefaultMavenOptions.class);
         doReturn(options).when(specification).getOptions();
-        Object value;
+        final Object value;
 
         switch (descriptor.getPropertyType().getSimpleName()) {
             case "boolean":
@@ -111,7 +112,7 @@ class MavenExecSpecTest {
                 break;
             case "Map":
                 validate(descriptor, specification, options, null);
-                value = ImmutableMap.of(randomAlphanumeric(10), randomAlphanumeric(10), randomAlphanumeric(5), randomAlphanumeric(8));
+                value = of(randomAlphanumeric(8), randomAlphanumeric(4), randomAlphanumeric(5), randomAlphanumeric(8));
                 descriptor.getWriteMethod().invoke(specification, value);
                 validate(descriptor, specification, options, value);
                 break;

@@ -70,7 +70,7 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
     @MethodSource("environment")
     void environmentItem(Map<String, ?> value) {
         if (value != null && !value.isEmpty()) {
-            Map.Entry<String, ?> first = value.entrySet().iterator().next();
+            final Map.Entry<String, ?> first = value.entrySet().iterator().next();
             specification.environment(first.getKey(), first.getValue());
             assertThat(specification.getEnvironment()).containsEntry(first.getKey(), first.getValue());
         }
@@ -170,7 +170,7 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
 
     @Test
     void exec() throws Exception {
-        Project project = createProject();
+        final Project project = createProject();
         MavenExec mavenExec = createTask(project);
         mavenExec.setWorkingDir(project.getProjectDir());
         mavenExec.setGoals(singleton("validate"));

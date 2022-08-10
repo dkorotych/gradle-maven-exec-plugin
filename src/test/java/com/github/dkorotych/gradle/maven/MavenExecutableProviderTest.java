@@ -15,7 +15,6 @@
  */
 package com.github.dkorotych.gradle.maven;
 
-import org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils;
 import org.gradle.internal.os.OperatingSystem;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -24,28 +23,33 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.github.dkorotych.gradle.maven.TestUtility.*;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.getJavaIoTmpDir;
+import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.getUserHome;
 import static org.junit.jupiter.params.ParameterizedTest.DEFAULT_DISPLAY_NAME;
 
 class MavenExecutableProviderTest {
 
     public static Stream<Arguments> getExecutable() throws Exception {
         final Stream.Builder<Arguments> builder = Stream.builder();
-        for (final boolean withWrapper : Arrays.asList(true, false)) {
+        for (final boolean withWrapper : asList(true, false)) {
             final File projectDir = Files.createTempDirectory(null).toFile();
             TestUtility.prepareProject(withWrapper, projectDir);
 
             for (OperatingSystem os : operatingSystems()) {
-                for (File path : Arrays.asList(null, SystemUtils.getUserHome(), SystemUtils.getJavaIoTmpDir(), projectDir)) {
+                for (File path : asList(null, getUserHome(), getJavaIoTmpDir(), projectDir)) {
                     final boolean hasWrapper = withWrapper && projectDir.equals(path);
-                    List<String> commandLine = commandLine(path, os, false, hasWrapper);
-                    builder.add(Arguments.of(Optional.ofNullable(path).map(File::getPath).orElse(null), os, String.join(" ", commandLine)));
+                    final List<String> commandLine = commandLine(path, os, false, hasWrapper);
+                    final String directory = Optional.ofNullable(path)
+                            .map(File::getPath)
+                            .orElse(null);
+                    builder.add(Arguments.of(directory, os, String.join(" ", commandLine)));
                 }
             }
         }

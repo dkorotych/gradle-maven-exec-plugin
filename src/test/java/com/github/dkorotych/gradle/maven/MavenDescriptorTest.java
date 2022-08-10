@@ -42,6 +42,7 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("OverloadMethodsDeclarationOrder")
 class MavenDescriptorTest {
 
     public static Stream<Arguments> getVersion() throws Exception {
@@ -69,7 +70,7 @@ class MavenDescriptorTest {
     private static List<File> descriptorFixtures() throws Exception {
         final URL resource = MavenDescriptorTest.class.getResource("/fixtures/descriptor");
         final Path path = Paths.get(requireNonNull(resource).toURI());
-        try (final Stream<Path> paths = Files.list(path)) {
+        try (Stream<Path> paths = Files.list(path)) {
             return paths.map(Path::toFile)
                     .filter(File::isDirectory)
                     .sorted(Comparator.comparing(File::getName))

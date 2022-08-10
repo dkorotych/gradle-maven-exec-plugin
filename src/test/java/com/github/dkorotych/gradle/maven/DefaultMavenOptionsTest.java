@@ -15,14 +15,12 @@
  */
 package com.github.dkorotych.gradle.maven;
 
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -32,14 +30,16 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.google.code.beanmatchers.BeanMatchers.*;
+import static com.google.common.collect.ImmutableMap.of;
+import static java.beans.Introspector.getBeanInfo;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,9 +48,10 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@SuppressWarnings("OverloadMethodsDeclarationOrder")
 class DefaultMavenOptionsTest {
     public static Stream<PropertyDescriptor> lookLikeAPropertyAccess() throws IntrospectionException {
-        return Arrays.stream(Introspector.getBeanInfo(DefaultMavenOptions.class, Object.class).getPropertyDescriptors());
+        return stream(getBeanInfo(DefaultMavenOptions.class, Object.class).getPropertyDescriptors());
     }
 
     @Test
@@ -129,9 +130,9 @@ class DefaultMavenOptionsTest {
                 break;
             case "Map":
                 resetToDefault(options, descriptor);
-                validateSetter(descriptor, options, ImmutableMap.of(random(10), random(10), random(5), random(8)));
+                validateSetter(descriptor, options, of(random(10), random(10), random(5), random(8)));
                 resetToDefault(options, descriptor);
-                validatePropertySetter(descriptor, options, ImmutableMap.of(random(10), random(10), random(5), random(8)));
+                validatePropertySetter(descriptor, options, of(random(10), random(10), random(5), random(8)));
                 break;
             default:
                 fail("Unsupported property type - %s", descriptor.getPropertyType());
@@ -157,7 +158,8 @@ class DefaultMavenOptionsTest {
         descriptor.getWriteMethod().invoke(options, value);
     }
 
-    private void validateSetter(PropertyDescriptor descriptor, DefaultMavenOptions options, Object value) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private void validateSetter(PropertyDescriptor descriptor, DefaultMavenOptions options, Object value)
+            throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         descriptor.getWriteMethod().invoke(options, value);
         assertThat(descriptor.getReadMethod().invoke(options))
                 .isEqualTo(value);
@@ -165,7 +167,8 @@ class DefaultMavenOptionsTest {
                 .isEqualTo(value);
     }
 
-    private void validatePropertySetter(PropertyDescriptor descriptor, DefaultMavenOptions options, Object value) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private void validatePropertySetter(PropertyDescriptor descriptor, DefaultMavenOptions options, Object value)
+            throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         getPropertyWriter(descriptor).invoke(options, value);
         assertThat(getPropertyReader(descriptor).invoke(options))
                 .isEqualTo(value);

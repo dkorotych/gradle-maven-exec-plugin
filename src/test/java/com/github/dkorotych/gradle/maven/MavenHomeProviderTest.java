@@ -42,7 +42,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("OverloadMethodsDeclarationOrder")
 class MavenHomeProviderTest {
+    private static final String MVN = "mvn";
+    private static final String BIN = "bin";
     private MavenHomeProvider provider;
 
     public static Stream<File> setIncorrectMavenHomeAsFile() throws Exception {
@@ -52,36 +55,36 @@ class MavenHomeProviderTest {
                 .add(Paths.get("").toFile())
                 .add(Paths.get(requireNonNull(resource).toURI()).toFile())
                 .add(createTempFile());
-        for (final String name : Arrays.asList("bin", "mvn", "mvn.bat", "mvn.cmd", "demo", "empty", "config")) {
-            File _1 = createTempDirectory().resolve(name).toFile();
-            _1.createNewFile();
-            builder.add(_1);
+        for (final String name : Arrays.asList(BIN, MVN, "mvn.bat", "mvn.cmd", "demo", "empty", "config")) {
+            final File file1 = createTempDirectory().resolve(name).toFile();
+            file1.createNewFile();
+            builder.add(file1);
             final File directory = createTempDirectory().resolve(name).toFile();
             directory.mkdirs();
             builder.add(directory);
-            if (!"bin".equals(name)) {
+            if (!BIN.equals(name)) {
                 builder.add(directory.toPath().resolve(name).toFile());
             }
         }
-        final File _1 = createTempDirectory().resolve("bin").resolve("m-v-n").toFile();
-        _1.getParentFile().mkdirs();
-        builder.add(_1);
-        final File _2 = createTempDirectory().resolve("bin").resolve("bin").resolve("mvn").toFile();
-        _2.getParentFile().mkdirs();
-        builder.add(_2);
+        final File file1 = createTempDirectory().resolve(BIN).resolve("m-v-n").toFile();
+        file1.getParentFile().mkdirs();
+        builder.add(file1);
+        final File file2 = createTempDirectory().resolve(BIN).resolve(BIN).resolve(MVN).toFile();
+        file2.getParentFile().mkdirs();
+        builder.add(file2);
         return builder.build();
     }
 
     public static Stream<Arguments> setMavenHomeAsFile() throws IOException {
         final Stream.Builder<Arguments> builder = Stream.builder();
-        File _1 = createTempDirectory().resolve("mvnw").toFile();
-        _1.createNewFile();
-        builder.add(Arguments.of(_1, _1.getParentFile().toPath()));
-        File _2 = createTempDirectory().resolve("mvnw.cmd").toFile();
-        _2.createNewFile();
-        builder.add(Arguments.of(_2, _2.getParentFile().toPath()));
-        for (final String name : Arrays.asList("mvn", "mvn.cmd", "mvn.bat")) {
-            final File file = createTempDirectory().resolve("bin").resolve(name).toFile();
+        final File file1 = createTempDirectory().resolve("mvnw").toFile();
+        file1.createNewFile();
+        builder.add(Arguments.of(file1, file1.getParentFile().toPath()));
+        final File file2 = createTempDirectory().resolve("mvnw.cmd").toFile();
+        file2.createNewFile();
+        builder.add(Arguments.of(file2, file2.getParentFile().toPath()));
+        for (final String name : Arrays.asList(MVN, "mvn.cmd", "mvn.bat")) {
+            final File file = createTempDirectory().resolve(BIN).resolve(name).toFile();
             file.getParentFile().mkdir();
             file.createNewFile();
             final Path mavenHome = file.getParentFile().getParentFile().toPath();
@@ -90,6 +93,14 @@ class MavenHomeProviderTest {
             builder.add(Arguments.of(file.getParentFile().getParentFile(), mavenHome));
         }
         return builder.build();
+    }
+
+    private static File createTempFile() throws IOException {
+        return Files.createTempFile(null, null).toFile();
+    }
+
+    private static Path createTempDirectory() throws IOException {
+        return Files.createTempDirectory(null);
     }
 
     @BeforeEach
@@ -119,7 +130,10 @@ class MavenHomeProviderTest {
     @ParameterizedTest
     @MethodSource("setIncorrectMavenHomeAsFile")
     void setIncorrectMavenHomeAsPath(File directory) {
-        assertIncorrectMavenHome(() -> provider.setMavenHome(Optional.ofNullable(directory).map(File::toPath).orElse(null)), directory);
+        final Path mavenHome = Optional.ofNullable(directory)
+                .map(File::toPath)
+                .orElse(null);
+        assertIncorrectMavenHome(() -> provider.setMavenHome(mavenHome), directory);
     }
 
     @ParameterizedTest
@@ -132,7 +146,10 @@ class MavenHomeProviderTest {
     @ParameterizedTest
     @MethodSource("setIncorrectMavenHomeAsFile")
     void setIncorrectMavenHomeAsString(File directory) {
-        assertIncorrectMavenHome(() -> provider.setMavenHome(Optional.ofNullable(directory).map(File::getAbsolutePath).orElse(null)), directory);
+        final String mavenHome = Optional.ofNullable(directory)
+                .map(File::getAbsolutePath)
+                .orElse(null);
+        assertIncorrectMavenHome(() -> provider.setMavenHome(mavenHome), directory);
     }
 
     @ParameterizedTest
@@ -175,14 +192,6 @@ class MavenHomeProviderTest {
         mavenHome.createNewFile();
         provider.setMavenHome(mavenHome.getParentFile().toPath());
         assertThat(provider.findMavenHome()).isTrue();
-    }
-
-    private static File createTempFile() throws IOException {
-        return Files.createTempFile(null, null).toFile();
-    }
-
-    private static Path createTempDirectory() throws IOException {
-        return Files.createTempDirectory(null);
     }
 
     private void assertIncorrectMavenHome(ThrowableAssert.ThrowingCallable callable, File directory) {

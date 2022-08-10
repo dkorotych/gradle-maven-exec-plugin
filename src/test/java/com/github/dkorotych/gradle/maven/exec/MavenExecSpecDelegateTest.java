@@ -24,6 +24,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
 
+import java.io.File;
 import java.util.Map;
 
 import static com.github.dkorotych.gradle.maven.TestUtility.commandLine;
@@ -64,7 +65,7 @@ class MavenExecSpecDelegateTest extends AbstractMavenExecSpecTest<MavenExecSpecD
     void environmentItem(Map<String, ?> value) {
         if (value != null && !value.isEmpty()) {
             specification.setEnvironment(null);
-            Map.Entry<String, ?> first = value.entrySet().iterator().next();
+            final Map.Entry<String, ?> first = value.entrySet().iterator().next();
             specification.environment(first.getKey(), first.getValue());
             assertThat(specification.getEnvironment()).isEqualTo(ImmutableMap.of(first.getKey(), first.getValue()));
         }
@@ -77,13 +78,14 @@ class MavenExecSpecDelegateTest extends AbstractMavenExecSpecTest<MavenExecSpecD
                 .isEqualTo(commandLine(pair.getKey().getProjectDir()));
 
         pair = create();
-        MavenExecSpec delegate = pair.getValue();
+        final MavenExecSpec delegate = pair.getValue();
         delegate.setGoals(ImmutableList.of("clean", "verify"));
         delegate.setDebug(true);
         delegate.getOptions().setOffline(true);
         delegate.getOptions().quiet(true);
-        assertThat(pair.getValue().getCommandLine())
-                .isEqualTo(commandLine(pair.getKey().getProjectDir(), "--debug", "--offline", "--quiet", "clean", "verify"));
+        final File projectDir = pair.getKey().getProjectDir();
+        assertThat(delegate.getCommandLine())
+                .isEqualTo(commandLine(projectDir, "--debug", "--offline", "--quiet", "clean", "verify"));
     }
 
     @Test

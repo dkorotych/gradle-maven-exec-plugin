@@ -24,13 +24,14 @@ import org.gradle.testfixtures.ProjectBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.function.Consumer;
 
+import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MavenExecConventionTest {
+    private static final String VALIDATE = "validate";
     private static Project project;
 
     @BeforeAll
@@ -57,7 +58,7 @@ class MavenExecConventionTest {
     @Test
     void mavenexec() {
         assertThatNoException().isThrownBy(() -> execute(project, specification -> {
-            specification.setGoals(Collections.singleton("validate"));
+            specification.setGoals(singleton(VALIDATE));
             specification.quiet(true);
         }));
     }
@@ -75,7 +76,7 @@ class MavenExecConventionTest {
         assertThatThrownBy(() -> execute(project, specification -> {
             specification.workingDir(project.getProjectDir());
             specification.mavenDir(project.file("config"))
-                    .goals("validate")
+                    .goals(VALIDATE)
                     .quiet(true);
         }))
                 .isInstanceOf(GradleException.class)
@@ -89,7 +90,7 @@ class MavenExecConventionTest {
         TestUtility.prepareProject(true, localProject.getProjectDir());
         assertThatThrownBy(() -> execute(localProject, specification -> {
             specification.workingDir(localProject.file("configuration"));
-            specification.goals("validate")
+            specification.goals(VALIDATE)
                     .quiet(true);
         }))
                 .isInstanceOf(GradleException.class)

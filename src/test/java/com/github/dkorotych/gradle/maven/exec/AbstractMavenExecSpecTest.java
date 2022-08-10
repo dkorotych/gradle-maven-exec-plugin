@@ -40,6 +40,7 @@ import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@SuppressWarnings("OverloadMethodsDeclarationOrder")
 abstract class AbstractMavenExecSpecTest<T extends MavenExecSpec> {
     protected static Project project;
     protected T specification;

@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MavenExecPluginTest {
     @Test
     void pluginRegistersAExtension() {
-        Project project = ProjectBuilder.builder().build();
+        final Project project = ProjectBuilder.builder().build();
         project.getPlugins().apply("com.github.dkorotych.gradle.maven.exec");
 
         assertThat(project.getExtensions().getExtraProperties().get(MavenExec.class.getSimpleName())).isNotNull();

@@ -15,7 +15,6 @@
  */
 package com.github.dkorotych.gradle.maven;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,11 +32,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static com.google.common.collect.ImmutableList.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@SuppressWarnings("OverloadMethodsDeclarationOrder")
 class MavenOptionsToCommandLineAdapterTest {
     private static final PropertyDescriptor[] DESCRIPTORS;
+    private static final String DEMO = "demo";
 
     static {
         try {
@@ -63,10 +65,10 @@ class MavenOptionsToCommandLineAdapterTest {
                 Arguments.of(null, Collections.emptyList()),
                 Arguments.of(new HashMap<>(), Collections.emptyList()),
                 Arguments.of(Collections.emptyMap(), Collections.emptyList()),
-                Arguments.of(ImmutableMap.of("demo", ""), Collections.emptyList()),
-                Arguments.of(ImmutableMap.of("demo", "test"), Collections.singletonList("-Ddemo=test")),
-                Arguments.of(ImmutableMap.of("1", "2", "3", "", "5", "6"), ImmutableList.of("-D1=2", "-D5=6")),
-                Arguments.of(ImmutableMap.of("1", "2", "", "4", "5", "6"), ImmutableList.of("-D1=2", "-D5=6"))
+                Arguments.of(ImmutableMap.of(DEMO, ""), Collections.emptyList()),
+                Arguments.of(ImmutableMap.of(DEMO, "test"), Collections.singletonList("-Ddemo=test")),
+                Arguments.of(ImmutableMap.of("1", "2", "3", "", "5", "6"), of("-D1=2", "-D5=6")),
+                Arguments.of(ImmutableMap.of("1", "2", "", "4", "5", "6"), of("-D1=2", "-D5=6"))
         );
     }
 
@@ -78,7 +80,7 @@ class MavenOptionsToCommandLineAdapterTest {
                             Arguments.of(descriptor, null, Collections.emptyList()),
                             Arguments.of(descriptor, new String[0], Collections.emptyList()),
                             Arguments.of(descriptor, new String[]{null, null, null}, Collections.emptyList()),
-                            Arguments.of(descriptor, new String[]{"demo", null, "    ", "test"}, ImmutableList.of(option, "demo,test"))
+                            Arguments.of(descriptor, new String[]{DEMO, null, "   ", "test"}, of(option, "demo,test"))
                     );
                 });
     }
@@ -103,8 +105,8 @@ class MavenOptionsToCommandLineAdapterTest {
                     }
                     return Stream.of(
                             Arguments.of(descriptor, null, Collections.emptyList()),
-                            Arguments.of(descriptor, tmpDir, ImmutableList.of(option, tmpPath)),
-                            Arguments.of(descriptor, file, ImmutableList.of(option, userPath))
+                            Arguments.of(descriptor, tmpDir, of(option, tmpPath)),
+                            Arguments.of(descriptor, file, of(option, userPath))
                     );
                 });
     }
@@ -113,15 +115,16 @@ class MavenOptionsToCommandLineAdapterTest {
         return filterDescriptors(String.class)
                 .flatMap(descriptor -> {
                     final String option = createOptionName(descriptor);
-                    String random = RandomStringUtils.random(20);
+                    final String random = RandomStringUtils.random(20);
+                    final String textWithSpaces = "\"text with spaces\"";
                     return Stream.of(
                             Arguments.of(descriptor, null, Collections.emptyList()),
                             Arguments.of(descriptor, "", Collections.emptyList()),
                             Arguments.of(descriptor, "\t \n \n\n    ", Collections.emptyList()),
-                            Arguments.of(descriptor, "demo", ImmutableList.of(option, "demo")),
-                            Arguments.of(descriptor, random, ImmutableList.of(option, random)),
-                            Arguments.of(descriptor, "text with spaces", ImmutableList.of(option, "\"text with spaces\"")),
-                            Arguments.of(descriptor, "\"text with spaces\"", ImmutableList.of(option, "\"text with spaces\""))
+                            Arguments.of(descriptor, DEMO, of(option, DEMO)),
+                            Arguments.of(descriptor, random, of(option, random)),
+                            Arguments.of(descriptor, "text with spaces", of(option, textWithSpaces)),
+                            Arguments.of(descriptor, textWithSpaces, of(option, textWithSpaces))
                     );
                 });
     }
@@ -152,7 +155,8 @@ class MavenOptionsToCommandLineAdapterTest {
 
     @ParameterizedTest
     @MethodSource("validateBoolean")
-    void validateBooleanWithSupportedOptions(PropertyDescriptor property, boolean value, List<String> expected) throws Exception {
+    void validateBooleanWithSupportedOptions(PropertyDescriptor property, boolean value, List<String> expected)
+            throws Exception {
         validateOption(property, value, Collections.emptyList(), Collections.emptySet());
     }
 
@@ -162,8 +166,8 @@ class MavenOptionsToCommandLineAdapterTest {
         final MavenOptions options = new DefaultMavenOptions();
         options.setDefine(define);
         final MavenOptionsToCommandLineAdapter adapter = new MavenOptionsToCommandLineAdapter(options, null);
-        assertThat(adapter.asCommandLine()).
-                isEqualTo(expected);
+        assertThat(adapter.asCommandLine())
+                .isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -174,7 +178,8 @@ class MavenOptionsToCommandLineAdapterTest {
 
     @ParameterizedTest
     @MethodSource("validateStringArray")
-    void validateStringArrayWithSupportedOptions(PropertyDescriptor property, String[] value, List<String> expected) throws Exception {
+    void validateStringArrayWithSupportedOptions(PropertyDescriptor property, String[] value, List<String> expected)
+            throws Exception {
         validateOption(property, value, Collections.emptyList(), Collections.emptySet());
     }
 
@@ -186,7 +191,8 @@ class MavenOptionsToCommandLineAdapterTest {
 
     @ParameterizedTest
     @MethodSource("validateFile")
-    void validateFileWithSupportedOptions(PropertyDescriptor property, File value, List<String> expected) throws Exception {
+    void validateFileWithSupportedOptions(PropertyDescriptor property, File value, List<String> expected)
+            throws Exception {
         validateOption(property, value, Collections.emptyList(), Collections.emptySet());
     }
 
@@ -198,15 +204,18 @@ class MavenOptionsToCommandLineAdapterTest {
 
     @ParameterizedTest
     @MethodSource("validateString")
-    void validateStringWithSupportedOptions(PropertyDescriptor property, String value, List<String> expected) throws Exception {
+    void validateStringWithSupportedOptions(PropertyDescriptor property, String value, List<String> expected)
+            throws Exception {
         validateOption(property, value, Collections.emptyList(), Collections.emptySet());
     }
 
-    private void validateOption(PropertyDescriptor property, Object value, List<String> expected, Set<String> supportedOptions) throws IllegalAccessException, InvocationTargetException {
+    private void validateOption(PropertyDescriptor property, Object value, List<String> expected,
+                                Set<String> supportedOptions) throws IllegalAccessException, InvocationTargetException {
         final MavenOptions options = new DefaultMavenOptions();
         property.getWriteMethod().invoke(options, value);
-        final MavenOptionsToCommandLineAdapter adapter = new MavenOptionsToCommandLineAdapter(options, supportedOptions);
-        assertThat(adapter.asCommandLine()).
-                isEqualTo(expected);
+        final MavenOptionsToCommandLineAdapter adapter
+                = new MavenOptionsToCommandLineAdapter(options, supportedOptions);
+        assertThat(adapter.asCommandLine())
+                .isEqualTo(expected);
     }
 }
