@@ -1,5 +1,21 @@
+/**
+ * Copyright 2022 Dmitry Korotych
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.dkorotych.gradle.maven.exec.test;
 
+import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
@@ -14,18 +30,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+@SuppressWarnings("MissingJavadocType")
 abstract class AbstractGenerationTask extends MavenDependentTask {
     private final String fileName;
     private final List<String> options;
+    @SuppressWarnings("DeclarationOrder")
     protected File outputFile;
 
-    protected AbstractGenerationTask(String fileName, List<String> options) {
+    protected AbstractGenerationTask(final String fileName, final List<String> options) {
         this.fileName = fileName;
         this.options = options;
     }
 
     @Override
-    public void setVersion(String version) {
+    public void setVersion(final String version) {
         super.setVersion(version);
         outputFile = getProject().getProjectDir().toPath()
                 .resolve("src/test/resources/fixtures/descriptor")
@@ -50,7 +68,7 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
         } catch (Exception e) {
             String description = buildCauseMessagesWithoutLast(e)
                     .collect(Collectors.joining(System.lineSeparator()));
-            if (description.trim().isEmpty()) {
+            if (StringUtils.isBlank(description)) {
                 description = e.getMessage();
             }
             throw new GradleException(description, e);

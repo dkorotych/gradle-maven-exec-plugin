@@ -35,7 +35,7 @@ public class MavenDirFunctionalTest extends AbstractFunctionalTest {
     @TempDir
     private File projectDir;
 
-    public static Stream<Arguments> validateMavenVersions() {
+    static Stream<Arguments> validateMavenVersions() {
         final Stream.Builder<Arguments> builder = Stream.builder();
         for (String gradle : Arrays.asList(minimalSupportedGradleVersion(), maximalSupportedGradleVersion())) {
             for (String maven : supportedMavenVersion()) {
@@ -45,7 +45,7 @@ public class MavenDirFunctionalTest extends AbstractFunctionalTest {
         return builder.build();
     }
 
-    public static Stream<Arguments> validateGradleVersions() {
+    static Stream<Arguments> validateGradleVersions() {
         final Stream.Builder<Arguments> builder = Stream.builder();
         final String maven = latestMavenVersion();
         for (String gradle : supportedGradleVersion()) {

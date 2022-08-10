@@ -37,6 +37,7 @@ class MavenExecPluginFunctionalTest extends AbstractFunctionalTest {
     }
 
     @AfterEach
+    @SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock"})
     void tearDown() {
         try {
             FileUtils.deleteDirectory(projectDir);
@@ -48,7 +49,7 @@ class MavenExecPluginFunctionalTest extends AbstractFunctionalTest {
     void realUseCaseTest() {
         final String task = "realUseCaseTest";
         final String version = maximalSupportedGradleVersion();
-        BuildResult result = execute(projectDir, version, null, task);
+        final BuildResult result = execute(projectDir, version, null, task);
 
         assertThat(result.getOutput())
                 .isNotBlank()
