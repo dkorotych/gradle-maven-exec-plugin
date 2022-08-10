@@ -25,7 +25,7 @@ import org.gradle.api.tasks.TaskProvider;
 public class MavenTestHelperPlugin implements Plugin<Project> {
     @SuppressWarnings("ArrayTrailingComma")
     private static final String[] SUPPORTED_MAVEN_VERSIONS = {
-            "3.0.4",
+            "3.0",
             "3.1.1",
             "3.2.5",
             "3.3.9",

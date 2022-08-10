@@ -1,0 +1,5 @@
+Apache Maven 3.0 (r1004208; 2010-10-04 15:50:56+0400)
+Java version: 11.0.16
+Java home: /usr/lib/jvm/java-11-openjdk-amd64
+Default locale: ru_RU, platform encoding: UTF-8
+OS name: "linux" version: "5.15.0-43-generic" arch: "amd64" Family: "unix"
