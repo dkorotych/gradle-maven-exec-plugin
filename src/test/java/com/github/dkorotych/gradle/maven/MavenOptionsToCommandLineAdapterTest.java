@@ -115,7 +115,7 @@ class MavenOptionsToCommandLineAdapterTest {
         return filterDescriptors(String.class)
                 .flatMap(descriptor -> {
                     final String option = createOptionName(descriptor);
-                    final String random = RandomStringUtils.random(20);
+                    final String random = RandomStringUtils.randomAlphabetic(20);
                     final String textWithSpaces = "\"text with spaces\"";
                     return Stream.of(
                             Arguments.of(descriptor, null, Collections.emptyList()),
