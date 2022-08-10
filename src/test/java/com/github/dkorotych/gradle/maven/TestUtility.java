@@ -72,13 +72,11 @@ public final class TestUtility {
     }
 
     public static void asWindows() {
-        resetCurrentOperatingSystem();
-        System.setProperty("os.name", "windows");
+        setOperatingSystem("windows");
     }
 
     public static void asUnix() {
-        resetCurrentOperatingSystem();
-        System.setProperty("os.name", "linux");
+        setOperatingSystem("linux");
     }
 
     public static List<String> commandLine(File path, String... arguments) {
@@ -106,6 +104,17 @@ public final class TestUtility {
             method.invoke(null);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static void setOperatingSystem(String name) {
+        final String key = "os.name";
+        final String property = System.getProperty(key);
+        synchronized (OperatingSystem.class) {
+            resetCurrentOperatingSystem();
+            System.setProperty(key, name);
+            OperatingSystem.current();
+            System.setProperty(key, property);
         }
     }
 }
