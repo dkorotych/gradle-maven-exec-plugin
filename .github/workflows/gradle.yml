@@ -31,8 +31,6 @@ jobs:
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1.6
 
   validate:
     name: Validate on ${{ matrix.os }} and Java ${{ matrix.java }}

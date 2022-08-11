@@ -10,15 +10,17 @@ jobs:
     name: Analyze
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 8
           cache: 'gradle'
+      - name: Set MAVEN_HOME
+        run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
