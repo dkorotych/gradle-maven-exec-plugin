@@ -21,12 +21,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: wrapper
-          arguments: check --info
-      - name: Build coverage report
-        uses: gradle/gradle-build-action@v2
-        with:
-          gradle-version: wrapper
-          arguments: jacocoTestReport
+          arguments: check jacocoTestReport
       - uses: codecov/codecov-action@v2
         with:
           files: build/reports/jacoco/test/jacocoTestReport.xml

@@ -150,6 +150,12 @@ cleanIdea.doLast {
     delete file('.idea')
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
 wrapper.gradleVersion = '6.0.1'
 
 release {
