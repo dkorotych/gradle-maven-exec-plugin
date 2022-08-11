@@ -60,6 +60,7 @@ class MavenExecutableProviderTest {
     @AfterAll
     static void afterAll() {
         resetCurrentOperatingSystem();
+        OperatingSystem.current();
     }
 
     @ParameterizedTest(name = DEFAULT_DISPLAY_NAME)
