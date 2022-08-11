@@ -35,7 +35,6 @@ import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.ge
 import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.getUserHome;
 import static org.junit.jupiter.params.ParameterizedTest.DEFAULT_DISPLAY_NAME;
 
-@Disabled
 class MavenExecutableProviderTest {
 
     public static Stream<Arguments> getExecutable() throws Exception {
