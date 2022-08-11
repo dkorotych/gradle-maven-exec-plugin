@@ -55,7 +55,7 @@ public class MavenExecutableProvider {
     private String build() {
         final boolean hasWrapper = Optional.ofNullable(mavenHome)
                 .flatMap(path -> {
-                    try (@SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock"})
+                    try (@SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock", "java:S108"})
                          Stream<Path> files = Files.list(path)) {
                         return files.map(Path::toFile)
                                 .filter(MavenDescriptor::isMavenExecutionWrapperFile)

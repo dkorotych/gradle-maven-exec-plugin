@@ -37,7 +37,7 @@ class MavenExecPluginFunctionalTest extends AbstractFunctionalTest {
     }
 
     @AfterEach
-    @SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock"})
+    @SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock", "java:S108"})
     void tearDown() {
         try {
             FileUtils.deleteDirectory(projectDir);

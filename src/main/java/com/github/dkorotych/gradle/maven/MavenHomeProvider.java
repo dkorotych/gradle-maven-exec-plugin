@@ -147,7 +147,7 @@ public class MavenHomeProvider {
         setMavenHome(directory);
     }
 
-    @SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock"})
+    @SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock", "java:S108"})
     private boolean tryToSetMavenHome(final String name, final boolean property) {
         try {
             final String path = Optional.ofNullable(name)
