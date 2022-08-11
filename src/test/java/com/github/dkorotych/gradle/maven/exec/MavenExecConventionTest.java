@@ -50,7 +50,8 @@ class MavenExecConventionTest {
 
     @Test
     void nullSpecification() {
-        assertThatThrownBy(() -> new MavenExecConvention(project).mavenexec(null))
+        final MavenExecConvention convention = new MavenExecConvention(project);
+        assertThatThrownBy(() -> convention.mavenexec(null))
                 .isInstanceOf(NullPointerException.class)
                 .hasMessage("Configure closure should not be null");
     }

@@ -67,6 +67,7 @@ public class MavenExecConvention {
         }
     }
 
+    @SuppressWarnings("common-java:DuplicatedBlocks")
     private void printCauseMessagesWithoutLast(final Exception e, final Logger logger) {
         final Iterator<Throwable> iterator = new Iterator<Throwable>() {
             private Throwable current = e;

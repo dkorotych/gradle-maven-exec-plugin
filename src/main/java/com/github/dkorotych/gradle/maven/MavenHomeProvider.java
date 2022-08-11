@@ -68,7 +68,7 @@ public class MavenHomeProvider {
      *
      * @param dir The Maven directory
      */
-    @SuppressWarnings("PMD.CognitiveComplexity")
+    @SuppressWarnings({"PMD.CognitiveComplexity", "java:S3776"})
     public void setMavenHome(final File dir) {
         mavenHome = Optional.ofNullable(dir)
                 .filter(File::exists)

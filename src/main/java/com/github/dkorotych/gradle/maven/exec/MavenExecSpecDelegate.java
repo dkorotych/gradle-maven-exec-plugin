@@ -51,21 +51,25 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     }
 
     @Override
+    @SuppressWarnings("common-java:DuplicatedBlocks")
     public File getMavenDir() {
         return properties.getMavenDir();
     }
 
     @Override
+    @SuppressWarnings("common-java:DuplicatedBlocks")
     public void setMavenDir(final File dir) {
         properties.setMavenDir(dir);
     }
 
     @Override
+    @SuppressWarnings("common-java:DuplicatedBlocks")
     public Set<String> getGoals() {
         return properties.getGoals();
     }
 
     @Override
+    @SuppressWarnings("common-java:DuplicatedBlocks")
     public MavenOptions getOptions() {
         return properties.getOptions();
     }

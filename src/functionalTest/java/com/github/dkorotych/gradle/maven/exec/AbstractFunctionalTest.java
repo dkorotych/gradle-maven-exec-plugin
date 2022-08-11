@@ -79,7 +79,7 @@ public abstract class AbstractFunctionalTest {
                 .map(VersionNumber::parse)
                 .max(Comparator.naturalOrder())
                 .map(VersionNumber::toString)
-                .get();
+                .orElseThrow(RuntimeException::new);
     }
 
     public static String minimalSupportedGradleVersion() {
@@ -87,7 +87,7 @@ public abstract class AbstractFunctionalTest {
                 .map(VersionNumber::parse)
                 .min(Comparator.naturalOrder())
                 .map(VersionNumber::toString)
-                .get();
+                .orElseThrow(RuntimeException::new);
     }
 
     public static String latestMavenVersion() {
@@ -98,11 +98,11 @@ public abstract class AbstractFunctionalTest {
                 .map(VersionNumber::parse)
                 .max(Comparator.naturalOrder())
                 .map(VersionNumber::toString)
-                .get();
+                .orElseThrow(RuntimeException::new);
         return supportedMavenVersion().stream()
                 .filter(path -> path.endsWith(latestVersion))
                 .findFirst()
-                .get();
+                .orElseThrow(RuntimeException::new);
     }
 
     protected static void prepareProject(final File projectDir) throws Exception {

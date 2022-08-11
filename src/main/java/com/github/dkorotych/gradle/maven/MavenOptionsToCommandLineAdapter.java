@@ -70,7 +70,7 @@ public class MavenOptionsToCommandLineAdapter {
      *
      * @return Command line
      */
-    @SuppressWarnings("PMD.CognitiveComplexity")
+    @SuppressWarnings({"PMD.CognitiveComplexity", "java:S3776"})
     public List<String> asCommandLine() {
         final ArrayList<String> arguments = new ArrayList<>();
         for (final PropertyDescriptor descriptor : descriptors) {
@@ -111,7 +111,7 @@ public class MavenOptionsToCommandLineAdapter {
     private void addBooleanOption(final PropertyDescriptor descriptor, final Method readMethod,
                                   final List<String> arguments) {
         try {
-            if ((Boolean) readMethod.invoke(options)) {
+            if (Boolean.TRUE.equals(readMethod.invoke(options))) {
                 arguments.add(createOption(descriptor.getName()));
             }
         } catch (Exception e) {

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-@SuppressWarnings("MissingJavadocType")
+@SuppressWarnings({"MissingJavadocType", "common-java:DuplicatedBlocks"})
 abstract class AbstractGenerationTask extends MavenDependentTask {
     private final String fileName;
     private final List<String> options;

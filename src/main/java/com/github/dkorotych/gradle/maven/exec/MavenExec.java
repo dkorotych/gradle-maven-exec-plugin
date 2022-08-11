@@ -30,6 +30,7 @@ import java.util.Set;
  *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecSpec {
     private final MavenProperties properties = new MavenProperties();
 

@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -113,7 +114,8 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
 
     @Test
     void testSetArgs() {
-        assertThatThrownBy(() -> specification.setArgs(emptyList()))
+        final List<String> list = emptyList();
+        assertThatThrownBy(() -> specification.setArgs(list))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasAllNullFieldsOrProperties();
     }
@@ -134,7 +136,8 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
 
     @Test
     void testSetCommandLine1() {
-        assertThatThrownBy(() -> specification.setCommandLine(emptyList()))
+        final List<String> list = emptyList();
+        assertThatThrownBy(() -> specification.setCommandLine(list))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasAllNullFieldsOrProperties();
     }
@@ -155,7 +158,8 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
 
     @Test
     void testExecutable() {
-        assertThatThrownBy(() -> specification.executable(new Object()))
+        final Object o = new Object();
+        assertThatThrownBy(() -> specification.executable(o))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasAllNullFieldsOrProperties();
     }
