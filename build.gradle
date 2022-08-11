@@ -16,7 +16,7 @@
 import com.github.dkorotych.gradle.maven.exec.test.MavenTestHelperPlugin
 
 plugins {
-    id 'java-gradle-plugin'
+    id "com.gradle.plugin-publish" version "1.0.0"
     id 'idea'
     id 'jacoco'
     id 'net.researchgate.release' version '2.8.1'
@@ -30,7 +30,7 @@ plugins {
 
 apply plugin: MavenTestHelperPlugin
 
-group = 'com.github.dkorotych.gradle.maven.exec'
+group = 'io.github.dkorotych.gradle-maven-exec'
 description = 'Gradle Maven Exec Plugin'
 
 def versionPattern = /\d+(?:\.\d+)+/
@@ -66,12 +66,17 @@ github {
 gradlePlugin {
     plugins {
         MavenExecPlugin {
-            id = "com.github.dkorotych.gradle.maven.exec"
+            id = "com.github.dkorotych.gradle-maven-exec"
             implementationClass = 'com.github.dkorotych.gradle.maven.exec.MavenExecPlugin'
             displayName = project.description
             description = 'Gradle plugin which provides an Maven exec task'
         }
     }
+}
+
+pluginBundle {
+    description = 'Gradle plugin which provides an Maven exec task'
+    tags = ['maven', 'exec', 'cross-platform']
 }
 
 java {
@@ -159,7 +164,7 @@ jacocoTestReport {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "${github.user}_gradle-maven-exec-plugin"
+        property "sonar.projectKey", "${github.user}_${rootProject.name}"
         property "sonar.organization", github.user
         property "sonar.host.url", "https://sonarcloud.io"
         properties["sonar.test"] += 'buildSrc/src/main/java'
@@ -172,7 +177,13 @@ wrapper.gradleVersion = '6.0.1'
 
 release {
     git {
-        requireBranch = "(master|$versionPattern)"
+        requireBranch = "master"
+    }
+}
+afterReleaseBuild {
+    dependsOn = [publishPlugins]
+    doLast {
+        logger.warn "RELEASED $project.group:$project.name:$project.version"
     }
 }
 
@@ -201,8 +212,8 @@ updateVersion.doFirst {
     def content = file.text
     content = content.replaceAll("id \"com.github.dkorotych.gradle-maven-exec\" version \"${versionPattern}\"",
             "id \"com.github.dkorotych.gradle-maven-exec\" version \"${version}\"")
-    content = content.replaceAll("gradle-maven-exec-plugin:${versionPattern}",
-            "gradle-maven-exec-plugin:${version}")
+    content = content.replaceAll("${rootProject.name}:${versionPattern}",
+            "${rootProject.name}:${version}")
     file.text = content
 }
 
@@ -211,44 +222,3 @@ rewrite {
     activeRecipe("com.github.dkorotych.gradle.maven.exec.MavenExecPlugin")
     exclusion("**/*.gradle")
 }
-
-//task generateMetricsPart {
-//    def readmeFile = file('README.md')
-//    def content = readmeFile.text
-//    def header = '## Metrics'
-//    def lastSpacesPattern = /\s+$/
-//    def model = [
-//            'header': header,
-//            'template': 'FLAT',
-//            'key': "${rootProject.group}:${rootProject.name}",
-//            'metric': [
-//                    'coverage',
-//                    'bugs',
-//                    'complexity',
-//                    'code_smells',
-//                    'vulnerabilities',
-//                    'tests',
-//                    'test_success_density',
-//                    'violations',
-//                    'ncloc',
-//                    'lines'
-//            ]
-//    ]
-//    def templateText = '''
-//$header
-//[![SonarQube Quality Gate](https://sonarqube.com/api/badges/gate?key=$key&template=$template)](https://sonarqube.com/dashboard?id=$key)
-//<%
-//metric.each {
-//out.println("[![SonarQube ${it.capitalize().replaceAll('_', ' ')}](https://sonarqube.com/api/badges/measure?metric=${it}&key=$key&template=$template)](https://sonarqube.com/component_measures/metric/${it}/list?id=$key)")
-//}
-//%>
-//'''.replaceAll(lastSpacesPattern, '')
-//    def template = new SimpleTemplateEngine().createTemplate(templateText)
-//    Writable metrics = template.make(model)
-//    def metricsIndex = content.indexOf(header)
-//    if (metricsIndex > 0) {
-//        content = content.take(metricsIndex).replaceAll(lastSpacesPattern, '')
-//    }
-//    content += metrics
-//    readmeFile.text = content
-//}

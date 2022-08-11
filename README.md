@@ -15,7 +15,15 @@ Gradle plugin which provides a Maven exec task
 Releases of this plugin are hosted on [Gradle's Plugin Repository](https://login.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec).
 Apply the plugin to your project using one of the two methods below.
 
-#### Build script snippet for use in all Gradle versions:
+#### Using the [plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block):
+
+```groovy
+plugins {
+    id "com.github.dkorotych.gradle-maven-exec" version "3.0"
+}
+```
+
+#### Using [legacy plugin application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application):
 
 ```groovy
 buildscript {
@@ -30,15 +38,6 @@ buildscript {
 }
 
 apply plugin: "com.github.dkorotych.gradle-maven-exec"
-```
-
-#### Gradle 2.1 and newer
-Build script snippet for new, incubating, plugin mechanism introduced in Gradle 2.1:
-
-```groovy
-plugins {
-    id "com.github.dkorotych.gradle-maven-exec" version "3.0"
-}
 ```
 
 ## Usage
