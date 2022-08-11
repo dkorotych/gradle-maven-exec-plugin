@@ -25,7 +25,7 @@ class MavenExecPluginTest {
     @Test
     void pluginRegistersAExtension() {
         final Project project = ProjectBuilder.builder().build();
-        project.getPlugins().apply("com.github.dkorotych.gradle.maven.exec");
+        project.getPlugins().apply("com.github.dkorotych.gradle-maven-exec");
 
         assertThat(project.getExtensions().getExtraProperties().get(MavenExec.class.getSimpleName())).isNotNull();
     }
