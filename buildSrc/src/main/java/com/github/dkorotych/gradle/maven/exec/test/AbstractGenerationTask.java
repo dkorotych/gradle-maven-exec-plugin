@@ -86,6 +86,9 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
 
             @Override
             public Throwable next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
                 current = current.getCause();
                 return current;
             }

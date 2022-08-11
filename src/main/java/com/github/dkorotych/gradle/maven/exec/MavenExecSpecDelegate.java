@@ -16,7 +16,6 @@
 package com.github.dkorotych.gradle.maven.exec;
 
 import com.github.dkorotych.gradle.maven.CommandLineCreator;
-import com.github.dkorotych.gradle.maven.DefaultMavenOptions;
 import com.github.dkorotych.gradle.maven.MavenOptions;
 import org.gradle.api.Project;
 import org.gradle.process.ExecSpec;
@@ -25,7 +24,10 @@ import org.gradle.process.ProcessForkOptions;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Specifies options for launching a Maven process.
@@ -33,9 +35,7 @@ import java.util.*;
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 public class MavenExecSpecDelegate implements MavenExecSpec {
-    private File mavenDir;
-    private final MavenOptions options = new DefaultMavenOptions();
-    private final Set<String> goals = new LinkedHashSet<>();
+    private final MavenProperties properties = new MavenProperties();
     private final ExecSpec delegate;
     private final Project project;
 
@@ -52,22 +52,22 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
 
     @Override
     public File getMavenDir() {
-        return mavenDir;
+        return properties.getMavenDir();
     }
 
     @Override
     public void setMavenDir(final File dir) {
-        mavenDir = dir;
+        properties.setMavenDir(dir);
     }
 
     @Override
     public Set<String> getGoals() {
-        return goals;
+        return properties.getGoals();
     }
 
     @Override
     public MavenOptions getOptions() {
-        return options;
+        return properties.getOptions();
     }
 
     @Override

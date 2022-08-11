@@ -85,7 +85,7 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
 
     @Test
     void testCommandLine() {
-        assertThatThrownBy(() -> specification.commandLine(emptySet()))
+        assertThatThrownBy(() -> specification.commandLine(EMPTY_SET))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasAllNullFieldsOrProperties();
     }
@@ -99,14 +99,14 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
 
     @Test
     void testArgs() {
-        assertThatThrownBy(() -> specification.args(emptySet()))
+        assertThatThrownBy(() -> specification.args(EMPTY_SET))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasAllNullFieldsOrProperties();
     }
 
     @Test
     void setArgs() {
-        assertThatThrownBy(() -> specification.setArgs(emptySet()))
+        assertThatThrownBy(() -> specification.setArgs(EMPTY_SET))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasAllNullFieldsOrProperties();
     }
@@ -127,7 +127,7 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
 
     @Test
     void testSetCommandLine() {
-        assertThatThrownBy(() -> specification.setCommandLine(emptySet()))
+        assertThatThrownBy(() -> specification.setCommandLine(EMPTY_SET))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasAllNullFieldsOrProperties();
     }

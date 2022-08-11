@@ -91,7 +91,10 @@ public class CommandLineCreator {
                 logger.info("Use Maven from: {}", getMavenDir());
             }
         }
-        final MavenDescriptor descriptor = new MavenDescriptor(getMavenDir().toPath(), project);
+        final Path mavenHome = Optional.ofNullable(getMavenDir())
+                .map(File::toPath)
+                .orElse(null);
+        final MavenDescriptor descriptor = new MavenDescriptor(mavenHome, project);
         executable = descriptor.getExecutable();
         arguments = new ArrayList<>(new MavenOptionsToCommandLineAdapter(specification.getOptions(),
                 descriptor.getSupportedOptions()).asCommandLine());

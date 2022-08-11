@@ -16,14 +16,12 @@
 package com.github.dkorotych.gradle.maven.exec;
 
 import com.github.dkorotych.gradle.maven.CommandLineCreator;
-import com.github.dkorotych.gradle.maven.DefaultMavenOptions;
 import com.github.dkorotych.gradle.maven.MavenOptions;
 import org.gradle.api.tasks.AbstractExecTask;
 import org.gradle.process.ProcessForkOptions;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,9 +31,7 @@ import java.util.Set;
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecSpec {
-    private final MavenOptions options = new DefaultMavenOptions();
-    private final Set<String> goals = new LinkedHashSet<>();
-    private File mavenDir;
+    private final MavenProperties properties = new MavenProperties();
 
     /**
      * Create implementation of the task.
@@ -55,22 +51,22 @@ public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecS
 
     @Override
     public File getMavenDir() {
-        return mavenDir;
+        return properties.getMavenDir();
     }
 
     @Override
     public void setMavenDir(final File dir) {
-        mavenDir = dir;
+        properties.setMavenDir(dir);
     }
 
     @Override
     public Set<String> getGoals() {
-        return goals;
+        return properties.getGoals();
     }
 
     @Override
     public MavenOptions getOptions() {
-        return options;
+        return properties.getOptions();
     }
 
     @Override
