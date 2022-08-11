@@ -179,13 +179,13 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
                 .isEqualTo(TestUtility.commandLine(project.getProjectDir(), "validate"));
 
         mavenExec = createTask(project);
-        mavenExec.setGoals(ImmutableList.of("clean", "compile"));
+        mavenExec.setGoals(ImmutableList.of("clean", "validate"));
         mavenExec.setBatchMode(true);
         mavenExec.getOptions().setFailFast(true);
         mavenExec.getOptions().quiet(true);
         mavenExec.exec();
         assertThat(mavenExec.getCommandLine())
                 .isEqualTo(TestUtility.commandLine(project.getProjectDir(),
-                        "--batch-mode", "--fail-fast", "--quiet", "clean", "compile"));
+                        "--batch-mode", "--fail-fast", "--quiet", "clean", "validate"));
     }
 }
