@@ -77,12 +77,12 @@ public final class TestUtility {
         }
     }
 
-    public static void asWindows() {
+    private static void asWindows() {
         resetCurrentOperatingSystem();
         System.setProperty("os.name", "windows");
     }
 
-    public static void asUnix() {
+    private static void asUnix() {
         resetCurrentOperatingSystem();
         System.setProperty("os.name", "linux");
     }
