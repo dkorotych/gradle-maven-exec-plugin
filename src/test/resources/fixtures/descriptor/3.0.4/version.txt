@@ -1,6 +1,0 @@
-Apache Maven 3.0.4 (r1232337; 2012-01-17 12:44:56+0400)
-Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.0.4-bin/90f0bf4/apache-maven-3.0.4
-Java version: 1.8.0_342, vendor: Temurin
-Java home: /home/dkorotych/.sdkman/candidates/java/8.0.342-tem/jre
-Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "5.15.0-43-generic", arch: "amd64", family: "unix"
