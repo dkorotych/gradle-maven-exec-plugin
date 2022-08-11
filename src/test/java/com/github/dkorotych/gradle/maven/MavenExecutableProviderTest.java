@@ -16,6 +16,7 @@
 package com.github.dkorotych.gradle.maven;
 
 import org.gradle.internal.os.OperatingSystem;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,6 +35,7 @@ import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.ge
 import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.getUserHome;
 import static org.junit.jupiter.params.ParameterizedTest.DEFAULT_DISPLAY_NAME;
 
+@Disabled
 class MavenExecutableProviderTest {
 
     public static Stream<Arguments> getExecutable() throws Exception {
