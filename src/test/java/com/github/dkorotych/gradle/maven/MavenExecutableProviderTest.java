@@ -16,6 +16,7 @@
 package com.github.dkorotych.gradle.maven;
 
 import org.gradle.internal.os.OperatingSystem;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -54,6 +55,11 @@ class MavenExecutableProviderTest {
             }
         }
         return builder.build();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        resetCurrentOperatingSystem();
     }
 
     @ParameterizedTest(name = DEFAULT_DISPLAY_NAME)

@@ -70,21 +70,35 @@ public final class TestUtility {
     }
 
     public static void setOperatingSystem(OperatingSystem os) {
-        if (WINDOWS == os) {
-            asWindows();
-        } else {
-            asUnix();
+        if (OperatingSystem.current().equals(os)) {
+            return;
         }
-    }
-
-    private static void asWindows() {
-        resetCurrentOperatingSystem();
-        System.setProperty("os.name", "windows");
-    }
-
-    private static void asUnix() {
-        resetCurrentOperatingSystem();
-        System.setProperty("os.name", "linux");
+        final String name;
+        if (os.isWindows()) {
+            name = "windows";
+        } else {
+            if (os.isMacOsX()) {
+                name = "mac os x";
+            } else {
+                if (os.isLinux()) {
+                    name = "linux";
+                } else {
+                    if (SOLARIS == os) {
+                        name = "solaris";
+                    } else {
+                        name = "freebsd";
+                    }
+                }
+            }
+        }
+        final String key = "os.name";
+        final String property = System.getProperty(key);
+        synchronized (OperatingSystem.class) {
+            resetCurrentOperatingSystem();
+            System.setProperty(key, name);
+            OperatingSystem.current();
+            System.setProperty(key, property);
+        }
     }
 
     public static List<String> commandLine(File path, String... arguments) {
@@ -109,12 +123,12 @@ public final class TestUtility {
                 .map(absolutePath -> absolutePath + File.separatorChar)
                 .orElse("");
         commandLine.add(mavenHome + "mvn"
-                + (useWrapper ? 'w' : "") + (os == WINDOWS ? useWrapper ? ".cmd" : oldVersion ? ".bat" : ".cmd" : ""));
+                + (useWrapper ? 'w' : "") + (os.isWindows() ? useWrapper ? ".cmd" : oldVersion ? ".bat" : ".cmd" : ""));
         commandLine.addAll(Arrays.asList(arguments));
         return commandLine;
     }
 
-    private static void resetCurrentOperatingSystem() {
+    public static void resetCurrentOperatingSystem() {
         try {
             final Method method = ReflectionUtils.getRequiredMethod(OperatingSystem.class, "resetCurrent");
             method.setAccessible(true);
