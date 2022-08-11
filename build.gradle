@@ -162,6 +162,8 @@ sonarqube {
         property "sonar.projectKey", "${github.user}_gradle-maven-exec-plugin"
         property "sonar.organization", github.user
         property "sonar.host.url", "https://sonarcloud.io"
+        properties["sonar.sources"] += 'buildSrc/src/main/java'
+        properties["sonar.tests"] += sourceSets.functionalTest.allSource.srcDirs
     }
 }
 
