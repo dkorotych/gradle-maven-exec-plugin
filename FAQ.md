@@ -1,7 +1,12 @@
 # Frequently Asked Questions
 
-- [Cannot convert a relative path . to an absolute file](#i'm-getting-errors-like-'cannot-convert-a-relative-path-.-to-an-absolute-file.')
-- [MavenExecAction.setWorkingDir(Ljava/io/File;)V](#i'm-getting-mavenexecaction.setworkingdir(ljava/io/file;)v)
+- [Modern versions of Gradle and JDK](#for-modern-versions-of-gradle-and-jdk-you-need-to-use-the-plugin-version-starting-from-30)
+- [Cannot convert a relative path . to an absolute file](#im-getting-errors-like-cannot-convert-a-relative-path--to-an-absolute-file)
+- [MavenExecAction.setWorkingDir(Ljava/io/File;)V](#im-getting-mavenexecactionsetworkingdirljavaiofilev)
+
+## For modern versions of Gradle and JDK, you need to use the plugin version starting from 3.0.
+
+Additionally, we pay attention to the [compatibility matrix](https://docs.gradle.org/current/userguide/compatibility.html) and Gradle verion release notes, building problems are not always problems of additional plugins
 
 ## I'm getting errors like 'Cannot convert a relative path . to an absolute file.'
 
