@@ -88,7 +88,7 @@ public class MavenExecConvention {
         };
         StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator,
                         Spliterator.ORDERED | Spliterator.IMMUTABLE), false)
-                .filter(exception -> Objects.nonNull(exception.getCause()))
+                .filter(exception -> (exception.getCause()) != null)
                 .map(Throwable::getMessage)
                 .filter(StringUtils::isNotBlank)
                 .forEachOrdered(logger::warn);
