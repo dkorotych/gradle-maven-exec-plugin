@@ -55,7 +55,7 @@ dependencies {
     rewrite("org.openrewrite.recipe:rewrite-github-actions:1.10.0")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:1.27.0")
     rewrite("org.openrewrite.recipe:rewrite-logging-frameworks:1.11.0")
-    rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.9.1")
+    rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.10.0")
 }
 
 github {
