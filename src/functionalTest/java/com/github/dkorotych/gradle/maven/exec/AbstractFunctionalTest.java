@@ -76,25 +76,15 @@ public abstract class AbstractFunctionalTest {
     }
 
     public static String maximalSupportedGradleVersion() {
-        return supportedGradleVersion().stream()
+        return toString(supportedGradleVersion().stream()
                 .map(VersionNumber::parse)
-                .max(Comparator.naturalOrder())
-                .map(VersionNumber::toString)
-                .map(number -> {
-                    if ("7.6.0".equals(number)) {
-                        return "7.6";
-                    }
-                    return number;
-                })
-                .orElseThrow(RuntimeException::new);
+                .max(Comparator.naturalOrder()));
     }
 
     public static String minimalSupportedGradleVersion() {
-        return supportedGradleVersion().stream()
+        return toString(supportedGradleVersion().stream()
                 .map(VersionNumber::parse)
-                .min(Comparator.naturalOrder())
-                .map(VersionNumber::toString)
-                .orElseThrow(RuntimeException::new);
+                .min(Comparator.naturalOrder()));
     }
 
     public static String latestMavenVersion() {
@@ -138,5 +128,16 @@ public abstract class AbstractFunctionalTest {
         runner.withGradleVersion(gradleVersion);
         runner.withDebug(localRun);
         return runner.build();
+    }
+
+    private static String toString(Optional<VersionNumber> optionalVersionNumber) {
+        return optionalVersionNumber.map(VersionNumber::toString)
+                .map(number -> {
+                    if ("7.6.0".equals(number)) {
+                        return "7.6";
+                    }
+                    return number;
+                })
+                .orElseThrow(RuntimeException::new);
     }
 }

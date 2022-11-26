@@ -14,7 +14,7 @@ def artifactId = 'my-app'
 
 task generateMavenApplication(type: MavenExec) {
     buildDir.mkdirs()
-    ext.outputDir = file("$buildDir/$artifactId")
+    ext.outputDir = mkdir("$buildDir/$artifactId")
     delete outputDir
     workingDir buildDir
     goals 'archetype:generate'
@@ -30,7 +30,7 @@ task generateMavenApplication(type: MavenExec) {
 }
 
 task packageMavenApplication(type: MavenExec, dependsOn: 'generateMavenApplication') {
-    outputs.dir file("${generateMavenApplication.outputDir}/target")
+    outputs.dir mkdir("${generateMavenApplication.outputDir}/target")
     workingDir generateMavenApplication.outputDir
     goals 'package'
 }
