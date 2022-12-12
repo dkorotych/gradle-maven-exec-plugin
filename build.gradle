@@ -54,7 +54,7 @@ dependencies {
     rewrite("org.openrewrite:rewrite-gradle:7.33.0")
     rewrite("org.openrewrite.recipe:rewrite-github-actions:1.14.0")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:1.31.0")
-    rewrite("org.openrewrite.recipe:rewrite-logging-frameworks:1.15.0")
+    rewrite("org.openrewrite.recipe:rewrite-logging-frameworks:1.16.0")
     rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.14.1")
 }
 
