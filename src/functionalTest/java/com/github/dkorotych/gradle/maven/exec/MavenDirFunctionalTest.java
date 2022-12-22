@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MavenDirFunctionalTest extends AbstractFunctionalTest {
+class MavenDirFunctionalTest extends AbstractFunctionalTest {
     @TempDir
     private File projectDir;
 
