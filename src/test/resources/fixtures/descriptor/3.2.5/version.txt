@@ -3,4 +3,4 @@ Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.2.5-bin/a0bc0cd4/ap
 Java version: 1.8.0_342, vendor: Temurin
 Java home: /home/dkorotych/.sdkman/candidates/java/8.0.342-tem/jre
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "5.15.0-46-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "5.15.0-56-generic", arch: "amd64", family: "unix"
