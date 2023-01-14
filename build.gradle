@@ -45,7 +45,7 @@ repositories {
 dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testImplementation 'org.assertj:assertj-core:3.24.1'
     testImplementation 'org.mockito:mockito-core:4.11.0'
     testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
@@ -205,6 +205,10 @@ dependencyUpdates {
                 if (candidate.group == 'com.github.ben-manes.versions'
                         && candidate.version >= '0.43.0') {
                     selection.reject("Plugin ${candidate.group} from version ${candidate.version} has java.lang.NoClassDefFoundError: groovy/xml/XmlSlurper")
+                }
+                if (candidate.group == 'org.mockito' && candidate.module == 'mockito-core'
+                        && candidate.version >= '5.0') {
+                    selection.reject("Mockito from 5.0 supported the Java 11 as minimum version")
                 }
             }
         }
