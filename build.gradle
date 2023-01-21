@@ -24,7 +24,7 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.42.0'
     id 'ru.vyarus.quality' version '4.8.0'
     id 'ru.vyarus.github-info' version '1.4.0'
-    id 'org.openrewrite.rewrite' version '5.33.2'
+    id 'org.openrewrite.rewrite' version '5.34.0'
     id "org.sonarqube" version "3.5.0.2730"
 }
 
@@ -46,16 +46,16 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
-    testImplementation 'org.assertj:assertj-core:3.24.1'
+    testImplementation 'org.assertj:assertj-core:3.24.2'
     testImplementation 'org.mockito:mockito-core:4.11.0'
     testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
     testImplementation 'com.google.guava:guava:31.1-jre'
 
-    rewrite("org.openrewrite:rewrite-gradle:7.34.3")
-    rewrite("org.openrewrite.recipe:rewrite-github-actions:1.15.0")
-    rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:1.32.0")
-    rewrite("org.openrewrite.recipe:rewrite-logging-frameworks:1.16.0")
-    rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.15.0")
+    rewrite("org.openrewrite:rewrite-gradle:7.35.0")
+    rewrite("org.openrewrite.recipe:rewrite-github-actions:1.16.0")
+    rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:1.33.0")
+    rewrite("org.openrewrite.recipe:rewrite-logging-frameworks:1.17.0")
+    rewrite("org.openrewrite.recipe:rewrite-migrate-java:1.16.0")
 }
 
 github {
