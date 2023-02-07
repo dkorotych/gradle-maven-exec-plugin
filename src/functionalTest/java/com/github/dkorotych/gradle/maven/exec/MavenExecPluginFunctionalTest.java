@@ -54,7 +54,7 @@ class MavenExecPluginFunctionalTest extends AbstractFunctionalTest {
         assertThat(result.getOutput())
                 .isNotBlank()
                 .contains("Validate work with Gradle: " + version)
-                .contains("[INFO] >>> maven-archetype-plugin")
+                .containsAnyOf("[INFO] >>> maven-archetype-plugin", "[INFO] >>> archetype:")
                 .contains("[INFO] BUILD SUCCESS")
                 .contains("> Task :" + task);
     }
