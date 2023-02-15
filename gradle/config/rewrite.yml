@@ -5,10 +5,10 @@ recipeList:
   - org.openrewrite.github.SetupJavaCaching
   - org.openrewrite.github.ChangeDependabotScheduleInterval:
       packageEcosystem: github-actions
-      interval: daily
+      interval: weekly
   - org.openrewrite.github.ChangeDependabotScheduleInterval:
       packageEcosystem: gradle
-      interval: daily
+      interval: weekly
   - org.openrewrite.gradle.DependencyUseStringNotation
   - org.openrewrite.java.logging.PrintStackTraceToLogError
   - org.openrewrite.java.logging.slf4j.ParameterizedLogging
