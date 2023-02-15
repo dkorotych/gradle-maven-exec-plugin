@@ -50,7 +50,8 @@ public abstract class AbstractFunctionalTest {
                 "7.3.3",
                 "7.4.2",
                 "7.5.1",
-                "7.6"
+                "7.6",
+                "8.0"
         );
     }
 
@@ -135,6 +136,9 @@ public abstract class AbstractFunctionalTest {
                 .map(number -> {
                     if ("7.6.0".equals(number)) {
                         return "7.6";
+                    }
+                    if ("8.0.0".equals(number)) {
+                        return "8.0";
                     }
                     return number;
                 })
