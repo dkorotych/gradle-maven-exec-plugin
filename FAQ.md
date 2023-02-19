@@ -1,8 +1,34 @@
 # Frequently Asked Questions
 
+- [How to skip tests when building a maven project](#how-to-skip-tests-when-building-a-maven-project)
+- [How to pass custom maven settings file](#how-to-pass-custom-maven-settings-file)
 - [Modern versions of Gradle and JDK](#for-modern-versions-of-gradle-and-jdk-you-need-to-use-the-plugin-version-starting-from-30)
 - [Cannot convert a relative path . to an absolute file](#im-getting-errors-like-cannot-convert-a-relative-path--to-an-absolute-file)
 - [MavenExecAction.setWorkingDir(Ljava/io/File;)V](#im-getting-mavenexecactionsetworkingdirljavaiofilev)
+
+## How to skip tests when building a maven project
+```groovy
+mavenexec {
+    ...
+    define = [
+        'maven.test.skip': true
+    ]
+    ...
+}
+```
+
+## How to pass custom maven settings file
+If Maven has some command line parameter, you can directly pass it as a property in mavenexec
+```groovy
+mavenexec {
+    workingDir applicationDir
+    goals 'clean', 'install'
+    define = [
+        'maven.test.skip': true
+    ]
+    settings = file('settings.xml')
+}
+```
 
 ## For modern versions of Gradle and JDK, you need to use the plugin version starting from 3.0.
 
