@@ -51,7 +51,7 @@ public abstract class AbstractFunctionalTest {
                 "7.4.2",
                 "7.5.1",
                 "7.6",
-                "8.0.1"
+                "8.0.2"
         );
     }
 
