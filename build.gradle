@@ -48,7 +48,7 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
     testImplementation 'org.assertj:assertj-core:3.24.2'
-    testImplementation 'org.mockito:mockito-core:4.11.0'
+    testImplementation 'org.mockito:mockito-core:5.3.1'
     testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
     testImplementation 'com.google.guava:guava:31.1-jre'
 
