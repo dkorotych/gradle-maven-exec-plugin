@@ -40,11 +40,8 @@ Options:
  -h,--help                              Display help information
  -l,--log-file <arg>                    Log file where all build output
                                         will go (disables output color)
- -llr,--legacy-local-repository         Use Maven 2 Legacy Local
-                                        Repository behaviour, ie no use of
-                                        _remote.repositories. Can also be
-                                        activated by using
-                                        -Dmaven.legacyLocalRepo=true
+ -llr,--legacy-local-repository         UNSUPPORTED: Use of this option
+                                        will make Maven invocation fail.
  -N,--non-recursive                     Do not recurse into sub-projects
  -npr,--no-plugin-registry              Ineffective, only kept for
                                         backward compatibility
@@ -80,3 +77,4 @@ Options:
  -V,--show-version                      Display version information
                                         WITHOUT stopping build
  -X,--debug                             Produce execution debug output
+
