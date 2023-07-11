@@ -15,9 +15,11 @@
  */
 package com.github.dkorotych.gradle.maven.exec;
 
+import org.gradle.api.JavaVersion;
 import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.gradle.util.GradleVersion;
 import org.gradle.util.VersionNumber;
 
 import java.io.File;
@@ -28,33 +30,57 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
 public abstract class AbstractFunctionalTest {
+    private static final Collection<String> SUPPORTED_GRADLE_VERSIONS = Arrays.asList(
+            "6.0.1",
+            "6.1.1",
+            "6.2.1",
+            "6.3",
+            "6.4.1",
+            "6.5.1",
+            "6.6.1",
+            "6.7.1",
+            "6.8.3",
+            "6.9.2",
+            "7.0.2",
+            "7.1.1",
+            "7.2",
+            "7.3.3",
+            "7.4.2",
+            "7.5.1",
+            "7.6",
+            "8.0.2",
+            "8.1.1",
+            "8.2.1"
+    );
+
+    private static final Map<JavaVersion, GradleVersion> MINIMAL_SUPPORTED_VERSIONS;
+
+    static {
+        MINIMAL_SUPPORTED_VERSIONS = new HashMap<>();
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("13"), GradleVersion.version("6.0"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("14"), GradleVersion.version("6.3"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("15"), GradleVersion.version("6.7"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("16"), GradleVersion.version("7.0"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("17"), GradleVersion.version("7.3"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("18"), GradleVersion.version("7.5"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("19"), GradleVersion.version("7.6"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("20"), GradleVersion.version("8.1"));
+    }
+
     public static Collection<String> supportedGradleVersion() {
-        return Arrays.asList(
-                "6.0.1",
-                "6.1.1",
-                "6.2.1",
-                "6.3",
-                "6.4.1",
-                "6.5.1",
-                "6.6.1",
-                "6.7.1",
-                "6.8.3",
-                "6.9.2",
-                "7.0.2",
-                "7.1.1",
-                "7.2",
-                "7.3.3",
-                "7.4.2",
-                "7.5.1",
-                "7.6",
-                "8.0.2",
-                "8.1.1",
-                "8.2.1"
-        );
+        final GradleVersion minimalGradleVersion = GradleVersion.version(minimalSupportedGradleVersion());
+        final GradleVersion maximalGradleVersion = GradleVersion.version(maximalSupportedGradleVersion());
+        return SUPPORTED_GRADLE_VERSIONS.stream()
+                .map(GradleVersion::version)
+                .filter(version -> version.compareTo(minimalGradleVersion) >= 0)
+                .filter(version -> version.compareTo(maximalGradleVersion) <= 0)
+                .map(GradleVersion::getVersion)
+                .collect(Collectors.toList());
     }
 
     public static Collection<String> supportedMavenVersion() {
@@ -79,14 +105,19 @@ public abstract class AbstractFunctionalTest {
     }
 
     public static String maximalSupportedGradleVersion() {
-        return toString(supportedGradleVersion().stream()
+        return toString(SUPPORTED_GRADLE_VERSIONS.stream()
                 .map(VersionNumber::parse)
                 .max(Comparator.naturalOrder()));
     }
 
     public static String minimalSupportedGradleVersion() {
-        return toString(supportedGradleVersion().stream()
+        final GradleVersion minimalGradleVersion = MINIMAL_SUPPORTED_VERSIONS.getOrDefault(JavaVersion.current(), GradleVersion.version("6.0"));
+        return toString(SUPPORTED_GRADLE_VERSIONS.stream()
                 .map(VersionNumber::parse)
+                .filter(versionNumber -> {
+                    final GradleVersion gradleVersion = GradleVersion.version(versionNumber.toString());
+                    return gradleVersion.compareTo(minimalGradleVersion) >= 0;
+                })
                 .min(Comparator.naturalOrder()));
     }
 

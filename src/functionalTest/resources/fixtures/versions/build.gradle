@@ -8,6 +8,15 @@ tasks.register("realUseCaseTest") {
     group = "verification"
     dependsOn = ["checkMavenApplication", "checkMavenApplication2", "checkMavenApplication3"]
 }
+def replaceTargetSource = JavaVersion.current().isCompatibleWith(JavaVersion.toVersion("20"))
+def replaceTargetSourceInPom(File applicationDir) {
+    def file = file("${applicationDir}/pom.xml")
+    def content = file.text
+    content = content.
+            replaceFirst("\\Q<maven.compiler.source>1.7</maven.compiler.source>\\E", "<maven.compiler.source>1.8</maven.compiler.source>").
+            replaceFirst("\\Q<maven.compiler.target>1.7</maven.compiler.target>\\E", "<maven.compiler.target>1.8</maven.compiler.target>")
+    file.text = content
+}
 
 def groupId = 'com.mycompany.app'
 def artifactId = 'my-app'
@@ -33,6 +42,16 @@ task packageMavenApplication(type: MavenExec, dependsOn: 'generateMavenApplicati
     outputs.dir mkdir("${generateMavenApplication.outputDir}/target")
     workingDir generateMavenApplication.outputDir
     goals 'package'
+}
+
+if (replaceTargetSource) {
+    task replaceTargetSourceInPom() {
+        doLast {
+            replaceTargetSourceInPom(generateMavenApplication.outputDir)
+        }
+    }
+
+    packageMavenApplication.dependsOn << replaceTargetSourceInPom
 }
 
 task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication') {
@@ -68,6 +87,9 @@ task checkMavenApplication2 {
                     'interactiveMode'    : 'false'
             ])
             quiet true
+        }
+        if (replaceTargetSource) {
+            replaceTargetSourceInPom(applicationDir)
         }
         mavenexec {
             workingDir applicationDir
@@ -106,6 +128,9 @@ task checkMavenApplication3 {
                     'interactiveMode'    : 'false'
             ])
             quiet true
+        }
+        if (replaceTargetSource) {
+            replaceTargetSourceInPom(applicationDir)
         }
         def file = file("${applicationDir}/pom.xml")
         def content = file.text
