@@ -1,5 +1,0 @@
-Apache Maven 3.9.2 (c9616018c7a021c1c39be70fb2843d6f5f9b8a1c)
-Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.9.2-bin/3238cb54/apache-maven-3.9.2
-Java version: 1.8.0_342, vendor: Temurin, runtime: /home/dkorotych/.sdkman/candidates/java/8.0.342-tem/jre
-Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "5.19.0-41-generic", arch: "amd64", family: "unix"
