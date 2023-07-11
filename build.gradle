@@ -50,7 +50,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.24.2'
     testImplementation 'org.mockito:mockito-core:4.11.0'
     testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
-    testImplementation 'com.google.guava:guava:31.1-jre'
+    testImplementation 'com.google.guava:guava:32.0.0-jre'
 
     rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:1.19.3"))
     rewrite("org.openrewrite:rewrite-gradle")
@@ -205,6 +205,12 @@ dependencyUpdates {
         componentSelection {
             all { ComponentSelection selection ->
                 def candidate = selection.candidate
+                if (candidate.version.matches('.+-M\\d+$')) {
+                    selection.reject("Dependency ${candidate.displayName} reject because is a milestone release")
+                }
+                if (candidate.version.matches('.+-RC\\d+$')) {
+                    selection.reject("Dependency ${candidate.displayName} reject because is a release candidate")
+                }
                 if (candidate.group == 'com.github.hierynomus.license'
                         && candidate.version >= '0.16.0') {
                     selection.reject("Plugin ${candidate.group} from version ${candidate.version} uses Gradle 7.0")
