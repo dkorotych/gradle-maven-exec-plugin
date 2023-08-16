@@ -68,8 +68,9 @@ Options:
                                         settings file
  -t,--toolchains <arg>                  Alternate path for the user
                                         toolchains file
- -T,--threads <arg>                     Thread count, for instance 2.0C
-                                        where C is core multiplied
+ -T,--threads <arg>                     Thread count, for instance 4 (int)
+                                        or 2C/2.5C (int/float) where C is
+                                        core multiplied
  -U,--update-snapshots                  Forces a check for missing
                                         releases and updated snapshots on
                                         remote repositories
