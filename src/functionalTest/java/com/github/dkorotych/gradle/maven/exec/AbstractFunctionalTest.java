@@ -56,7 +56,8 @@ public abstract class AbstractFunctionalTest {
             "8.0.2",
             "8.1.1",
             "8.2.1",
-            "8.3"
+            "8.3",
+            "8.4"
     );
 
     private static final GradleVersion MINIMAL_SUPPORTED_GRADLE_VERSION = GradleVersion.version("6.0");
@@ -178,6 +179,9 @@ public abstract class AbstractFunctionalTest {
                     }
                     if ("8.3.0".equals(number)) {
                         return "8.3";
+                    }
+                    if ("8.4.0".equals(number)) {
+                        return "8.4";
                     }
                     return number;
                 })
