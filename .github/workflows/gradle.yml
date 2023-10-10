@@ -18,7 +18,7 @@ jobs:
           cache: 'gradle'
       - name: Set MAVEN_HOME
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v2.9.0
         with:
           gradle-version: wrapper
           arguments: check jacocoTestReport
@@ -66,13 +66,13 @@ jobs:
       - if: ${{ matrix.os != 'windows-latest' }}
         name: Set MAVEN_HOME
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v2.9.0
         if: ${{ matrix.java < 17 }}
         name: Run plugin tests
         with:
           gradle-version: wrapper
           arguments: :functionalTest --tests "com.github.dkorotych.gradle.maven.exec.MavenExecPluginFunctionalTest"
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v2.9.0
         if: ${{ matrix.java >= 17 }}
         name: Run plugin tests
         with:
