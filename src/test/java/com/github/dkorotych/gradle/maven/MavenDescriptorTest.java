@@ -139,7 +139,7 @@ class MavenDescriptorTest {
     void execute() throws Exception {
         final Project project = ProjectBuilder.builder().build();
         TestUtility.prepareProject(true, project.getProjectDir());
-        final MavenDescriptor descriptor = new MavenDescriptor(project.getProjectDir().toPath(), project);
+        final MavenDescriptor descriptor = new MavenDescriptor(project.getProjectDir().toPath(), project.getProjectDir(), project);
         assertThat(descriptor.getVersion())
                 .isNotBlank()
                 .isEqualTo("3.0");
@@ -149,7 +149,7 @@ class MavenDescriptorTest {
     void help() throws Exception {
         final Project project = ProjectBuilder.builder().build();
         TestUtility.prepareProject(true, project.getProjectDir());
-        final MavenDescriptor descriptor = new MavenDescriptor(project.getProjectDir().toPath(), project);
+        final MavenDescriptor descriptor = new MavenDescriptor(project.getProjectDir().toPath(), project.getProjectDir(), project);
         assertThat(descriptor.getSupportedOptions())
                 .isNotEmpty()
                 .doesNotHaveDuplicates()
@@ -159,7 +159,7 @@ class MavenDescriptorTest {
 
     private MavenDescriptor createMavenDescriptor(String options, String text) {
         final MavenDescriptor descriptor = mock(MavenDescriptor.class, withSettings()
-                .useConstructor(null, null)
+                .useConstructor(null, null, null)
                 .defaultAnswer(Answers.CALLS_REAL_METHODS));
         final ByteArrayInputStream response = new ByteArrayInputStream(text.getBytes());
         doReturn(response).when(descriptor).execute(options);
