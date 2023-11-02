@@ -50,6 +50,17 @@ public class MavenDescriptor {
     /**
      * Create a new descriptor.
      *
+     * @param mavenHome Maven installation directory
+     * @param project   Current Gradle project
+     * @see MavenDescriptor#MavenDescriptor(Path, File, Project) where workingDir is {@code project.getProjectDir()}
+     */
+    public MavenDescriptor(final Path mavenHome, final Project project) {
+        this(mavenHome, project.getProjectDir(), project);
+    }
+
+    /**
+     * Create a new descriptor.
+     *
      * @param mavenHome  Maven installation directory
      * @param workingDir Working directory
      * @param project    Current Gradle project

@@ -15,6 +15,7 @@
  */
 package com.github.dkorotych.gradle.maven;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.gradle.api.Project;
 import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.gradle.testfixtures.ProjectBuilder;
@@ -31,9 +32,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -65,6 +65,28 @@ class MavenDescriptorTest {
                         throw new RuntimeException(e);
                     }
                 });
+    }
+
+    public static Collection<File> executeArguments() throws Exception {
+        final ArrayList<File> list = new ArrayList<>();
+        list.add(SystemUtils.getJavaIoTmpDir());
+        list.add(SystemUtils.getUserHome());
+        list.add(Files.createTempDirectory(null).toFile());
+        Project project = ProjectBuilder.builder().build();
+        TestUtility.prepareProject(true, project.getProjectDir());
+        list.add(project.getProjectDir());
+        list.add(project.getRootDir());
+        project = ProjectBuilder.builder().build();
+        TestUtility.prepareProject(false, project.getProjectDir());
+        list.add(project.getProjectDir());
+        list.add(project.getRootDir());
+        project = ProjectBuilder.builder().build();
+        TestUtility.prepareProject(true, project.getBuildDir());
+        list.add(project.getBuildDir());
+        project = ProjectBuilder.builder().build();
+        TestUtility.prepareProject(false, project.getBuildDir());
+        list.add(project.getBuildDir());
+        return list;
     }
 
     private static List<File> descriptorFixtures() throws Exception {
@@ -137,19 +159,26 @@ class MavenDescriptorTest {
 
     @Test
     void execute() throws Exception {
-        final Project project = ProjectBuilder.builder().build();
-        TestUtility.prepareProject(true, project.getProjectDir());
-        final MavenDescriptor descriptor = new MavenDescriptor(project.getProjectDir().toPath(), project.getProjectDir(), project);
-        assertThat(descriptor.getVersion())
-                .isNotBlank()
-                .isEqualTo("3.0");
+        execute(project -> new MavenDescriptor(project.getProjectDir().toPath(), project.getProjectDir(), project));
+    }
+
+    @ParameterizedTest
+    @MethodSource("executeArguments")
+    void execute(File workingDir) throws Exception {
+        execute(project -> new MavenDescriptor(project.getProjectDir().toPath(), workingDir, project));
+    }
+
+    @Test
+    void executeWithDefaultWorkingDirectory() throws Exception {
+        execute(project -> new MavenDescriptor(project.getProjectDir().toPath(), project));
     }
 
     @Test
     void help() throws Exception {
         final Project project = ProjectBuilder.builder().build();
-        TestUtility.prepareProject(true, project.getProjectDir());
-        final MavenDescriptor descriptor = new MavenDescriptor(project.getProjectDir().toPath(), project.getProjectDir(), project);
+        final File projectDir = project.getProjectDir();
+        TestUtility.prepareProject(true, projectDir);
+        final MavenDescriptor descriptor = new MavenDescriptor(projectDir.toPath(), projectDir, project);
         assertThat(descriptor.getSupportedOptions())
                 .isNotEmpty()
                 .doesNotHaveDuplicates()
@@ -164,5 +193,14 @@ class MavenDescriptorTest {
         final ByteArrayInputStream response = new ByteArrayInputStream(text.getBytes());
         doReturn(response).when(descriptor).execute(options);
         return descriptor;
+    }
+
+    private void execute(Function<Project, MavenDescriptor> function) throws Exception {
+        final Project project = ProjectBuilder.builder().build();
+        TestUtility.prepareProject(true, project.getProjectDir());
+        final MavenDescriptor descriptor = function.apply(project);
+        assertThat(descriptor.getVersion())
+                .isNotBlank()
+                .isEqualTo("3.0");
     }
 }
