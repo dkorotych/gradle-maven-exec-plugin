@@ -159,18 +159,18 @@ class MavenDescriptorTest {
 
     @Test
     void execute() throws Exception {
-        execute(project -> new MavenDescriptor(project.getProjectDir().toPath(), project.getProjectDir(), project));
+        validate(project -> new MavenDescriptor(project.getProjectDir().toPath(), project.getProjectDir(), project));
     }
 
     @ParameterizedTest
     @MethodSource("executeArguments")
     void execute(File workingDir) throws Exception {
-        execute(project -> new MavenDescriptor(project.getProjectDir().toPath(), workingDir, project));
+        validate(project -> new MavenDescriptor(project.getProjectDir().toPath(), workingDir, project));
     }
 
     @Test
     void executeWithDefaultWorkingDirectory() throws Exception {
-        execute(project -> new MavenDescriptor(project.getProjectDir().toPath(), project));
+        validate(project -> new MavenDescriptor(project.getProjectDir().toPath(), project));
     }
 
     @Test
@@ -195,7 +195,7 @@ class MavenDescriptorTest {
         return descriptor;
     }
 
-    private void execute(Function<Project, MavenDescriptor> function) throws Exception {
+    private void validate(Function<Project, MavenDescriptor> function) throws Exception {
         final Project project = ProjectBuilder.builder().build();
         TestUtility.prepareProject(true, project.getProjectDir());
         final MavenDescriptor descriptor = function.apply(project);
