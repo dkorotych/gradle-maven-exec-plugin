@@ -94,7 +94,8 @@ public class CommandLineCreator {
         final Path mavenHome = Optional.ofNullable(getMavenDir())
                 .map(File::toPath)
                 .orElse(null);
-        final MavenDescriptor descriptor = new MavenDescriptor(mavenHome, project);
+        final File workingDir = specification.getWorkingDir();
+        final MavenDescriptor descriptor = new MavenDescriptor(mavenHome, workingDir, project);
         executable = descriptor.getExecutable();
         arguments = new ArrayList<>(new MavenOptionsToCommandLineAdapter(specification.getOptions(),
                 descriptor.getSupportedOptions()).asCommandLine());

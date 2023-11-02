@@ -41,6 +41,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class MavenDescriptor {
     private static final String CHARSET = Charset.forName(SystemUtils.FILE_ENCODING).name();
 
+    private final File workingDir;
     private final Project project;
     private final MavenExecutableProvider executableProvider;
     private final Supplier<String> versionSupplier;
@@ -49,10 +50,12 @@ public class MavenDescriptor {
     /**
      * Create a new descriptor.
      *
-     * @param mavenHome Maven installation directory
-     * @param project   Current Gradle project
+     * @param mavenHome  Maven installation directory
+     * @param workingDir Working directory
+     * @param project    Current Gradle project
      */
-    public MavenDescriptor(final Path mavenHome, final Project project) {
+    public MavenDescriptor(final Path mavenHome, final File workingDir, final Project project) {
+        this.workingDir = workingDir;
         this.project = project;
         executableProvider = new MavenExecutableProvider(mavenHome);
         versionSupplier = MemoizedSupplier.of(() -> parseVersion(execute("--version")));
@@ -147,6 +150,7 @@ public class MavenDescriptor {
         final ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
         try {
             project.exec(execSpec -> {
+                execSpec.workingDir(workingDir);
                 execSpec.executable(getExecutable());
                 execSpec.setStandardOutput(outputStream);
                 execSpec.setErrorOutput(errorStream);
