@@ -33,7 +33,8 @@ public class MavenTestHelperPlugin implements Plugin<Project> {
             "3.6.3",
             "3.8.8",
             "3.9.4",
-            "3.9.5"
+            "3.9.5",
+            "3.9.6"
     };
 
     @Override
