@@ -173,7 +173,7 @@ jacocoTestReport {
     }
 }
 
-sonar {
+sonarqube {
     properties {
         property "sonar.projectKey", "${github.user}_${rootProject.name}"
         property "sonar.organization", github.user
