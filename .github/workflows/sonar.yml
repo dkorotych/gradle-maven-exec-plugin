@@ -39,5 +39,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          gradle-version: current
+          gradle-version: 8.5
           arguments: build jacocoTestReport sonarqube
