@@ -21,18 +21,6 @@ jobs:
           cache: 'gradle'
       - name: Set MAVEN_HOME
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Gradle packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
         uses: gradle/gradle-build-action@v2.9.0
         env:
