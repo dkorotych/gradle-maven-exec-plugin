@@ -22,7 +22,7 @@ jobs:
         with:
           gradle-version: wrapper
           arguments: check jacocoTestReport
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v4
         with:
           files: build/reports/jacoco/test/jacocoTestReport.xml
           flags: LINUX
