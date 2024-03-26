@@ -50,7 +50,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.25.3'
     testImplementation 'org.mockito:mockito-core:4.11.0'
     testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
-    testImplementation 'com.google.guava:guava:32.0.0-jre'
+    testImplementation 'com.google.guava:guava:33.1.0-jre'
 
     rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:1.19.4"))
     rewrite("org.openrewrite:rewrite-gradle")
@@ -217,6 +217,10 @@ dependencyUpdates {
                 }
                 if (candidate.group == 'ru.vyarus.quality' && candidate.module == 'ru.vyarus.quality.gradle.plugin'
                         && candidate.version >= '5.0.0') {
+                    selection.reject("Plugin ${candidate.group}:${candidate.module} from version ${candidate.version} uses Gradle 7.0")
+                }
+                if (candidate.group == 'ru.vyarus.github-info' && candidate.module == 'ru.vyarus.github-info.gradle.plugin'
+                        && candidate.version >= '2.0.0') {
                     selection.reject("Plugin ${candidate.group}:${candidate.module} from version ${candidate.version} uses Gradle 7.0")
                 }
                 if (candidate.group == 'net.researchgate.release'
