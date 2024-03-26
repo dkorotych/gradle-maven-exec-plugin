@@ -235,6 +235,17 @@ dependencyUpdates {
                         && candidate.version >= '5.0') {
                     selection.reject("Mockito from 5.0 supported the Java 11 as minimum version")
                 }
+                if (candidate.group == 'com.google.guava' && candidate.module == 'guava') {
+                    def index = candidate.version.indexOf("-jre")
+                    if (index > 0) {
+                        def guavaVersion = candidate.version.substring(0, index)
+                        if (guavaVersion > '32.0.0') {
+                            selection.reject("Skip this Guava version")
+                        }
+                    } else {
+                        selection.reject("Support only JRE version of Guava")
+                    }
+                }
                 if (candidate.group == 'org.openrewrite.rewrite'
                         && candidate.module == 'org.openrewrite.rewrite.gradle.plugin'
                         && candidate.version >= '6.0.0') {
