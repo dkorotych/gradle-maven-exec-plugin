@@ -31,7 +31,7 @@ buildscript {
 }
 
 plugins {
-    id 'ru.vyarus.quality' version '4.9.0'
+    id 'ru.vyarus.quality' version '5.0.0'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
