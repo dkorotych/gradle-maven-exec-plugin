@@ -1,5 +1,5 @@
 Apache Maven 3.5.4 (1edded0938998edf8bf061f1ceb3cfdeccf443fe; 2018-06-17T21:33:14+03:00)
-Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.5.4-bin/3b7e014/apache-maven-3.5.4
-Java version: 1.8.0_342, vendor: Temurin, runtime: /home/dkorotych/.sdkman/candidates/java/8.0.342-tem/jre
+Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.5.4/44c6db91
+Java version: 1.8.0_412, vendor: Temurin, runtime: /home/dkorotych/.sdkman/candidates/java/8.0.412-tem/jre
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "6.2.0-35-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "6.9.5-1-manjaro", arch: "amd64", family: "unix"

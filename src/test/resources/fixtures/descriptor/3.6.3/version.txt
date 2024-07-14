@@ -1,5 +1,5 @@
 Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
-Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.6.3-bin/cf3cf814/apache-maven-3.6.3
-Java version: 1.8.0_342, vendor: Temurin, runtime: /home/dkorotych/.sdkman/candidates/java/8.0.342-tem/jre
+Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.6.3/5542c391
+Java version: 1.8.0_412, vendor: Temurin, runtime: /home/dkorotych/.sdkman/candidates/java/8.0.412-tem/jre
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "6.2.0-35-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "6.9.5-1-manjaro", arch: "amd64", family: "unix"
