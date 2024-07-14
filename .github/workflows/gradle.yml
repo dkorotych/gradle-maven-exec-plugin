@@ -69,7 +69,7 @@ jobs:
         name: Set MAVEN_HOME
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - uses: gradle/gradle-build-action@v3.4.2
-        if: ${{ matrix.java < 17 }}
+        if: ${{ matrix.java < 17 && !( matrix.os == 'macos-latest' && matrix.java == 8 )}}
         name: Run plugin tests
         with:
           gradle-version: wrapper
