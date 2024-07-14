@@ -343,6 +343,17 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
     }
 
     @Override
+    @Input
+    default boolean isIgnoreTransitiveRepositories() {
+        return getOptions().isIgnoreTransitiveRepositories();
+    }
+
+    @Override
+    default void setIgnoreTransitiveRepositories(final boolean ignoreTransitiveRepositories) {
+        getOptions().setIgnoreTransitiveRepositories(ignoreTransitiveRepositories);
+    }
+
+    @Override
     @InputFile
     @Optional
     default File getLogFile() {

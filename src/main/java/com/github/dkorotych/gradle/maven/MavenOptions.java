@@ -638,6 +638,38 @@ public interface MavenOptions {
     }
 
     /**
+     * If set, Maven will ignore remote repositories introduced by transitive dependencies.
+     *
+     * @return Option value
+     */
+    boolean isIgnoreTransitiveRepositories();
+
+    /**
+     * If set, Maven will ignore remote repositories introduced by transitive dependencies.
+     *
+     * @param ignoreTransitiveRepositories Option value
+     */
+    void setIgnoreTransitiveRepositories(boolean ignoreTransitiveRepositories);
+
+    /**
+     * If set, Maven will ignore remote repositories introduced by transitive dependencies.
+     *
+     * @return Option value
+     */
+    default boolean ignoreTransitiveRepositories() {
+        return isIgnoreTransitiveRepositories();
+    }
+
+    /**
+     * If set, Maven will ignore remote repositories introduced by transitive dependencies.
+     *
+     * @param ignoreTransitiveRepositories Option value
+     */
+    default void ignoreTransitiveRepositories(final boolean ignoreTransitiveRepositories) {
+        setIgnoreTransitiveRepositories(ignoreTransitiveRepositories);
+    }
+
+    /**
      * Log file where all build output will go (disables output color).
      *
      * @return Option value

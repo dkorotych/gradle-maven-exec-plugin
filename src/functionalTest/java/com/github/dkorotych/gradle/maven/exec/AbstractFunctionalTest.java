@@ -60,7 +60,9 @@ public abstract class AbstractFunctionalTest {
             "8.4",
             "8.5",
             "8.6",
-            "8.7"
+            "8.7",
+            "8.8",
+            "8.9"
     );
 
     private static final GradleVersion MINIMAL_SUPPORTED_GRADLE_VERSION = GradleVersion.version("6.0");
@@ -174,30 +176,12 @@ public abstract class AbstractFunctionalTest {
     }
 
     private static String toString(Optional<VersionNumber> optionalVersionNumber) {
-        return optionalVersionNumber.map(VersionNumber::toString)
+        return optionalVersionNumber
                 .map(number -> {
-                    if ("7.6.0".equals(number)) {
-                        return "7.6";
+                    if (number.getMajor() > 7 && number.getMinor() > 6 && number.getMicro() == 0) {
+                        return number.getMajor() + "." + number.getMinor();
                     }
-                    if ("8.0.0".equals(number)) {
-                        return "8.0";
-                    }
-                    if ("8.3.0".equals(number)) {
-                        return "8.3";
-                    }
-                    if ("8.4.0".equals(number)) {
-                        return "8.4";
-                    }
-                    if ("8.5.0".equals(number)) {
-                        return "8.5";
-                    }
-                    if ("8.6.0".equals(number)) {
-                        return "8.6";
-                    }
-                    if ("8.7.0".equals(number)) {
-                        return "8.7";
-                    }
-                    return number;
+                    return number.toString();
                 })
                 .orElseThrow(RuntimeException::new);
     }

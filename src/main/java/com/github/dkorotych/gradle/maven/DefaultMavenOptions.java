@@ -52,6 +52,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     private File globalSettings;
     private File globalToolchains;
     private boolean help;
+    private boolean ignoreTransitiveRepositories;
     private File logFile;
     private boolean legacyLocalRepository;
     private boolean nonRecursive;
@@ -261,6 +262,16 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     @Override
     public void setHelp(final boolean help) {
         this.help = help;
+    }
+
+    @Override
+    public boolean isIgnoreTransitiveRepositories() {
+        return ignoreTransitiveRepositories;
+    }
+
+    @Override
+    public void setIgnoreTransitiveRepositories(final boolean ignoreTransitiveRepositories) {
+        this.ignoreTransitiveRepositories = ignoreTransitiveRepositories;
     }
 
     @Override
@@ -488,6 +499,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
                 && failFast == that.failFast
                 && failNever == that.failNever
                 && help == that.help
+                && ignoreTransitiveRepositories == that.ignoreTransitiveRepositories
                 && legacyLocalRepository == that.legacyLocalRepository
                 && nonRecursive == that.nonRecursive
                 && noPluginRegistry == that.noPluginRegistry
@@ -522,10 +534,10 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     public int hashCode() {
         int result = Objects.hash(alsoMake, alsoMakeDependents, batchMode, builder, strictChecksums, laxChecksums,
                 color, checkPluginUpdates, define, errors, encryptMasterPassword, encryptPassword, file, failAtEnd,
-                failFast, failNever, globalSettings, globalToolchains, help, logFile, legacyLocalRepository,
-                nonRecursive, noPluginRegistry, noPluginUpdates, noSnapshotUpdates, noTransferProgress, offline,
-                quiet, resumeFrom, settings, toolchains, threads, updateSnapshots, updatePlugins, version,
-                showVersion, debug);
+                failFast, failNever, globalSettings, globalToolchains, help, ignoreTransitiveRepositories, logFile,
+                legacyLocalRepository, nonRecursive, noPluginRegistry, noPluginUpdates, noSnapshotUpdates,
+                noTransferProgress, offline, quiet, resumeFrom, settings, toolchains, threads, updateSnapshots,
+                updatePlugins, version, showVersion, debug);
         result = 31 * result + Arrays.hashCode(activateProfiles);
         result = 31 * result + Arrays.hashCode(projects);
         return result;
@@ -553,6 +565,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
                 .add("globalSettings=" + globalSettings)
                 .add("globalToolchains=" + globalToolchains)
                 .add("help=" + help)
+                .add("ignoreTransitiveRepositories=" + ignoreTransitiveRepositories)
                 .add("logFile=" + logFile)
                 .add("legacyLocalRepository=" + legacyLocalRepository)
                 .add("nonRecursive=" + nonRecursive)
@@ -583,5 +596,4 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
                 .map(strings -> Arrays.copyOf(strings, strings.length))
                 .orElse(null);
     }
-
 }
