@@ -52,7 +52,7 @@ dependencies {
     testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
     testImplementation 'com.google.guava:guava:32.0.0-jre'
 
-    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:1.19.4"))
+    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.15.0"))
     rewrite("org.openrewrite:rewrite-gradle")
     rewrite("org.openrewrite.recipe:rewrite-github-actions")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks")
