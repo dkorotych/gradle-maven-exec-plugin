@@ -1,6 +1,6 @@
 Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T20:29:23+03:00)
 Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.2.5/92836d1
-Java version: 1.8.0_412, vendor: Temurin
-Java home: /home/dkorotych/.sdkman/candidates/java/8.0.412-tem/jre
+Java version: 17.0.12, vendor: Eclipse Adoptium
+Java home: /home/dkorotych/.sdkman/candidates/java/17.0.12-tem
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "6.9.5-1-manjaro", arch: "amd64", family: "unix"
+OS name: "linux", version: "6.9.9-1-manjaro", arch: "amd64", family: "unix"

@@ -102,40 +102,39 @@ class DefaultMavenOptionsTest {
         assertThatNoException().isThrownBy(() -> getPropertyWriter(descriptor));
 
         switch (descriptor.getPropertyType().getSimpleName()) {
-            case "boolean":
+            case "boolean" -> {
                 for (boolean value : asList(true, false)) {
                     resetToDefault(options, descriptor);
                     validateSetter(descriptor, options, value);
                     resetToDefault(options, descriptor);
                     validatePropertySetter(descriptor, options, value);
                 }
-                break;
-            case "String":
+            }
+            case "String" -> {
                 resetToDefault(options, descriptor);
                 validateSetter(descriptor, options, random(10));
                 resetToDefault(options, descriptor);
                 validatePropertySetter(descriptor, options, random(10));
-                break;
-            case "File":
+            }
+            case "File" -> {
                 resetToDefault(options, descriptor);
                 validateSetter(descriptor, options, SystemUtils.getJavaIoTmpDir());
                 resetToDefault(options, descriptor);
                 validatePropertySetter(descriptor, options, SystemUtils.getUserHome());
-                break;
-            case "String[]":
+            }
+            case "String[]" -> {
                 resetToDefault(options, descriptor);
                 validateSetter(descriptor, options, new String[]{random(10), random(10), random(10)});
                 resetToDefault(options, descriptor);
                 validatePropertySetter(descriptor, options, new String[]{random(10), random(10), random(10)});
-                break;
-            case "Map":
+            }
+            case "Map" -> {
                 resetToDefault(options, descriptor);
                 validateSetter(descriptor, options, of(random(10), random(10), random(5), random(8)));
                 resetToDefault(options, descriptor);
                 validatePropertySetter(descriptor, options, of(random(10), random(10), random(5), random(8)));
-                break;
-            default:
-                fail("Unsupported property type - %s", descriptor.getPropertyType());
+            }
+            default -> fail("Unsupported property type - %s", descriptor.getPropertyType());
         }
     }
 

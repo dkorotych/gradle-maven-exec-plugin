@@ -8,7 +8,7 @@ tasks.register("realUseCaseTest") {
     group = "verification"
     dependsOn = ["checkMavenApplication", "checkMavenApplication2", "checkMavenApplication3"]
 }
-def replaceTargetSource = JavaVersion.current().isCompatibleWith(JavaVersion.toVersion("20"))
+
 def replaceTargetSourceInPom(File applicationDir) {
     def file = file("${applicationDir}/pom.xml")
     def content = file.text
@@ -22,6 +22,7 @@ def groupId = 'com.mycompany.app'
 def artifactId = 'my-app'
 
 task generateMavenApplication(type: MavenExec) {
+    def buildDir = layout.buildDirectory.asFile.get()
     buildDir.mkdirs()
     ext.outputDir = mkdir("$buildDir/$artifactId")
     delete outputDir
@@ -38,31 +39,24 @@ task generateMavenApplication(type: MavenExec) {
     }
 }
 
-task packageMavenApplication(type: MavenExec, dependsOn: 'generateMavenApplication') {
+task replaceTargetSourceInPom() {
+    doLast {
+        replaceTargetSourceInPom(generateMavenApplication.outputDir)
+    }
+}
+
+task packageMavenApplication(type: MavenExec, dependsOn: ['generateMavenApplication', 'replaceTargetSourceInPom']) {
     outputs.dir mkdir("${generateMavenApplication.outputDir}/target")
     workingDir generateMavenApplication.outputDir
     goals 'package'
 }
 
-if (replaceTargetSource) {
-    task replaceTargetSourceInPom() {
-        doLast {
-            replaceTargetSourceInPom(generateMavenApplication.outputDir)
-        }
-    }
-
-    packageMavenApplication.dependsOn << replaceTargetSourceInPom
-}
-
 task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication') {
+    def buildDir = layout.buildDirectory.asFile.get()
     def outputFile = file("$buildDir/output.txt")
     workingDir generateMavenApplication.outputDir
     classpath file("${generateMavenApplication.outputDir}/target/${artifactId}-1.0-SNAPSHOT.jar")
-    if (gradle.gradleVersion > '7.1') {
-        mainClass = "${groupId}.App"
-    } else {
-        main "${groupId}.App"
-    }
+    mainClass = "${groupId}.App"
     standardOutput new FileOutputStream(outputFile)
     doLast {
         assert outputFile.text.trim() == 'Hello World!'
@@ -71,6 +65,7 @@ task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication')
 
 task checkMavenApplication2 {
     doLast {
+        def buildDir = layout.buildDirectory.asFile.get()
         buildDir.mkdirs()
         def application = artifactId + '-second'
         def applicationDir = file("$buildDir/$application")
@@ -88,9 +83,7 @@ task checkMavenApplication2 {
             ])
             quiet true
         }
-        if (replaceTargetSource) {
-            replaceTargetSourceInPom(applicationDir)
-        }
+        replaceTargetSourceInPom(applicationDir)
         mavenexec {
             workingDir applicationDir
             goals 'package'
@@ -100,11 +93,7 @@ task checkMavenApplication2 {
         javaexec {
             workingDir applicationDir
             classpath file("$applicationDir/target/$application-1.0-SNAPSHOT.jar")
-            if (gradle.gradleVersion > '7.1') {
-                mainClass = "${groupId}.App"
-            } else {
-                main "${groupId}.App"
-            }
+            mainClass = "${groupId}.App"
             standardOutput new FileOutputStream(outputFile)
         }
         assert outputFile.text.trim() == 'Hello World!'
@@ -113,6 +102,7 @@ task checkMavenApplication2 {
 
 task checkMavenApplication3 {
     doLast {
+        def buildDir = layout.buildDirectory.asFile.get()
         buildDir.mkdirs()
         def application = artifactId + '-third'
         def applicationDir = file("$buildDir/$application")
@@ -129,9 +119,7 @@ task checkMavenApplication3 {
             ])
             quiet true
         }
-        if (replaceTargetSource) {
-            replaceTargetSourceInPom(applicationDir)
-        }
+        replaceTargetSourceInPom(applicationDir)
         def file = file("${applicationDir}/pom.xml")
         def content = file.text
         content = content.

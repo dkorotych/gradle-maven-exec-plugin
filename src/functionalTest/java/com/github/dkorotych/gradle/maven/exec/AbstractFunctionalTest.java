@@ -20,7 +20,7 @@ import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.gradle.util.GradleVersion;
-import org.gradle.util.VersionNumber;
+import org.gradle.util.internal.VersionNumber;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -36,28 +36,6 @@ import static java.util.Objects.requireNonNull;
 
 public abstract class AbstractFunctionalTest {
     private static final Collection<String> SUPPORTED_GRADLE_VERSIONS = Arrays.asList(
-            "6.0.1",
-            "6.1.1",
-            "6.2.1",
-            "6.3",
-            "6.4.1",
-            "6.5.1",
-            "6.6.1",
-            "6.7.1",
-            "6.8.3",
-            "6.9.2",
-            "7.0.2",
-            "7.1.1",
-            "7.2",
-            "7.3.3",
-            "7.4.2",
-            "7.5.1",
-            "7.6",
-            "8.0.2",
-            "8.1.1",
-            "8.2.1",
-            "8.3",
-            "8.4",
             "8.5",
             "8.6",
             "8.7",
@@ -65,20 +43,16 @@ public abstract class AbstractFunctionalTest {
             "8.9"
     );
 
-    private static final GradleVersion MINIMAL_SUPPORTED_GRADLE_VERSION = GradleVersion.version("6.0");
+    private static final GradleVersion MINIMAL_SUPPORTED_GRADLE_VERSION = GradleVersion.version("8.5");
     private static final Map<JavaVersion, GradleVersion> MINIMAL_SUPPORTED_VERSIONS;
 
     static {
         MINIMAL_SUPPORTED_VERSIONS = new HashMap<>();
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("13"), MINIMAL_SUPPORTED_GRADLE_VERSION);
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("14"), GradleVersion.version("6.3.0"));
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("15"), GradleVersion.version("6.7"));
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("16"), GradleVersion.version("7.0"));
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("17"), GradleVersion.version("7.3"));
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("18"), GradleVersion.version("7.5"));
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("19"), GradleVersion.version("7.6"));
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("20"), GradleVersion.version("8.1"));
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("21"), GradleVersion.version("8.5"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_17, MINIMAL_SUPPORTED_GRADLE_VERSION);
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_18, MINIMAL_SUPPORTED_GRADLE_VERSION);
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_19, MINIMAL_SUPPORTED_GRADLE_VERSION);
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_20, MINIMAL_SUPPORTED_GRADLE_VERSION);
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_21, MINIMAL_SUPPORTED_GRADLE_VERSION);
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("22"), GradleVersion.version("8.7"));
     }
 
@@ -178,7 +152,7 @@ public abstract class AbstractFunctionalTest {
     private static String toString(Optional<VersionNumber> optionalVersionNumber) {
         return optionalVersionNumber
                 .map(number -> {
-                    if (number.getMajor() > 7 && number.getMinor() > 6 && number.getMicro() == 0) {
+                    if (number.getMicro() == 0) {
                         return number.getMajor() + "." + number.getMinor();
                     }
                     return number.toString();

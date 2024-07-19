@@ -54,7 +54,7 @@ public class PrepareMavenTask extends DefaultTask {
     public void setVersion(final String version) {
         this.version = version;
         final Project project = getProject();
-        outputDirectory = project.getBuildDir().toPath().resolve("maven").resolve(version).toFile();
+        outputDirectory = project.getLayout().getBuildDirectory().dir("maven").get().dir(version).getAsFile();
         assert outputDirectory.exists() || outputDirectory.mkdirs();
         getOutputs().dir(outputDirectory);
         project.getExtensions().getExtraProperties().set("maven-" + version, outputDirectory);
@@ -63,17 +63,17 @@ public class PrepareMavenTask extends DefaultTask {
     @TaskAction
     public void prepare() {
         try (PrintStream stream = new PrintStream(new File(outputDirectory, "pom.xml"), CHARSET_NAME)) {
-            stream.println(
-                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                            + "<project xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-                            + "         xmlns=\"http://maven.apache.org/POM/4.0.0\"\n"
-                            + "         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0"
-                            + " http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n"
-                            + "    <modelVersion>4.0.0</modelVersion>\n"
-                            + "    <groupId>com.github.lazybones</groupId>\n"
-                            + "    <artifactId>app</artifactId>\n"
-                            + "    <version>0.1-SNAPSHOT</version>\n"
-                            + "</project>\n");
+            stream.println("""
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                             xmlns="http://maven.apache.org/POM/4.0.0"
+                             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+                        <modelVersion>4.0.0</modelVersion>
+                        <groupId>com.github.lazybones</groupId>
+                        <artifactId>app</artifactId>
+                        <version>0.1-SNAPSHOT</version>
+                    </project>
+                    """);
         } catch (Exception e) {
             throw new GradleException("Can't create test environment", e);
         }

@@ -22,8 +22,8 @@ import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.Optional;
 import org.gradle.process.BaseExecSpec;
-import org.gradle.util.ClosureBackedAction;
-import org.gradle.util.CollectionUtils;
+import org.gradle.util.internal.ClosureBackedAction;
+import org.gradle.util.internal.CollectionUtils;
 
 import java.io.File;
 import java.util.Arrays;

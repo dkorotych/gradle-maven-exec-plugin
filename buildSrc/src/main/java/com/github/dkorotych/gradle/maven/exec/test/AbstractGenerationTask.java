@@ -18,7 +18,9 @@ package com.github.dkorotych.gradle.maven.exec.test;
 import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.TaskContainer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -40,6 +42,13 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
     protected AbstractGenerationTask(final String fileName, final List<String> options) {
         this.fileName = fileName;
         this.options = options;
+        final TaskContainer tasks = getProject().getTasks();
+        final Task processTestResources = Objects.requireNonNull(tasks.findByName("processTestResources"));
+        processTestResources.dependsOn(this.getName());
+        if (getProject().getPlugins().hasPlugin("com.github.hierynomus.license")) {
+            final Task licenseTest = Objects.requireNonNull(tasks.findByName("licenseTest"));
+            licenseTest.dependsOn(this.getName());
+        }
     }
 
     @Override
@@ -76,7 +85,7 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
     }
 
     private Stream<String> buildCauseMessagesWithoutLast(final Exception e) {
-        final Iterator<Throwable> iterator = new Iterator<Throwable>() {
+        final Iterator<Throwable> iterator = new Iterator<>() {
             private Throwable current = e;
 
             @Override

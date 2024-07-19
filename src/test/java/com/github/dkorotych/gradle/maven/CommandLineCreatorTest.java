@@ -35,7 +35,7 @@ import static com.github.dkorotych.gradle.maven.TestUtility.commandLine;
 import static com.github.dkorotych.gradle.maven.TestUtility.createExecSpec;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.gradle.util.CollectionUtils.asCommandLine;
+import static org.gradle.util.internal.CollectionUtils.asCommandLine;
 
 @SuppressWarnings("OverloadMethodsDeclarationOrder")
 class CommandLineCreatorTest {

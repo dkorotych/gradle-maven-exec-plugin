@@ -36,7 +36,7 @@ import static java.util.Arrays.stream;
  *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
-public class MavenOptionsToCommandLineAdapter {
+public final class MavenOptionsToCommandLineAdapter {
     private static final Pattern OPTION_PATTERN = Pattern.compile("(\\p{Upper})");
     private final MavenOptions options;
     private final List<PropertyDescriptor> descriptors;

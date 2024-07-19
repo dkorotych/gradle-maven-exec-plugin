@@ -31,6 +31,7 @@ def artifactId = 'my-app'
 println "Plugin version: ${project.version}"
 
 task generateMavenApplication(type: MavenExec) {
+    def buildDir = project.layout.buildDirectory.asFile.get()
     buildDir.mkdirs()
     ext.outputDir = file("$buildDir/$artifactId")
     delete outputDir
@@ -54,6 +55,7 @@ task packageMavenApplication(type: MavenExec, dependsOn: 'generateMavenApplicati
 }
 
 task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication') {
+    def buildDir = project.layout.buildDirectory.asFile.get()
     def outputFile = file("$buildDir/output.txt")
     doFirst {
         workingDir generateMavenApplication.outputDir
@@ -68,6 +70,7 @@ task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication')
 
 task checkMavenApplication2 {
     doLast {
+        def buildDir = project.layout.buildDirectory.asFile.get()
         buildDir.mkdirs()
         def application = artifactId + '-second'
         def applicationDir = file("$buildDir/$application")
@@ -103,6 +106,7 @@ task checkMavenApplication2 {
 
 task checkMavenApplication3 {
     doLast {
+        def buildDir = project.layout.buildDirectory.asFile.get()
         buildDir.mkdirs()
         def application = artifactId + '-third'
         def applicationDir = file("$buildDir/$application")

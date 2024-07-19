@@ -20,8 +20,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 import org.gradle.process.ExecResult;
-import org.gradle.util.ClosureBackedAction;
-import org.gradle.util.CollectionUtils;
+import org.gradle.util.internal.ClosureBackedAction;
+import org.gradle.util.internal.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.StreamSupport;
@@ -69,7 +69,7 @@ public class MavenExecConvention {
 
     @SuppressWarnings("common-java:DuplicatedBlocks")
     private void printCauseMessagesWithoutLast(final Exception e, final Logger logger) {
-        final Iterator<Throwable> iterator = new Iterator<Throwable>() {
+        final Iterator<Throwable> iterator = new Iterator<>() {
             private Throwable current = e;
 
             @Override

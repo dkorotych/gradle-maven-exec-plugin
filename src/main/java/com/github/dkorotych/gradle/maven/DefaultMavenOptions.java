@@ -16,6 +16,7 @@
 package com.github.dkorotych.gradle.maven;
 
 import java.io.File;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
@@ -31,6 +32,7 @@ import java.util.*;
         "PMD.GodClass"
 })
 public class DefaultMavenOptions implements MavenOptions, Serializable {
+    @Serial
     private static final long serialVersionUID = 5202374569318582383L;
 
     private boolean alsoMake;

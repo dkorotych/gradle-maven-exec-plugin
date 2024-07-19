@@ -87,37 +87,36 @@ class MavenExecSpecTest {
         final Object value;
 
         switch (descriptor.getPropertyType().getSimpleName()) {
-            case "boolean":
+            case "boolean" -> {
                 validate(descriptor, specification, options, false);
                 descriptor.getWriteMethod().invoke(specification, true);
                 validate(descriptor, specification, options, true);
-                break;
-            case "String":
+            }
+            case "String" -> {
                 validate(descriptor, specification, options, null);
                 value = RandomStringUtils.randomAlphanumeric(10);
                 descriptor.getWriteMethod().invoke(specification, value);
                 validate(descriptor, specification, options, value);
-                break;
-            case "File":
+            }
+            case "File" -> {
                 validate(descriptor, specification, options, null);
                 value = SystemUtils.getJavaIoTmpDir();
                 descriptor.getWriteMethod().invoke(specification, value);
                 validate(descriptor, specification, options, value);
-                break;
-            case "String[]":
+            }
+            case "String[]" -> {
                 validate(descriptor, specification, options, null);
                 value = new String[]{randomAlphanumeric(10), randomAlphanumeric(10), randomAlphanumeric(10)};
                 descriptor.getWriteMethod().invoke(specification, value);
                 validate(descriptor, specification, options, value);
-                break;
-            case "Map":
+            }
+            case "Map" -> {
                 validate(descriptor, specification, options, null);
                 value = of(randomAlphanumeric(8), randomAlphanumeric(4), randomAlphanumeric(5), randomAlphanumeric(8));
                 descriptor.getWriteMethod().invoke(specification, value);
                 validate(descriptor, specification, options, value);
-                break;
-            default:
-                fail("Unsupported property type - %s", descriptor.getPropertyType());
+            }
+            default -> fail("Unsupported property type - %s", descriptor.getPropertyType());
         }
     }
 }

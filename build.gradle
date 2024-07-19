@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 import com.github.dkorotych.gradle.maven.exec.test.MavenTestHelperPlugin
-import org.gradle.util.GradleVersion
 
 plugins {
+    id 'java-gradle-plugin'
     id "com.gradle.plugin-publish" version "1.2.1"
     id 'idea'
     id 'jacoco'
-    id 'net.researchgate.release' version '2.8.1'
-    id "com.github.hierynomus.license" version "0.15.0"
-    id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'ru.vyarus.quality' version '4.9.0'
-    id 'ru.vyarus.github-info' version '1.5.0'
-    id 'org.openrewrite.rewrite' version '5.40.6'
-    id "org.sonarqube" version "4.0.0.2929"
+    id 'net.researchgate.release' version '3.0.2'
+    id "com.github.hierynomus.license" version "0.16.1"
+    id 'com.github.ben-manes.versions' version '0.51.0'
+    id 'ru.vyarus.quality' version '5.0.0'
+    id 'ru.vyarus.github-info' version '2.0.0'
+    id 'org.openrewrite.rewrite' version '6.16.4'
+    id "org.sonarqube" version "5.1.0.4882"
 }
 
 apply plugin: MavenTestHelperPlugin
@@ -36,28 +36,34 @@ description = 'Gradle Maven Exec Plugin'
 
 def versionPattern = /\d+(?:\.\d+)+/
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation libs.commons.lang3
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
-    testImplementation 'org.assertj:assertj-core:3.25.3'
-    testImplementation 'org.mockito:mockito-core:4.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
+    testImplementation 'org.assertj:assertj-core:3.26.3'
+    testImplementation 'org.mockito:mockito-core:5.12.0'
     testImplementation 'com.google.code.bean-matchers:bean-matchers:0.14'
-    testImplementation 'com.google.guava:guava:32.0.0-jre'
+    testImplementation 'com.google.guava:guava:33.2.1-jre'
 
-    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:1.19.4"))
+    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.15.0"))
     rewrite("org.openrewrite:rewrite-gradle")
     rewrite("org.openrewrite.recipe:rewrite-github-actions")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks")
     rewrite("org.openrewrite.recipe:rewrite-logging-frameworks")
     rewrite("org.openrewrite.recipe:rewrite-migrate-java")
+    rewrite("org.openrewrite.recipe:rewrite-static-analysis")
 }
 
 github {
@@ -72,23 +78,9 @@ gradlePlugin {
             implementationClass = 'com.github.dkorotych.gradle.maven.exec.MavenExecPlugin'
             displayName = project.description
             description = 'Gradle plugin which provides an Maven exec task'
-            if ((GradleVersion.current() <=> GradleVersion.version('8.0')) >= 0) {
-                tags.set(['maven', 'exec', 'cross-platform'])
-            }
+            tags.set(['maven', 'exec', 'cross-platform'])
         }
     }
-}
-
-if ((GradleVersion.current() <=> GradleVersion.version('8.0')) < 1) {
-    pluginBundle {
-        description = 'Gradle plugin which provides an Maven exec task'
-        tags = ['maven', 'exec', 'cross-platform']
-    }
-}
-
-java {
-    sourceCompatibility = project.sourceCompatibility
-    targetCompatibility = project.targetCompatibility
 }
 
 sourceSets {
@@ -165,11 +157,7 @@ cleanIdea.doLast {
 
 jacocoTestReport {
     reports {
-        if ((GradleVersion.current() <=> GradleVersion.version('8.0')) < 1) {
-            xml.enabled true
-        } else {
-            xml.required = true
-        }
+        xml.required = true
     }
 }
 
@@ -184,11 +172,11 @@ sonarqube {
     }
 }
 
-wrapper.gradleVersion = '6.0.1'
+wrapper.gradleVersion = '8.5'
 
 release {
     git {
-        requireBranch = "master"
+//        requireBranch = "master"
     }
 }
 afterReleaseBuild {
@@ -211,53 +199,11 @@ dependencyUpdates {
                 if (candidate.version.matches('.+-RC\\d+$')) {
                     selection.reject("Dependency ${candidate.displayName} reject because is a release candidate")
                 }
-                if (candidate.group == 'com.github.hierynomus.license'
-                        && candidate.version >= '0.16.0') {
-                    selection.reject("Plugin ${candidate.group} from version ${candidate.version} uses Gradle 7.0")
-                }
-                if (candidate.group == 'ru.vyarus.quality' && candidate.module == 'ru.vyarus.quality.gradle.plugin'
-                        && candidate.version >= '5.0.0') {
-                    selection.reject("Plugin ${candidate.group}:${candidate.module} from version ${candidate.version} uses Gradle 7.0")
-                }
-                if (candidate.group == 'ru.vyarus.github-info' && candidate.module == 'ru.vyarus.github-info.gradle.plugin'
-                        && candidate.version >= '2.0.0') {
-                    selection.reject("Plugin ${candidate.group}:${candidate.module} from version ${candidate.version} uses Gradle 7.0")
-                }
-                if (candidate.group == 'net.researchgate.release'
-                        && candidate.version >= '3.0') {
-                    selection.reject("Plugin ${candidate.group} from version ${candidate.version} uses Gradle 6.9")
-                }
-                if (candidate.group == 'com.github.ben-manes.versions'
-                        && candidate.version >= '0.43.0') {
-                    selection.reject("Plugin ${candidate.group} from version ${candidate.version} has java.lang.NoClassDefFoundError: groovy/xml/XmlSlurper")
-                }
-                if (candidate.group == 'org.mockito' && candidate.module == 'mockito-core'
-                        && candidate.version >= '5.0') {
-                    selection.reject("Mockito from 5.0 supported the Java 11 as minimum version")
-                }
                 if (candidate.group == 'com.google.guava' && candidate.module == 'guava') {
                     def index = candidate.version.indexOf("-jre")
-                    if (index > 0) {
-                        def guavaVersion = candidate.version.substring(0, index)
-                        if (guavaVersion > '32.0.0') {
-                            selection.reject("Skip this Guava version")
-                        }
-                    } else {
+                    if (!(index > 0)) {
                         selection.reject("Support only JRE version of Guava")
                     }
-                }
-                if (candidate.group == 'org.openrewrite.rewrite'
-                        && candidate.module == 'org.openrewrite.rewrite.gradle.plugin'
-                        && candidate.version >= '6.0.0') {
-                    selection.reject("Plugin ${candidate.group}:${candidate.module} from version ${candidate.version} uses Gradle 7.0")
-                }
-                if (candidate.group == 'org.openrewrite.recipe' && candidate.module == 'rewrite-recipe-bom'
-                        && candidate.version >= '2.0.0') {
-                    selection.reject("Dependency ${candidate.group}:${candidate.module} from version ${candidate.version} uses Java 11")
-                }
-                if (candidate.group == 'org.sonarqube' && candidate.module == 'org.sonarqube.gradle.plugin'
-                        && candidate.version >= '4.1.0') {
-                    selection.reject("Plugin ${candidate.group}:${candidate.module} from version ${candidate.version} drop Java 8 support")
                 }
             }
         }

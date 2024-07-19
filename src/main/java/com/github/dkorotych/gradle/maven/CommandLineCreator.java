@@ -33,7 +33,7 @@ import java.util.Optional;
  *
  * @author Dmitry Korotych (dkorotych at gmail dot com).
  */
-public class CommandLineCreator {
+public final class CommandLineCreator {
     private final MavenExecSpec specification;
     private final Project project;
     private final Logger logger;
@@ -82,8 +82,10 @@ public class CommandLineCreator {
 
     private void prepareCommandLine() {
         if (getMavenDir() == null) {
-            logger.info("The directory with the executable Maven file is not set. "
-                    + "The plugin will try to find the installation by itself");
+            logger.info("""
+                    The directory with the executable Maven file is not set. \
+                    The plugin will try to find the installation by itself\
+                    """);
             findMavenExecutable();
             if (getMavenDir() == null) {
                 throw new GradleException("Maven installation not found");
@@ -105,7 +107,7 @@ public class CommandLineCreator {
     private void findMavenExecutable() {
         findMavenInDirectory(specification.getWorkingDir());
         if (getMavenDir() == null && !mavenHomeProvider.findMavenHome()) {
-            findMavenInDirectory(project.getBuildDir());
+            findMavenInDirectory(project.getLayout().getBuildDirectory().getAsFile().get());
             findMavenInDirectory(project.getProjectDir());
             findMavenInDirectory(project.getRootDir());
         }

@@ -84,11 +84,11 @@ class MavenDescriptorTest {
         list.add(project.getProjectDir());
         list.add(project.getRootDir());
         project = ProjectBuilder.builder().build();
-        TestUtility.prepareProject(true, project.getBuildDir());
-        list.add(project.getBuildDir());
+        TestUtility.prepareProject(true, project.getLayout().getBuildDirectory().getAsFile().get());
+        list.add(project.getLayout().getBuildDirectory().getAsFile().get());
         project = ProjectBuilder.builder().build();
-        TestUtility.prepareProject(false, project.getBuildDir());
-        list.add(project.getBuildDir());
+        TestUtility.prepareProject(false, project.getLayout().getBuildDirectory().getAsFile().get());
+        list.add(project.getLayout().getBuildDirectory().getAsFile().get());
         return list;
     }
 

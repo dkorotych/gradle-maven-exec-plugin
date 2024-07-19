@@ -1,7 +1,6 @@
 type: specs.openrewrite.org/v1beta/recipe
 name: com.github.dkorotych.gradle.maven.exec.MavenExecPlugin
 recipeList:
-  - org.openrewrite.github.ActionsSetupJavaAdoptOpenJDKToTemurin
   - org.openrewrite.github.SetupJavaCaching
   - org.openrewrite.github.ChangeDependabotScheduleInterval:
       packageEcosystem: github-actions
@@ -10,21 +9,23 @@ recipeList:
       packageEcosystem: gradle
       interval: weekly
   - org.openrewrite.gradle.DependencyUseStringNotation
-  - org.openrewrite.java.logging.PrintStackTraceToLogError
-  - org.openrewrite.java.logging.slf4j.ParameterizedLogging
-  - org.openrewrite.java.logging.slf4j.ConvertLogMessageMessageOnlyToLogMessageAndThrowable
-  - org.openrewrite.java.testing.junit5.JUnit5BestPractices
-  - org.openrewrite.java.testing.mockito.Mockito1to4Migration
-  - org.openrewrite.java.testing.cleanup.BestPractices
-  - org.openrewrite.java.testing.assertj.Assertj
-  - org.openrewrite.java.testing.assertj.JUnitToAssertj
-  - org.openrewrite.java.cleanup.CommonStaticAnalysis
-  - org.openrewrite.java.cleanup.Cleanup
-  - org.openrewrite.java.cleanup.JavaApiBestPractices
-  - org.openrewrite.java.cleanup.MissingOverrideAnnotation
-  - org.openrewrite.java.cleanup.AtomicPrimitiveEqualsUsesGet
-  - org.openrewrite.java.cleanup.RemoveExtraSemicolons
-  - org.openrewrite.java.cleanup.RemoveUnusedLocalVariables
-  - org.openrewrite.java.RemoveUnusedImports
-  - org.openrewrite.java.RemoveObjectsIsNull
-  - org.openrewrite.java.cleanup.AtomicPrimitiveEqualsUsesGet
+  - org.openrewrite.gradle.EnableGradleBuildCache
+  - org.openrewrite.gradle.EnableGradleParallelExecution
+#  - org.openrewrite.java.RemoveUnusedImports
+#  - org.openrewrite.java.RemoveObjectsIsNull
+  - org.openrewrite.java.migrate.UpgradeToJava17
+#  - org.openrewrite.java.logging.PrintStackTraceToLogError
+#  - org.openrewrite.java.logging.slf4j.Slf4jBestPractices
+#  - org.openrewrite.java.logging.slf4j.ParameterizedLogging
+#  - org.openrewrite.java.testing.junit5.JUnit5BestPractices
+#  - org.openrewrite.java.testing.mockito.Mockito1to4Migration
+#  - org.openrewrite.java.testing.cleanup.BestPractices
+#  - org.openrewrite.java.testing.assertj.Assertj
+#  - org.openrewrite.java.testing.assertj.JUnitToAssertj
+#  - org.openrewrite.staticanalysis.CommonStaticAnalysis
+#  - org.openrewrite.staticanalysis.CodeCleanup
+#  - org.openrewrite.staticanalysis.JavaApiBestPractices
+#  - org.openrewrite.staticanalysis.MissingOverrideAnnotation
+#  - org.openrewrite.staticanalysis.AtomicPrimitiveEqualsUsesGet
+#  - org.openrewrite.staticanalysis.RemoveExtraSemicolons
+#  - org.openrewrite.staticanalysis.RemoveUnusedLocalVariables

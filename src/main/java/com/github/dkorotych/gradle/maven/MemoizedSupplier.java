@@ -36,7 +36,7 @@ public abstract class MemoizedSupplier<T> implements Supplier<T> {
      * @return Cached supplier
      */
     public static <O> MemoizedSupplier<O> of(final Supplier<O> creator) {
-        return new MemoizedSupplier<O>() {
+        return new MemoizedSupplier<>() {
             @Override
             protected O create() {
                 return creator.get();

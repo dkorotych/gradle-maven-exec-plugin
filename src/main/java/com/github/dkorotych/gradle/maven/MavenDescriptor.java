@@ -38,7 +38,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  *
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
-public class MavenDescriptor {
+public final class MavenDescriptor {
     private static final String CHARSET = Charset.forName(SystemUtils.FILE_ENCODING).name();
 
     private final File workingDir;

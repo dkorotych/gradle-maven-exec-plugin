@@ -13,46 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.gradle.util.GradleVersion
-
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    ext {
-        addLicensePlugin = GradleVersion.current().version < '7.5'
-    }
-
-    if (addLicensePlugin) {
-        dependencies {
-            classpath("gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:0.15.0")
-        }
-    }
-}
-
 plugins {
-    id 'ru.vyarus.quality' version '4.9.0'
+    id 'ru.vyarus.quality' version '5.0.0'
+    id "com.github.hierynomus.license" version "0.16.1"
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.apache.commons:commons-lang3:3.14.0")
+    implementation(libs.commons.lang3)
 }
 
-if (addLicensePlugin) {
-    apply plugin: "com.github.hierynomus.license"
-
-    license {
-        header file('../gradle/config/license-header.txt')
-        ext.year = Calendar.getInstance().get(Calendar.YEAR)
-        ext.developers = 'Dmitry Korotych'
-        skipExistingHeaders true
-        strictCheck true
-    }
+license {
+    header file('../gradle/config/license-header.txt')
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)
+    ext.developers = 'Dmitry Korotych'
+    skipExistingHeaders true
+    strictCheck true
 }

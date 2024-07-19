@@ -73,7 +73,7 @@ abstract class AbstractMavenExecSpecTest<T extends MavenExecSpec> {
                 SystemUtils.getJavaIoTmpDir(),
                 SystemUtils.getUserHome(),
                 project.getProjectDir(),
-                project.getBuildDir()
+                project.getLayout().getBuildDirectory().get().getAsFile()
         );
     }
 
