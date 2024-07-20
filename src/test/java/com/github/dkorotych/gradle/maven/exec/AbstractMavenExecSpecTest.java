@@ -97,8 +97,8 @@ abstract class AbstractMavenExecSpecTest<T extends MavenExecSpec> {
     }
 
     protected Pair<Project, T> create() throws Exception {
-        final Project project = createProject();
-        return Pair.of(project, create(project));
+        final Project localProject = createProject();
+        return Pair.of(localProject, create(localProject));
     }
 
     protected abstract T create(Project project);

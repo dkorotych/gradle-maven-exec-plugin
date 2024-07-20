@@ -109,11 +109,10 @@ public final class TestUtility {
                                            String... arguments) {
         final List<String> commandLine = new ArrayList<>();
         File pathToMaven = path;
-        if (path != null) {
-            if (!useWrapper) {
-                pathToMaven = path.toPath().resolve("bin").toFile();
-            }
-
+        if (path != null && !useWrapper) {
+            pathToMaven = path.toPath()
+                    .resolve("bin")
+                    .toFile();
         }
         final String mavenHome = Optional.ofNullable(pathToMaven)
                 .map(File::toPath)
