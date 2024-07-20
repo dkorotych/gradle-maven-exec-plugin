@@ -221,7 +221,7 @@ tasks.named("updateVersion").configure {
 }
 
 rewrite {
-    configFile = project.getRootProject().file("gradle/config/rewrite.yml")
+    configFile = project.rootProject.file("gradle/config/rewrite.yml")
     activeRecipe("com.github.dkorotych.gradle.maven.exec.MavenExecPlugin")
     exclusion("**/*.gradle")
 }

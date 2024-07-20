@@ -29,7 +29,6 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -48,7 +47,7 @@ class MavenExecSpecTest {
         try {
             return Arrays.stream(Introspector.getBeanInfo(MavenExecSpec.class).getPropertyDescriptors())
                     .filter(((Predicate<PropertyDescriptor>) d -> skip.contains(d.getName())).negate())
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (IntrospectionException e) {
             throw new RuntimeException(e);
         }

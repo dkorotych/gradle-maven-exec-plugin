@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 
 import static com.github.dkorotych.gradle.maven.TestUtility.commandLine;
 import static com.github.dkorotych.gradle.maven.TestUtility.createExecSpec;
-import static java.util.List.*;
+import static java.util.List.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.gradle.util.internal.CollectionUtils.asCommandLine;

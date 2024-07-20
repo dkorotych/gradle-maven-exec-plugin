@@ -64,7 +64,7 @@ public abstract class AbstractFunctionalTest {
                 .filter(version -> version.compareTo(minimalGradleVersion) >= 0)
                 .filter(version -> version.compareTo(maximalGradleVersion) <= 0)
                 .map(GradleVersion::getVersion)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static Collection<String> supportedMavenVersion() {

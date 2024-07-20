@@ -99,7 +99,7 @@ class MavenDescriptorTest {
             return paths.map(Path::toFile)
                     .filter(File::isDirectory)
                     .sorted(Comparator.comparing(File::getName))
-                    .collect(Collectors.toList());
+                    .toList();
         }
     }
 
@@ -113,7 +113,7 @@ class MavenDescriptorTest {
 
     private static Collection<String> getOptions(File directory) throws Exception {
         try (Stream<String> lines = Files.lines(resolve(directory, "options.txt").toPath(), UTF_8)) {
-            return lines.collect(Collectors.toList());
+            return lines.toList();
         }
     }
 

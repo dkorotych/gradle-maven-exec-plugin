@@ -59,7 +59,7 @@ public final class MavenOptionsToCommandLineAdapter {
             descriptors = stream(getBeanInfo(DefaultMavenOptions.class, Object.class).getPropertyDescriptors())
                     .filter(predicate)
                     .sorted(Comparator.comparing(PropertyDescriptor::getName))
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (IntrospectionException e) {
             throw new GradleException("Can't create property descriptions", e);
         }

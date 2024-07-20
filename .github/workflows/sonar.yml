@@ -28,4 +28,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           gradle-version: wrapper
-          arguments: build jacocoTestReport sonarqube
+          arguments: build jacocoTestReport sonar

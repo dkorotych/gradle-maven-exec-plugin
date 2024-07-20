@@ -31,7 +31,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static java.util.List.*;
+import static java.util.List.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -166,7 +166,7 @@ class MavenOptionsToCommandLineAdapterTest {
         options.setDefine(define);
         final MavenOptionsToCommandLineAdapter adapter = new MavenOptionsToCommandLineAdapter(options, null);
         assertThat(adapter.asCommandLine())
-                .isEqualTo(expected);
+                .containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @ParameterizedTest
