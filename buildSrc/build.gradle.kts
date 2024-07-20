@@ -1,3 +1,5 @@
+import java.util.*
+
 /*
  * Copyright 2022 Dmitry Korotych.
  *
@@ -14,8 +16,8 @@
  * limitations under the License.
  */
 plugins {
-    id 'ru.vyarus.quality' version '5.0.0'
-    id "com.github.hierynomus.license" version "0.16.1"
+    id("ru.vyarus.quality") version "5.0.0"
+    id("com.github.hierynomus.license") version "0.16.1"
 }
 
 java {
@@ -31,13 +33,13 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.commons.lang3)
+    api(libs.commons.lang3)
 }
 
 license {
-    header file('../gradle/config/license-header.txt')
-    ext.year = Calendar.getInstance().get(Calendar.YEAR)
-    ext.developers = 'Dmitry Korotych'
-    skipExistingHeaders true
-    strictCheck true
+    header = file("../gradle/config/license-header.txt")
+    ext.set("year", Calendar.getInstance().get(Calendar.YEAR))
+    ext.set("developers", "Dmitry Korotych")
+    skipExistingHeaders = true
+    strictCheck = true
 }

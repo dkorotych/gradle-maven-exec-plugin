@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 plugins {
-    id "com.gradle.enterprise" version "3.12.2"
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
+    id("com.gradle.develocity") version "3.17.5"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
 }
 
-rootProject.name = 'gradle-maven-exec-plugin'
+rootProject.name = "gradle-maven-exec-plugin"
