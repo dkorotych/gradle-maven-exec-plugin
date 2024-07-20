@@ -45,7 +45,6 @@ import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.fail;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SuppressWarnings("OverloadMethodsDeclarationOrder")
@@ -56,13 +55,14 @@ class DefaultMavenOptionsTest {
 
     @Test
     void asBean() {
-        assertThat(DefaultMavenOptions.class, allOf(
-                hasValidBeanConstructor(),
-                hasValidGettersAndSetters(),
-                hasValidBeanHashCode(),
-                hasValidBeanEquals(),
-                hasValidBeanToString()
-        ));
+        assertThat(DefaultMavenOptions.class)
+                .satisfies(
+                        arg -> assertThat(arg, hasValidBeanConstructor()),
+                        arg -> assertThat(arg, hasValidGettersAndSetters()),
+                        arg -> assertThat(arg, hasValidBeanHashCode()),
+                        arg -> assertThat(arg, hasValidBeanEquals()),
+                        arg -> assertThat(arg, hasValidBeanToString())
+                );
     }
 
     @Test

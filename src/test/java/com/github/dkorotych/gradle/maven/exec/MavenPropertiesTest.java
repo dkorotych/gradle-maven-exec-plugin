@@ -15,21 +15,22 @@
  */
 package com.github.dkorotych.gradle.maven.exec;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.google.code.beanmatchers.BeanMatchers.*;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 class MavenPropertiesTest {
     @Test
     void asBean() {
-        assertThat(MavenProperties.class, allOf(
-                hasValidBeanConstructor(),
-                hasValidGettersAndSetters(),
-                hasValidBeanHashCode(),
-                hasValidBeanEquals(),
-                hasValidBeanToString()
-        ));
+        Assertions.assertThat(MavenProperties.class)
+                .satisfies(
+                        arg -> assertThat(arg, hasValidBeanConstructor()),
+                        arg -> assertThat(arg, hasValidGettersAndSetters()),
+                        arg -> assertThat(arg, hasValidBeanHashCode()),
+                        arg -> assertThat(arg, hasValidBeanEquals()),
+                        arg -> assertThat(arg, hasValidBeanToString())
+                );
     }
 }

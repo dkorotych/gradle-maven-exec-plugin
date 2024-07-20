@@ -137,7 +137,7 @@ license {
     exclude("**/fixtures/**")
 }
 
-tasks.named<Javadoc>("javadoc") {
+tasks.named<Javadoc>("javadoc").configure {
     (options as StandardJavadocDocletOptions).links("https://docs.gradle.org/${gradle.gradleVersion}/javadoc/")
     options {
         showFromPublic()
