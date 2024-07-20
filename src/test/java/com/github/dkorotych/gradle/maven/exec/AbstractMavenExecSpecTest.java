@@ -16,7 +16,6 @@
 package com.github.dkorotych.gradle.maven.exec;
 
 import com.github.dkorotych.gradle.maven.TestUtility;
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.gradle.api.Project;
@@ -36,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
+import static java.util.Map.*;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -79,9 +79,9 @@ abstract class AbstractMavenExecSpecTest<T extends MavenExecSpec> {
 
     public static List<Map<String, ?>> environment() {
         return asList(
-                ImmutableMap.of(),
-                ImmutableMap.of("1", "2"),
-                ImmutableMap.of(random(10), random(3), random(2), random(12))
+                of(),
+                of("1", "2"),
+                of(random(10), random(3), random(2), random(12))
         );
     }
 

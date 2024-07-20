@@ -15,8 +15,6 @@
  */
 package com.github.dkorotych.gradle.maven.exec;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.tuple.Pair;
 import org.gradle.api.Project;
 import org.junit.jupiter.api.Test;
@@ -25,6 +23,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import static com.github.dkorotych.gradle.maven.TestUtility.commandLine;
@@ -67,7 +66,7 @@ class MavenExecSpecDelegateTest extends AbstractMavenExecSpecTest<MavenExecSpecD
             specification.setEnvironment(null);
             final Map.Entry<String, ?> first = value.entrySet().iterator().next();
             specification.environment(first.getKey(), first.getValue());
-            assertThat(specification.getEnvironment()).isEqualTo(ImmutableMap.of(first.getKey(), first.getValue()));
+            assertThat(specification.getEnvironment()).isEqualTo(Map.of(first.getKey(), first.getValue()));
         }
     }
 
@@ -79,7 +78,7 @@ class MavenExecSpecDelegateTest extends AbstractMavenExecSpecTest<MavenExecSpecD
 
         pair = create();
         final MavenExecSpec delegate = pair.getValue();
-        delegate.setGoals(ImmutableList.of("clean", "verify"));
+        delegate.setGoals(List.of("clean", "verify"));
         delegate.setDebug(true);
         delegate.getOptions().setOffline(true);
         delegate.getOptions().quiet(true);

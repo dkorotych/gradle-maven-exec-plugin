@@ -35,11 +35,11 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.google.code.beanmatchers.BeanMatchers.*;
-import static com.google.common.collect.ImmutableMap.of;
 import static java.beans.Introspector.getBeanInfo;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.Map.of;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.assertj.core.api.Assertions.assertThat;

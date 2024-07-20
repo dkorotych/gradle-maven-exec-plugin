@@ -15,7 +15,6 @@
  */
 package com.github.dkorotych.gradle.maven;
 
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -32,7 +31,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static com.google.common.collect.ImmutableList.of;
+import static java.util.List.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -65,10 +64,10 @@ class MavenOptionsToCommandLineAdapterTest {
                 Arguments.of(null, Collections.emptyList()),
                 Arguments.of(new HashMap<>(), Collections.emptyList()),
                 Arguments.of(Collections.emptyMap(), Collections.emptyList()),
-                Arguments.of(ImmutableMap.of(DEMO, ""), Collections.emptyList()),
-                Arguments.of(ImmutableMap.of(DEMO, "test"), Collections.singletonList("-Ddemo=test")),
-                Arguments.of(ImmutableMap.of("1", "2", "3", "", "5", "6"), of("-D1=2", "-D5=6")),
-                Arguments.of(ImmutableMap.of("1", "2", "", "4", "5", "6"), of("-D1=2", "-D5=6"))
+                Arguments.of(Map.of(DEMO, ""), Collections.emptyList()),
+                Arguments.of(Map.of(DEMO, "test"), Collections.singletonList("-Ddemo=test")),
+                Arguments.of(Map.of("1", "2", "3", "", "5", "6"), of("-D1=2", "-D5=6")),
+                Arguments.of(Map.of("1", "2", "", "4", "5", "6"), of("-D1=2", "-D5=6"))
         );
     }
 

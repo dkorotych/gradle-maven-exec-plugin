@@ -16,7 +16,6 @@
 package com.github.dkorotych.gradle.maven.exec;
 
 import com.github.dkorotych.gradle.maven.TestUtility;
-import com.google.common.collect.ImmutableList;
 import org.gradle.api.Project;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -28,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static java.util.Collections.*;
+import static java.util.List.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -184,7 +184,7 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
                 .isEqualTo(TestUtility.commandLine(project.getProjectDir(), validate));
 
         mavenExec = createTask(project);
-        mavenExec.setGoals(ImmutableList.of("clean", validate));
+        mavenExec.setGoals(of("clean", validate));
         mavenExec.setBatchMode(true);
         mavenExec.getOptions().setFailFast(true);
         mavenExec.getOptions().quiet(true);

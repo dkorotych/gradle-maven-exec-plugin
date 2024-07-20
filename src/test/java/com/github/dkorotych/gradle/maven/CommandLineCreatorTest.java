@@ -17,7 +17,6 @@ package com.github.dkorotych.gradle.maven;
 
 import com.github.dkorotych.gradle.maven.exec.MavenExecSpec;
 import com.github.dkorotych.gradle.maven.exec.MavenExecSpecDelegate;
-import com.google.common.collect.ImmutableList;
 import org.gradle.api.Project;
 import org.gradle.process.ExecSpec;
 import org.gradle.testfixtures.ProjectBuilder;
@@ -33,6 +32,7 @@ import java.util.stream.Stream;
 
 import static com.github.dkorotych.gradle.maven.TestUtility.commandLine;
 import static com.github.dkorotych.gradle.maven.TestUtility.createExecSpec;
+import static java.util.List.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.gradle.util.internal.CollectionUtils.asCommandLine;
@@ -53,7 +53,7 @@ class CommandLineCreatorTest {
         final MavenExecSpecDelegate delegate1 = new MavenExecSpecDelegate(delegate, project);
         delegate1.setOffline(true);
         delegate1.setUpdatePlugins(true);
-        delegate1.setGoals(ImmutableList.of("verify"));
+        delegate1.setGoals(of("verify"));
         return Stream.of(
                 Arguments.of(new MavenExecSpecDelegate(delegate, project), expectedCommandLine()),
                 Arguments.of(delegate1, expectedCommandLine("--offline", "--update-plugins", "verify"))

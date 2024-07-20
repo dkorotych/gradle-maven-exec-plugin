@@ -57,7 +57,6 @@ dependencies {
     testImplementation(libs.assertj.core)
     testImplementation(libs.mockito.core)
     testImplementation(libs.bean.matchers)
-    testImplementation(libs.guava)
 
     rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.15.0"))
     rewrite("org.openrewrite:rewrite-gradle")
@@ -200,16 +199,10 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     revision = "release"
     rejectVersionIf {
         val version = candidate.version
-        if (candidate.group == libs.guava.get().group && candidate.module == libs.guava.get().name) {
-            val index = version.indexOf("-jre")
-            if (index <= 0) {
-                return@rejectVersionIf true
-            }
-        }
-        return@rejectVersionIf (version.contains("alpha")
+        version.contains("alpha")
                 || version.contains("beta")
                 || ".+-M\\d+$".toRegex().matches(version)
-                || ".+-RC\\d+$".toRegex().matches(version))
+                || ".+-RC\\d+$".toRegex().matches(version)
     }
 }
 
