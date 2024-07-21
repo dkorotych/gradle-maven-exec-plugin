@@ -11,7 +11,7 @@ tasks.register("validate") {
     dependsOn = ["validate1", "validate2"]
 }
 
-task("validate1") {
+tasks.register('validate1') {
     doLast {
         mavenexec {
             mavenDir maven
@@ -21,7 +21,7 @@ task("validate1") {
     }
 }
 
-task("validate2", type: MavenExec) {
+tasks.register('validate2', MavenExec) {
     mavenDir maven
     goals "validate"
     quiet true

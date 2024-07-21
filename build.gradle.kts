@@ -171,9 +171,11 @@ sonar {
         property("sonar.organization", github.user)
         property("sonar.host.url", "https://sonarcloud.io")
         val functionalTestSources = sourceSets["functionalTest"]
+        @Suppress("UNCHECKED_CAST")
         val sonarTestSources = properties["sonar.tests"] as MutableCollection<File>
         sonarTestSources.addAll(functionalTestSources.allJava.srcDirs)
         sonarTestSources.add(file("buildSrc/src/main/java"))
+        @Suppress("UNCHECKED_CAST")
         properties["sonar.java.binaries"] as MutableCollection<File> += functionalTestSources.java.classesDirectory.get().asFile
     }
 }

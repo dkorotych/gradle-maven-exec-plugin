@@ -16,7 +16,6 @@
 
 import com.github.dkorotych.gradle.maven.exec.MavenExec
 import com.github.dkorotych.gradle.maven.exec.MavenExecSpec
-import org.gradle.kotlin.dsl.accessors.runtime.extensionOf
 import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets.UTF_8
 

@@ -21,7 +21,7 @@ def replaceTargetSourceInPom(File applicationDir) {
 def groupId = 'com.mycompany.app'
 def artifactId = 'my-app'
 
-task generateMavenApplication(type: MavenExec) {
+tasks.register('generateMavenApplication', MavenExec) {
     def buildDir = layout.buildDirectory.asFile.get()
     buildDir.mkdirs()
     ext.outputDir = mkdir("$buildDir/$artifactId")
@@ -39,19 +39,21 @@ task generateMavenApplication(type: MavenExec) {
     }
 }
 
-task replaceTargetSourceInPom() {
+tasks.register('replaceTargetSourceInPom') {
     doLast {
         replaceTargetSourceInPom(generateMavenApplication.outputDir)
     }
 }
 
-task packageMavenApplication(type: MavenExec, dependsOn: ['generateMavenApplication', 'replaceTargetSourceInPom']) {
+tasks.register('packageMavenApplication', MavenExec) {
+    dependsOn = ['generateMavenApplication', 'replaceTargetSourceInPom']
     outputs.dir mkdir("${generateMavenApplication.outputDir}/target")
     workingDir generateMavenApplication.outputDir
     goals 'package'
 }
 
-task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication') {
+tasks.register('checkMavenApplication', JavaExec) {
+    dependsOn 'packageMavenApplication'
     def buildDir = layout.buildDirectory.asFile.get()
     def outputFile = file("$buildDir/output.txt")
     workingDir generateMavenApplication.outputDir
@@ -63,7 +65,7 @@ task checkMavenApplication(type: JavaExec, dependsOn: 'packageMavenApplication')
     }
 }
 
-task checkMavenApplication2 {
+tasks.register('checkMavenApplication2') {
     doLast {
         def buildDir = layout.buildDirectory.asFile.get()
         buildDir.mkdirs()
@@ -100,7 +102,7 @@ task checkMavenApplication2 {
     }
 }
 
-task checkMavenApplication3 {
+tasks.register('checkMavenApplication3') {
     doLast {
         def buildDir = layout.buildDirectory.asFile.get()
         buildDir.mkdirs()
