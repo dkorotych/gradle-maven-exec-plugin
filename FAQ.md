@@ -7,18 +7,19 @@
 - [MavenExecAction.setWorkingDir(Ljava/io/File;)V](#im-getting-mavenexecactionsetworkingdirljavaiofilev)
 
 ## How to skip tests when building a maven project
+
 ```groovy
 mavenexec {
-    ...
     define = [
         'maven.test.skip': true
     ]
-    ...
 }
 ```
 
 ## How to pass custom maven settings file
+
 If Maven has some command line parameter, you can directly pass it as a property in mavenexec
+
 ```groovy
 mavenexec {
     workingDir applicationDir
@@ -32,11 +33,14 @@ mavenexec {
 
 ## For modern versions of Gradle and JDK, you need to use the plugin version starting from 3.0.
 
-Additionally, we pay attention to the [compatibility matrix](https://docs.gradle.org/current/userguide/compatibility.html) and Gradle verion release notes, building problems are not always problems of additional plugins
+Additionally, we pay attention to
+the [compatibility matrix](https://docs.gradle.org/current/userguide/compatibility.html) and Gradle verion release
+notes, building problems are not always problems of additional plugins
 
 ## I'm getting errors like 'Cannot convert a relative path . to an absolute file.'
 
 You need to specify the working directory for the plugin. Most frequent it will be
+
 ```groovy
 mavenexec {
     workingDir projectDir
@@ -44,6 +48,7 @@ mavenexec {
 ```
 
 ## I'm getting MavenExecAction.setWorkingDir(Ljava/io/File;)V
+
 ##### A problem occurred evaluating root project '...'. com.github.dkorotych.gradle.maven.exec.MavenExecAction.setWorkingDir(Ljava/io/File;)V
 
 In Gradle, starting with version 4, was added a method to set the working directory,
@@ -54,18 +59,23 @@ it needs to call and tries to call an abstract method,
 which is suitable for the required signature.
 To avoid this error, simply change the object type to set the working directory.
 For example, a construction of the form
+
 ```groovy
 mavenexec {
     workingDir = projectDir
 }
 ```
+
 suffices to change to
+
 ```groovy
 mavenexec {
     workingDir projectDir
 }
 ```
+
 or on
+
 ```groovy
 mavenexec {
     workingDir = projectDir.toURI()

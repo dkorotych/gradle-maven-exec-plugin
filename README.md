@@ -10,7 +10,8 @@ Gradle plugin which provides a Maven exec task
 
 ## Installing
 
-Releases of this plugin are hosted on [Gradle's Plugin Repository](https://login.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec).
+Releases of this plugin are hosted
+on [Gradle's Plugin Repository](https://login.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec).
 Apply the plugin to your project using one of the two methods below.
 
 #### Using the [plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block):
@@ -125,5 +126,6 @@ task generateAndExecuteApplication {
 ```
 
 ## F.A.Q
+
 If you run into any issues,
 consult the [F.A.Q.](https://github.com/dkorotych/gradle-maven-exec-plugin/blob/master/FAQ.md) first.
