@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskContainer;
 
@@ -74,6 +75,10 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
                 execSpec.setStandardOutput(outputStream);
                 execSpec.setErrorOutput(errorStream);
                 execSpec.setArgs(options);
+                final Logger logger = getLogger();
+                if (logger.isDebugEnabled()) {
+                    logger.debug("command: {}", execSpec.getCommandLine().stream().collect(Collectors.joining(" ")));
+                }
             }).assertNormalExitValue();
         } catch (Exception e) {
             String description = buildCauseMessagesWithoutLast(e)
