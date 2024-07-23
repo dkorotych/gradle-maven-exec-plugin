@@ -44,10 +44,11 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
         this.options = options;
         final TaskContainer tasks = getProject().getTasks();
         final Task processTestResources = Objects.requireNonNull(tasks.findByName("processTestResources"));
-        processTestResources.dependsOn(this.getName());
+        final String name = getName();
+        processTestResources.dependsOn(name);
         if (getProject().getPlugins().hasPlugin("com.github.hierynomus.license")) {
             final Task licenseTest = Objects.requireNonNull(tasks.findByName("licenseTest"));
-            licenseTest.dependsOn(this.getName());
+            licenseTest.dependsOn(name);
         }
     }
 
