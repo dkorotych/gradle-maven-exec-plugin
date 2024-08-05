@@ -58,7 +58,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.bean.matchers)
 
-    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.15.0"))
+    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.16.0"))
     rewrite("org.openrewrite:rewrite-gradle")
     rewrite("org.openrewrite.recipe:rewrite-github-actions")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks")
