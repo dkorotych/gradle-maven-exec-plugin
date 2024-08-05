@@ -19,7 +19,7 @@ jobs:
       - name: Set MAVEN_HOME
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
       - name: Check code
         run: ./gradlew check jacocoTestReport
       - name: Upload coverage reports to Codecov
@@ -69,7 +69,7 @@ jobs:
         name: Set MAVEN_HOME
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
       - if: ${{ matrix.os == 'windows-latest' }}
         name: Prepare test environment
         run: ./gradlew clean prepareTestEnvironment --debug --no-build-cache
