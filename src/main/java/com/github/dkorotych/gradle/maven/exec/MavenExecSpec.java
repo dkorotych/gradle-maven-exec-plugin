@@ -22,7 +22,6 @@ import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.Optional;
 import org.gradle.process.BaseExecSpec;
-import org.gradle.util.internal.ClosureBackedAction;
 import org.gradle.util.internal.CollectionUtils;
 
 import java.io.File;
@@ -116,10 +115,7 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
      * @param options Options closure
      * @return this
      */
-    default MavenExecSpec options(final Closure<MavenOptions> options) {
-        ClosureBackedAction.execute(getOptions(), options);
-        return this;
-    }
+    MavenExecSpec options(Closure<MavenOptions> options);
 
     @Input
     @Optional

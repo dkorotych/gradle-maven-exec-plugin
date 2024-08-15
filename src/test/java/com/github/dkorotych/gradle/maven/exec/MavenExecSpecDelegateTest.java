@@ -26,10 +26,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.dkorotych.gradle.maven.TestUtility.commandLine;
-import static com.github.dkorotych.gradle.maven.TestUtility.createExecSpec;
+import static com.github.dkorotych.gradle.maven.TestUtility.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.gradle.util.internal.CollectionUtils.asCommandLine;
 
 class MavenExecSpecDelegateTest extends AbstractMavenExecSpecTest<MavenExecSpecDelegate> {
 

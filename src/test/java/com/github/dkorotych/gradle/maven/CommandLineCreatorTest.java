@@ -30,12 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.github.dkorotych.gradle.maven.TestUtility.commandLine;
-import static com.github.dkorotych.gradle.maven.TestUtility.createExecSpec;
+import static com.github.dkorotych.gradle.maven.TestUtility.*;
 import static java.util.List.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.gradle.util.internal.CollectionUtils.asCommandLine;
 
 @SuppressWarnings("OverloadMethodsDeclarationOrder")
 class CommandLineCreatorTest {

@@ -17,6 +17,7 @@ package com.github.dkorotych.gradle.maven.exec;
 
 import com.github.dkorotych.gradle.maven.CommandLineCreator;
 import com.github.dkorotych.gradle.maven.MavenOptions;
+import groovy.lang.Closure;
 import org.gradle.api.tasks.AbstractExecTask;
 import org.gradle.process.ProcessForkOptions;
 
@@ -63,6 +64,12 @@ public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecS
     @Override
     public Set<String> getGoals() {
         return properties.getGoals();
+    }
+
+    @Override
+    public MavenExecSpec options(final Closure<MavenOptions> options) {
+        getProject().configure(getOptions(), options);
+        return this;
     }
 
     @Override

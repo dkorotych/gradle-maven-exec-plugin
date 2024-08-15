@@ -126,6 +126,10 @@ public final class TestUtility {
         return commandLine;
     }
 
+    public static String asCommandLine(List<String> commandLine) {
+        return String.join(" ", commandLine);
+    }
+
     public static void resetCurrentOperatingSystem() {
         try {
             final Method method = ReflectionUtils.getRequiredMethod(OperatingSystem.class, "resetCurrent");

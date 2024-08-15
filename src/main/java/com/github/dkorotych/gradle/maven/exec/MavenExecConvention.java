@@ -20,8 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 import org.gradle.process.ExecResult;
-import org.gradle.util.internal.ClosureBackedAction;
-import org.gradle.util.internal.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.StreamSupport;
@@ -54,10 +52,10 @@ public class MavenExecConvention {
         try {
             return project.exec(execSpec -> {
                 final MavenExecSpecDelegate delegate = new MavenExecSpecDelegate(execSpec, project);
-                ClosureBackedAction.execute(delegate, configure);
+                project.configure(delegate, configure);
                 final List<String> commandLine = delegate.getCommandLine();
                 execSpec.setCommandLine(commandLine);
-                project.getLogger().info("Execute Maven command: {}", CollectionUtils.asCommandLine(commandLine));
+                project.getLogger().info("Execute Maven command: {}", String.join(" ", commandLine));
             }).assertNormalExitValue();
         } catch (Exception exception) {
             if (exception.getCause() != null) {

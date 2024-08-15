@@ -17,6 +17,7 @@ package com.github.dkorotych.gradle.maven.exec;
 
 import com.github.dkorotych.gradle.maven.CommandLineCreator;
 import com.github.dkorotych.gradle.maven.MavenOptions;
+import groovy.lang.Closure;
 import org.gradle.api.Project;
 import org.gradle.process.ExecSpec;
 import org.gradle.process.ProcessForkOptions;
@@ -66,6 +67,12 @@ public class MavenExecSpecDelegate implements MavenExecSpec {
     @SuppressWarnings("common-java:DuplicatedBlocks")
     public Set<String> getGoals() {
         return properties.getGoals();
+    }
+
+    @Override
+    public MavenExecSpec options(final Closure<MavenOptions> options) {
+        project.configure(getOptions(), options);
+        return this;
     }
 
     @Override
