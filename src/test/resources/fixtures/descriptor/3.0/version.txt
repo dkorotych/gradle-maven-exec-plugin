@@ -2,4 +2,4 @@ Apache Maven 3.0 (r1004208; 2010-10-04 15:50:56+0400)
 Java version: 17.0.12
 Java home: /home/dkorotych/.sdkman/candidates/java/17.0.12-tem
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux" version: "6.9.9-1-manjaro" arch: "amd64" Family: "unix"
+OS name: "linux" version: "6.9.12-1-manjaro" arch: "amd64" Family: "unix"

@@ -3,4 +3,4 @@ Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.1.1/5f40fef1
 Java version: 17.0.12, vendor: Eclipse Adoptium
 Java home: /home/dkorotych/.sdkman/candidates/java/17.0.12-tem
 Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "6.9.9-1-manjaro", arch: "amd64", family: "unix"
+OS name: "linux", version: "6.9.12-1-manjaro", arch: "amd64", family: "unix"
