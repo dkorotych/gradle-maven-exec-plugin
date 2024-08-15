@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -93,7 +92,7 @@ class MavenDescriptorTest {
 
     private static List<File> descriptorFixtures() throws Exception {
         final URL resource = MavenDescriptorTest.class.getResource("/fixtures/descriptor");
-        final Path path = Paths.get(requireNonNull(resource).toURI());
+        final Path path = Path.of(requireNonNull(resource).toURI());
         try (Stream<Path> paths = Files.list(path)) {
             return paths.map(Path::toFile)
                     .filter(File::isDirectory)

@@ -25,7 +25,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -73,7 +72,7 @@ class MavenDirFunctionalTest extends AbstractFunctionalTest {
 
     void validate(String gradleVersion, String mavenVersion) throws Exception {
         final String task = "validate";
-        final Path mavenHome = Paths.get(mavenVersion);
+        final Path mavenHome = Path.of(mavenVersion);
         FileUtils.copyDirectory(mavenHome.toFile(), projectDir);
         final BuildResult result = execute(projectDir, gradleVersion, mavenVersion,
                 "--build-file", "simple.gradle", task);

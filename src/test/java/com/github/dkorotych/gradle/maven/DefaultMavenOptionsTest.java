@@ -29,7 +29,6 @@ import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -68,7 +67,7 @@ class DefaultMavenOptionsTest {
     @Test
     void allSupportedOptions() throws Exception {
         final URL resource = DefaultMavenOptionsTest.class.getResource("/fixtures/descriptor");
-        final Path dir = Paths.get(requireNonNull(resource).toURI());
+        final Path dir = Path.of(requireNonNull(resource).toURI());
         final Set<String> allOptions = new HashSet<>();
         try (DirectoryStream<Path> paths = Files.newDirectoryStream(dir, entry -> entry.toFile().isDirectory())) {
             for (Path path : paths) {

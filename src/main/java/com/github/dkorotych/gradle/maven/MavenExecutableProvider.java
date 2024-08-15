@@ -20,7 +20,6 @@ import org.gradle.internal.os.OperatingSystem;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -73,7 +72,7 @@ public class MavenExecutableProvider {
             if (hasWrapper) {
                 command.append(extension);
             } else {
-                final boolean oldVersion = Paths.get(command + ".bat").toFile().exists();
+                final boolean oldVersion = Path.of(command + ".bat").toFile().exists();
                 if (oldVersion) {
                     command.append(".bat");
                 } else {

@@ -28,7 +28,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,7 +54,7 @@ public final class TestUtility {
     public static void prepareProject(boolean withWrapper, File destination) throws Exception {
         final String directory = "/fixtures/wrapper/with" + (withWrapper ? "" : "out");
         final URI uri = requireNonNull(TestUtility.class.getResource(directory)).toURI();
-        final File source = Paths.get(uri).toFile();
+        final File source = Path.of(uri).toFile();
         FileUtils.copyDirectory(source, destination);
         if (withWrapper) {
             final Path path = destination.toPath();

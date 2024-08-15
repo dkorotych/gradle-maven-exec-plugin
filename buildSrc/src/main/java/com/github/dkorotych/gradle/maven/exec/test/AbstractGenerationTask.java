@@ -77,7 +77,7 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
                 execSpec.setArgs(options);
                 final Logger logger = getLogger();
                 if (logger.isDebugEnabled()) {
-                    logger.debug("command: {}", execSpec.getCommandLine().stream().collect(Collectors.joining(" ")));
+                    logger.debug("command: {}", String.join(" ", execSpec.getCommandLine()));
                 }
             }).assertNormalExitValue();
         } catch (Exception e) {

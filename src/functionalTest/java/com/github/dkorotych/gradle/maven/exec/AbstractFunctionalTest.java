@@ -69,7 +69,7 @@ public abstract class AbstractFunctionalTest {
     public static Collection<String> supportedMavenVersion() {
         try {
             final URL resource = AbstractFunctionalTest.class.getResource("/");
-            final Path dir = Paths.get(Objects.requireNonNull(resource).toURI())
+            final Path dir = Path.of(Objects.requireNonNull(resource).toURI())
                     .getParent()
                     .getParent()
                     .getParent()
@@ -122,7 +122,7 @@ public abstract class AbstractFunctionalTest {
 
     protected static void prepareProject(final File projectDir) throws Exception {
         final URL resource = MavenExecPluginFunctionalTest.class.getResource("/fixtures/versions");
-        final File source = Paths.get(requireNonNull(resource).toURI()).toFile();
+        final File source = Path.of(requireNonNull(resource).toURI()).toFile();
         FileUtils.copyDirectory(source, projectDir);
     }
 

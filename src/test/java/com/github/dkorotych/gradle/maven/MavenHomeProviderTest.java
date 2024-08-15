@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -52,8 +51,8 @@ class MavenHomeProviderTest {
         final URL resource = MavenHomeProviderTest.class.getResource("");
         final Stream.Builder<File> builder = Stream.<File>builder()
                 .add(null)
-                .add(Paths.get("").toFile())
-                .add(Paths.get(requireNonNull(resource).toURI()).toFile())
+                .add(Path.of("").toFile())
+                .add(Path.of(requireNonNull(resource).toURI()).toFile())
                 .add(createTempFile());
         for (final String name : Arrays.asList(BIN, MVN, "mvn.bat", "mvn.cmd", "demo", "empty", "config")) {
             final File file1 = createTempDirectory().resolve(name).toFile();

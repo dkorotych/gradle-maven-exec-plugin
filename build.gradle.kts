@@ -213,7 +213,6 @@ tasks.named("updateVersion").configure {
         val versionPattern = "\\d+(?:\\.\\d+)+"
         val file = file("README.md")
         var content = file.readText()
-        val version = "3.0.7"
         content = content.replace("id \"com.github.dkorotych.gradle-maven-exec\" version \"${versionPattern}\"".toRegex(),
                 "id \"com.github.dkorotych.gradle-maven-exec\" version \"${version}\"")
         content = content.replace("${rootProject.name}:${versionPattern}".toRegex(),
