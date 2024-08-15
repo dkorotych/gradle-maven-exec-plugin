@@ -18,7 +18,7 @@ Apply the plugin to your project using one of the two methods below.
 
 ```groovy
 plugins {
-    id "com.github.dkorotych.gradle-maven-exec" version "3.0.2"
+    id "com.github.dkorotych.gradle-maven-exec" version "4.0.0"
 }
 ```
 
@@ -32,7 +32,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:3.0.2"
+        classpath "gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:4.0.0"
     }
 }
 
