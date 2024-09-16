@@ -19,7 +19,7 @@ import java.util.*
 
 plugins {
     id("java-gradle-plugin")
-    id("com.gradle.plugin-publish") version "1.2.2"
+    id("com.gradle.plugin-publish") version "1.3.0"
     id("idea")
     id("jacoco")
     id("net.researchgate.release") version "3.0.2"
