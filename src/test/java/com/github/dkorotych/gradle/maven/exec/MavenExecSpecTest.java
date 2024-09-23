@@ -18,7 +18,6 @@ package com.github.dkorotych.gradle.maven.exec;
 import com.github.dkorotych.gradle.maven.DefaultMavenOptions;
 import com.github.dkorotych.gradle.maven.MavenOptions;
 import com.github.dkorotych.gradle.maven.MemoizedSupplier;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -32,8 +31,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import static com.github.dkorotych.gradle.maven.TestUtility.randomAlphanumeric;
 import static java.util.Map.of;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.doReturn;
@@ -93,7 +92,7 @@ class MavenExecSpecTest {
             }
             case "String" -> {
                 validate(descriptor, specification, options, null);
-                value = RandomStringUtils.randomAlphanumeric(10);
+                value = randomAlphanumeric(10);
                 descriptor.getWriteMethod().invoke(specification, value);
                 validate(descriptor, specification, options, value);
             }

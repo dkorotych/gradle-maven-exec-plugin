@@ -34,9 +34,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.dkorotych.gradle.maven.TestUtility.random;
 import static java.util.Arrays.asList;
 import static java.util.Map.of;
-import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

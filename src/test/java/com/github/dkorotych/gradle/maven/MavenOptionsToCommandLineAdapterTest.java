@@ -15,7 +15,6 @@
  */
 package com.github.dkorotych.gradle.maven;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.Test;
@@ -114,7 +113,7 @@ class MavenOptionsToCommandLineAdapterTest {
         return filterDescriptors(String.class)
                 .flatMap(descriptor -> {
                     final String option = createOptionName(descriptor);
-                    final String random = RandomStringUtils.randomAlphabetic(20);
+                    final String random = TestUtility.randomAlphabetic(20);
                     final String textWithSpaces = "\"text with spaces\"";
                     return Stream.of(
                             Arguments.of(descriptor, null, Collections.emptyList()),

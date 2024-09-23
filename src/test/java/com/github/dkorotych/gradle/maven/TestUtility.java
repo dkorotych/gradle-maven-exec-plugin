@@ -15,6 +15,7 @@
  */
 package com.github.dkorotych.gradle.maven;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.gradle.api.Project;
 import org.gradle.api.internal.project.DefaultProject;
 import org.gradle.internal.impldep.org.apache.commons.io.FileUtils;
@@ -138,5 +139,17 @@ public final class TestUtility {
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String random(final int count) {
+        return RandomStringUtils.insecure().nextNumeric(count);
+    }
+
+    public static String randomAlphanumeric(final int count) {
+        return RandomStringUtils.insecure().nextAlphanumeric(count);
+    }
+
+    public static String randomAlphabetic(final int count) {
+        return RandomStringUtils.insecure().nextAlphabetic(count);
     }
 }

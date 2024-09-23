@@ -19,7 +19,7 @@ import java.util.*
 
 plugins {
     id("java-gradle-plugin")
-    id("com.gradle.plugin-publish") version "1.2.2"
+    id("com.gradle.plugin-publish") version "1.3.0"
     id("idea")
     id("jacoco")
     id("net.researchgate.release") version "3.0.2"
@@ -27,7 +27,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.51.0"
     id("ru.vyarus.quality") version "5.0.0"
     id("ru.vyarus.github-info") version "2.0.0"
-    id("org.openrewrite.rewrite") version "6.21.1"
+    id("org.openrewrite.rewrite") version "6.23.4"
     id("org.sonarqube") version "5.1.0.4882"
 }
 
@@ -58,7 +58,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.bean.matchers)
 
-    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.18.0"))
+    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.19.0"))
     rewrite("org.openrewrite:rewrite-gradle")
     rewrite("org.openrewrite.recipe:rewrite-github-actions")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks")
@@ -171,6 +171,7 @@ sonar {
         property("sonar.organization", github.user)
         property("sonar.host.url", "https://sonarcloud.io")
         val functionalTestSources = sourceSets["functionalTest"]
+
         @Suppress("UNCHECKED_CAST")
         val sonarTestSources = properties["sonar.tests"] as MutableCollection<File>
         sonarTestSources.addAll(functionalTestSources.allJava.srcDirs)
