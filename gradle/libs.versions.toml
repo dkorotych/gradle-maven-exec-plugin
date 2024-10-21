@@ -2,7 +2,7 @@
 commons-lang3 = "3.17.0"
 junit-jupiter = "5.11.1"
 assertj-core = "3.26.3"
-mockito-core = "5.14.1"
+mockito-core = "5.14.2"
 bean-matchers = "0.14"
 
 [libraries]
