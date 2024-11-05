@@ -27,7 +27,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.51.0"
     id("ru.vyarus.quality") version "5.0.0"
     id("ru.vyarus.github-info") version "2.0.0"
-    id("org.openrewrite.rewrite") version "6.24.0"
+    id("org.openrewrite.rewrite") version "6.26.0"
     id("org.sonarqube") version "5.1.0.4882"
 }
 
@@ -58,7 +58,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.bean.matchers)
 
-    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.20.0"))
+    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.21.1"))
     rewrite("org.openrewrite:rewrite-gradle")
     rewrite("org.openrewrite.recipe:rewrite-github-actions")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks")

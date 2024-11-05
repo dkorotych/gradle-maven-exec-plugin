@@ -54,7 +54,7 @@ public abstract class AbstractFunctionalTest {
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_20, MINIMAL_SUPPORTED_GRADLE_VERSION);
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_21, MINIMAL_SUPPORTED_GRADLE_VERSION);
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("22"), GradleVersion.version("8.7"));
-        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("23"), GradleVersion.version("8.10"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("23"), GradleVersion.version("8.10.2"));
     }
 
     public static Collection<String> supportedGradleVersion() {
