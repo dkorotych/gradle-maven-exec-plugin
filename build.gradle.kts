@@ -28,7 +28,7 @@ plugins {
     id("ru.vyarus.quality") version "5.0.0"
     id("ru.vyarus.github-info") version "2.0.0"
     id("org.openrewrite.rewrite") version "6.27.1"
-    id("org.sonarqube") version "5.1.0.4882"
+    id("org.sonarqube") version "6.0.0.5145"
 }
 
 apply {
