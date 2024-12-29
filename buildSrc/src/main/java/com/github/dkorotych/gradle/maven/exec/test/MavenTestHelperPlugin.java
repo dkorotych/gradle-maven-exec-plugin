@@ -20,6 +20,8 @@ import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
+import org.gradle.internal.os.OperatingSystem;
+import org.gradle.util.internal.VersionNumber;
 
 @SuppressWarnings("MissingJavadocType")
 public class MavenTestHelperPlugin implements Plugin<Project> {
@@ -44,7 +46,15 @@ public class MavenTestHelperPlugin implements Plugin<Project> {
     public void apply(final Project project) {
         final TaskContainer tasks = project.getTasks();
         final TaskProvider<Task> prepareTestEnvironments = tasks.register("prepareTestEnvironments");
+        final boolean windows = OperatingSystem.current().isWindows();
+        final VersionNumber minSupportedVersionForWindows = VersionNumber.version(3, 5);
         for (String version : SUPPORTED_MAVEN_VERSIONS) {
+            if (windows) {
+                final VersionNumber number = VersionNumber.parse(version);
+                if (minSupportedVersionForWindows.compareTo(number) > 0) {
+                    continue;
+                }
+            }
             final TaskProvider<PrepareMavenTask> prepareTask = tasks.register(PrepareMavenTask.createName(version),
                     PrepareMavenTask.class, task -> task.setVersion(version));
             final TaskProvider<GenerateVersionTask> generateVersionTask = tasks.register("generateVersion_" + version,
