@@ -27,7 +27,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.51.0"
     id("ru.vyarus.quality") version "5.0.0"
     id("ru.vyarus.github-info") version "2.0.0"
-    id("org.openrewrite.rewrite") version "6.29.2"
+    id("org.openrewrite.rewrite") version "6.29.3"
     id("org.sonarqube") version "6.0.1.5171"
 }
 
