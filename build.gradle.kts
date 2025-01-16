@@ -19,16 +19,16 @@ import java.util.*
 
 plugins {
     id("java-gradle-plugin")
-    id("com.gradle.plugin-publish") version "1.3.0"
+    alias(libs.plugins.publish)
     id("idea")
     id("jacoco")
-    id("net.researchgate.release") version "3.1.0"
-    id("com.github.hierynomus.license") version "0.16.1"
-    id("com.github.ben-manes.versions") version "0.51.0"
-    id("ru.vyarus.quality") version "5.0.0"
-    id("ru.vyarus.github-info") version "2.0.0"
-    id("org.openrewrite.rewrite") version "6.29.2"
-    id("org.sonarqube") version "6.0.1.5171"
+    alias(libs.plugins.release)
+    alias(libs.plugins.license)
+    alias(libs.plugins.versions)
+    alias(libs.plugins.quality)
+    alias(libs.plugins.info)
+    alias(libs.plugins.rewrite)
+    alias(libs.plugins.sonarqube)
 }
 
 apply {
@@ -58,7 +58,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.bean.matchers)
 
-    rewrite(platform("org.openrewrite.recipe:rewrite-recipe-bom:2.23.2"))
+    rewrite(platform(libs.rewrite))
     rewrite("org.openrewrite:rewrite-gradle")
     rewrite("org.openrewrite.recipe:rewrite-github-actions")
     rewrite("org.openrewrite.recipe:rewrite-testing-frameworks")
