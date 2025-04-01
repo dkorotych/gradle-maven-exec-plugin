@@ -13,7 +13,7 @@ versions = { id = "com.github.ben-manes.versions", version = "0.52.0" }
 quality = { id = "ru.vyarus.quality", version = "5.0.0" }
 info = { id = "ru.vyarus.github-info", version = "2.0.0" }
 rewrite = { id = "org.openrewrite.rewrite", version = "7.2.0" }
-sonarqube = { id = "org.sonarqube", version = "6.0.1.5171" }
+sonarqube = { id = "org.sonarqube", version = "6.1.0.5360" }
 
 [libraries]
 commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
