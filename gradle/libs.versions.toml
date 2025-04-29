@@ -21,4 +21,4 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jun
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
 bean-matchers = { module = "com.google.code.bean-matchers:bean-matchers", version.ref = "bean-matchers" }
-rewrite = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.4.0" }
+rewrite = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.7.0" }
