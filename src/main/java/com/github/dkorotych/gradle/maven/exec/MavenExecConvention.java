@@ -49,17 +49,20 @@ public class MavenExecConvention {
      */
     public ExecResult mavenexec(final Closure<MavenExecSpec> configure) {
         Objects.requireNonNull(configure, "Configure closure should not be null");
+        Logger logger = project.getLogger();
         try {
             return project.exec(execSpec -> {
                 final MavenExecSpecDelegate delegate = new MavenExecSpecDelegate(execSpec, project);
                 project.configure(delegate, configure);
                 final List<String> commandLine = delegate.getCommandLine();
                 execSpec.setCommandLine(commandLine);
-                project.getLogger().info("Execute Maven command: {}", String.join(" ", commandLine));
+                if (logger.isInfoEnabled()) {
+                    logger.info("Execute Maven command: {}", String.join(" ", commandLine));
+                }
             }).assertNormalExitValue();
         } catch (Exception exception) {
             if (exception.getCause() != null) {
-                printCauseMessagesWithoutLast(exception, project.getLogger());
+                printCauseMessagesWithoutLast(exception, logger);
             }
             throw exception;
         }

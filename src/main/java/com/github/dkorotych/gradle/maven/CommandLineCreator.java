@@ -90,7 +90,9 @@ public final class CommandLineCreator {
             if (getMavenDir() == null) {
                 throw new GradleException("Maven installation not found");
             } else {
-                logger.info("Use Maven from: {}", getMavenDir());
+                if (logger.isInfoEnabled()) {
+                    logger.info("Use Maven from: {}", getMavenDir());
+                }
             }
         }
         final Path mavenHome = Optional.ofNullable(getMavenDir())
@@ -120,7 +122,7 @@ public final class CommandLineCreator {
                 mavenHomeProvider.setMavenHome(directory);
                 specification.setMavenDir(directory);
             } catch (IncorrectMavenInstallationDirectoryException ignored) {
-                logger.debug("Maven executable not found {}", directory);
+                logger.warn("Maven executable not found {}", directory);
             }
         }
     }

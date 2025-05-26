@@ -18,6 +18,7 @@ package com.github.dkorotych.gradle.maven.exec;
 import com.github.dkorotych.gradle.maven.CommandLineCreator;
 import com.github.dkorotych.gradle.maven.MavenOptions;
 import groovy.lang.Closure;
+import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.AbstractExecTask;
 import org.gradle.process.ProcessForkOptions;
 
@@ -47,7 +48,10 @@ public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecS
         final CommandLineCreator commandLineCreator = new CommandLineCreator(this, getProject());
         super.setExecutable(commandLineCreator.getExecutable());
         super.setArgs(commandLineCreator.getArguments());
-        getLogger().info("Maven executable: {}, arguments: {}", super.getExecutable(), super.getArgs());
+        final Logger logger = getLogger();
+        if (logger.isInfoEnabled()) {
+            logger.info("Maven executable: {}, arguments: {}", super.getExecutable(), super.getArgs());
+        }
         super.exec();
     }
 
