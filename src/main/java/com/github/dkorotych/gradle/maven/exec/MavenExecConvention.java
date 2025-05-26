@@ -49,7 +49,7 @@ public class MavenExecConvention {
      */
     public ExecResult mavenexec(final Closure<MavenExecSpec> configure) {
         Objects.requireNonNull(configure, "Configure closure should not be null");
-        Logger logger = project.getLogger();
+        final Logger logger = project.getLogger();
         try {
             return project.exec(execSpec -> {
                 final MavenExecSpecDelegate delegate = new MavenExecSpecDelegate(execSpec, project);
