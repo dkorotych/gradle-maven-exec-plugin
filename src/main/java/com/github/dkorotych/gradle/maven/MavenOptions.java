@@ -1034,6 +1034,38 @@ public interface MavenOptions {
     }
 
     /**
+     * Ignored (Maven4 option).
+     *
+     * @return Option value
+     */
+    boolean isRawStreams();
+
+    /**
+     * Ignored (Maven4 option).
+     *
+     * @param rawStreams Option value
+     */
+    void setRawStreams(boolean rawStreams);
+
+    /**
+     * Ignored (Maven4 option).
+     *
+     * @return Option value
+     */
+    default boolean rawStreams() {
+        return isRawStreams();
+    }
+
+    /**
+     * Ignored (Maven4 option).
+     *
+     * @param rawStreams Option value
+     */
+    default void rawStreams(final boolean rawStreams) {
+        setRawStreams(rawStreams);
+    }
+
+    /**
      * Resume reactor from specified project.
      *
      * @return Option value

@@ -66,6 +66,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     private String[] activateProfiles;
     private String[] projects;
     private boolean quiet;
+    private boolean rawStreams;
     private String resumeFrom;
     private File settings;
     private File toolchains;
@@ -387,6 +388,16 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
+    public boolean isRawStreams() {
+        return rawStreams;
+    }
+
+    @Override
+    public void setRawStreams(boolean rawStreams) {
+        this.rawStreams = rawStreams;
+    }
+
+    @Override
     public String getResumeFrom() {
         return resumeFrom;
     }
@@ -510,6 +521,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
                 && noTransferProgress == that.noTransferProgress
                 && offline == that.offline
                 && quiet == that.quiet
+                && rawStreams == that.rawStreams
                 && updateSnapshots == that.updateSnapshots
                 && updatePlugins == that.updatePlugins
                 && version == that.version
@@ -538,7 +550,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
                 color, checkPluginUpdates, define, errors, encryptMasterPassword, encryptPassword, file, failAtEnd,
                 failFast, failNever, globalSettings, globalToolchains, help, ignoreTransitiveRepositories, logFile,
                 legacyLocalRepository, nonRecursive, noPluginRegistry, noPluginUpdates, noSnapshotUpdates,
-                noTransferProgress, offline, quiet, resumeFrom, settings, toolchains, threads, updateSnapshots,
+                noTransferProgress, offline, quiet, rawStreams, resumeFrom, settings, toolchains, threads, updateSnapshots,
                 updatePlugins, version, showVersion, debug);
         result = 31 * result + Arrays.hashCode(activateProfiles);
         result = 31 * result + Arrays.hashCode(projects);
@@ -579,6 +591,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
                 .add("activateProfiles=" + Arrays.toString(activateProfiles))
                 .add("projects=" + Arrays.toString(projects))
                 .add("quiet=" + quiet)
+                .add("rawStreams=" + rawStreams)
                 .add("resumeFrom='" + resumeFrom + "'")
                 .add("settings=" + settings)
                 .add("toolchains=" + toolchains)

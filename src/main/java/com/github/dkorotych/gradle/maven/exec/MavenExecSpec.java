@@ -475,6 +475,17 @@ public interface MavenExecSpec extends BaseExecSpec, MavenOptions {
 
     @Override
     @Input
+    default boolean isRawStreams() {
+        return getOptions().isRawStreams();
+    }
+
+    @Override
+    default void setRawStreams(final boolean rawStreams) {
+        getOptions().setRawStreams(rawStreams);
+    }
+
+    @Override
+    @Input
     @Optional
     default String getResumeFrom() {
         return getOptions().getResumeFrom();
