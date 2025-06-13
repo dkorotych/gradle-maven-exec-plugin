@@ -33,7 +33,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.getJavaIoTmpDir;
 import static org.gradle.internal.impldep.org.apache.commons.lang.SystemUtils.getUserHome;
-import static org.junit.jupiter.params.ParameterizedTest.DEFAULT_DISPLAY_NAME;
+import static org.junit.jupiter.params.ParameterizedInvocationConstants.DEFAULT_DISPLAY_NAME;
 
 class MavenExecutableProviderTest {
 
