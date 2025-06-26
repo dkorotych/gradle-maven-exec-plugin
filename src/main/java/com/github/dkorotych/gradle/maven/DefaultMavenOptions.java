@@ -393,7 +393,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     }
 
     @Override
-    public void setRawStreams(boolean rawStreams) {
+    public void setRawStreams(final boolean rawStreams) {
         this.rawStreams = rawStreams;
     }
 
@@ -550,8 +550,8 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
                 color, checkPluginUpdates, define, errors, encryptMasterPassword, encryptPassword, file, failAtEnd,
                 failFast, failNever, globalSettings, globalToolchains, help, ignoreTransitiveRepositories, logFile,
                 legacyLocalRepository, nonRecursive, noPluginRegistry, noPluginUpdates, noSnapshotUpdates,
-                noTransferProgress, offline, quiet, rawStreams, resumeFrom, settings, toolchains, threads, updateSnapshots,
-                updatePlugins, version, showVersion, debug);
+                noTransferProgress, offline, quiet, rawStreams, resumeFrom, settings, toolchains, threads,
+                updateSnapshots, updatePlugins, version, showVersion, debug);
         result = 31 * result + Arrays.hashCode(activateProfiles);
         result = 31 * result + Arrays.hashCode(projects);
         return result;
