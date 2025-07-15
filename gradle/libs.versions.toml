@@ -12,7 +12,7 @@ license = { id = "com.github.hierynomus.license", version = "0.16.1" }
 versions = { id = "com.github.ben-manes.versions", version = "0.52.0" }
 quality = { id = "ru.vyarus.quality", version = "5.0.0" }
 info = { id = "ru.vyarus.github-info", version = "2.0.0" }
-rewrite = { id = "org.openrewrite.rewrite", version = "7.9.0" }
+rewrite = { id = "org.openrewrite.rewrite", version = "7.11.0" }
 sonarqube = { id = "org.sonarqube", version = "6.2.0.5505" }
 
 [libraries]
