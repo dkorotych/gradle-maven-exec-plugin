@@ -1,0 +1,5 @@
+Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+Maven home: /home/dkorotych/.m2/wrapper/dists/apache-maven-3.9.11/a2d47e15
+Java version: 17.0.12, vendor: Eclipse Adoptium, runtime: /home/dkorotych/.sdkman/candidates/java/17.0.12-tem
+Default locale: ru_RU, platform encoding: UTF-8
+OS name: "linux", version: "6.12.39-1-manjaro", arch: "amd64", family: "unix"
