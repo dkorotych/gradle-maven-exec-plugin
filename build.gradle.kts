@@ -212,12 +212,10 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
 tasks.named("updateVersion").configure {
     doFirst {
         val versionPattern = "\\d+(?:\\.\\d+)+"
-        val file = file("README.md")
+        val file = file("README.adoc")
         var content = file.readText()
-        content = content.replace("id \"com.github.dkorotych.gradle-maven-exec\" version \"${versionPattern}\"".toRegex(),
-                "id \"com.github.dkorotych.gradle-maven-exec\" version \"${version}\"")
-        content = content.replace("${rootProject.name}:${versionPattern}".toRegex(),
-                "${rootProject.name}:${version}")
+        content = content.replace(":plugin-version: $versionPattern".toRegex(),
+                ":plugin-version: $version")
         file.writeText(content)
     }
 }

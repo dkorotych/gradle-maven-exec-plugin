@@ -1,4 +1,5 @@
 = https://plugins.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec[gradle-maven-exec-plugin]
+:plugin-version: 4.0.0
 
 Gradle plugin which provides a Maven exec task
 
@@ -17,16 +18,16 @@ Apply the plugin to your project using one of the two methods below.
 
 ==== Using the https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block[plugins DSL]:
 
-[source,groovy]
+[source,groovy,subs="+verbatim,+attributes"]
 ----
 plugins {
-    id "com.github.dkorotych.gradle-maven-exec" version "4.0.0"
+    id "com.github.dkorotych.gradle-maven-exec" version "{plugin-version}"
 }
 ----
 
 ==== Using https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application[legacy plugin application]:
 
-[source,groovy]
+[source,groovy,subs="+verbatim,+attributes"]
 ----
 buildscript {
     repositories {
@@ -35,7 +36,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:4.0.0"
+        classpath "gradle.plugin.com.github.dkorotych.gradle.maven.exec:gradle-maven-exec-plugin:{plugin-version}"
     }
 }
 
