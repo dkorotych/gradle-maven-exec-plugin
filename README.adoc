@@ -132,6 +132,16 @@ task generateAndExecuteApplication {
 }
 ----
 
+== Compatibility Matrix
+[cols="6*^.^"]
+|===
+.2+h|Plugin 1.2+h|Java 2+h|Gradle 2+h|Maven
+h|min h|max h|min h|max
+
+| 4.1.0  | 17  | 8.11 |         | 3.0 | 3.9.10
+| 4.0.0  | 17  | 8.5   | 8.14.3 | 3.0 | 3.9.10
+| 3.0.2  | 1.8 | 6.0.1 | 8.9    | 3.0 | 3.9.8
+|===
 
 == F.A.Q.
 
