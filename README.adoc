@@ -136,4 +136,4 @@ task generateAndExecuteApplication {
 == F.A.Q.
 
 If you run into any issues,
-consult the [F.A.Q.](https://github.com/dkorotych/gradle-maven-exec-plugin/blob/master/FAQ.md) first.
+consult the https://github.com/dkorotych/gradle-maven-exec-plugin/blob/master/FAQ.md[F.A.Q.] first.
