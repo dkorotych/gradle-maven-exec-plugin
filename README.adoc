@@ -1,30 +1,33 @@
-# [gradle-maven-exec-plugin](https://plugins.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec)
+= https://plugins.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec[gradle-maven-exec-plugin]
 
 Gradle plugin which provides a Maven exec task
 
-[![Build Status](https://github.com/dkorotych/gradle-maven-exec-plugin/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/dkorotych/gradle-maven-exec-plugin/actions/workflows/gradle.yml)
-[![codecov](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin/branch/master/graph/badge.svg?token=1zdFJxubOd)](https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7c2907ecd1d749deb5c3765bd86cbf72)](https://www.codacy.com/gh/dkorotych/gradle-maven-exec-plugin/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dkorotych/gradle-maven-exec-plugin&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/7c2907ecd1d749deb5c3765bd86cbf72)](https://www.codacy.com/gh/dkorotych/gradle-maven-exec-plugin/dashboard?utm_source=github.com&utm_medium=referral&utm_content=dkorotych/gradle-maven-exec-plugin&utm_campaign=Badge_Coverage)
-[![license](https://img.shields.io/github/license/dkorotych/gradle-maven-exec-plugin.svg)](https://github.com/dkorotych/gradle-maven-exec-plugin.git)
+image:https://img.shields.io/github/checks-status/dkorotych/gradle-maven-exec-plugin/master[GitHub branch status]
+image:https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin/graph/badge.svg?token=1zdFJxubOd["codecov", link="https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin"]
+image:https://app.codacy.com/project/badge/Grade/7c2907ecd1d749deb5c3765bd86cbf72["Codacy code quality", link="https://app.codacy.com/gh/dkorotych/gradle-maven-exec-plugin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"]
+image:https://app.codacy.com/project/badge/Coverage/7c2907ecd1d749deb5c3765bd86cbf72["Codacy code quality", link="https://app.codacy.com/gh/dkorotych/gradle-maven-exec-plugin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage"]
+image:https://img.shields.io/github/license/dkorotych/gradle-maven-exec-plugin[GitHub License]
 
-## Installing
+
+== Installing
 
 Releases of this plugin are hosted
-on [Gradle's Plugin Repository](https://login.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec).
+on https://login.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec[Gradle's Plugin Repository].
 Apply the plugin to your project using one of the two methods below.
 
-#### Using the [plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block):
+==== Using the https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block[plugins DSL]:
 
-```groovy
+[source,groovy]
+----
 plugins {
     id "com.github.dkorotych.gradle-maven-exec" version "4.0.0"
 }
-```
+----
 
-#### Using [legacy plugin application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application):
+==== Using https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application[legacy plugin application]:
 
-```groovy
+[source,groovy]
+----
 buildscript {
     repositories {
         maven {
@@ -37,9 +40,9 @@ buildscript {
 }
 
 apply plugin: "com.github.dkorotych.gradle-maven-exec"
-```
+----
 
-## Usage
+== Usage
 
 This plugin enables a `MavenExec` task type in your buildscript which behaves exactly like a typical Gradle
 `Exec` task, except that it normalizes calls to work across operating systems.
@@ -52,15 +55,17 @@ It does this by:
 
 To define a `MavenExec` task, simply specify the task `type`:
 
-```groovy
+[source,groovy]
+----
 task rebuild(type: MavenExec) {
     goals 'clean', 'package'
 }
-```
+----
 
 or passing the advanced command-line options:
 
-```groovy
+[source,groovy]
+----
 task generateSite(type: MavenExec) {
     goals 'clean', 'package', 'site'
     options {
@@ -72,11 +77,12 @@ task generateSite(type: MavenExec) {
         ]
     }
 }
-```
+----
 
 or used it without options closure:
 
-```groovy
+[source,groovy]
+----
 task generateSite(type: MavenExec) {
     goals 'archetype:generate'
     define([
@@ -87,11 +93,12 @@ task generateSite(type: MavenExec) {
     ])
     quiet true
 }
-```
+----
 
 or even a direct call to control Maven from any task
 
-```groovy
+[source,groovy]
+----
 task generateAndExecuteApplication {
     doLast {
         buildDir.mkdirs()
@@ -123,9 +130,10 @@ task generateAndExecuteApplication {
         }
     }
 }
-```
+----
 
-## F.A.Q.
+
+== F.A.Q.
 
 If you run into any issues,
 consult the [F.A.Q.](https://github.com/dkorotych/gradle-maven-exec-plugin/blob/master/FAQ.md) first.
