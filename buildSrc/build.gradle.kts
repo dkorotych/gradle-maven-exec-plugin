@@ -16,8 +16,8 @@ import java.util.*
  * limitations under the License.
  */
 plugins {
-    id("ru.vyarus.quality") version "5.0.0"
-    id("com.github.hierynomus.license") version "0.16.1"
+    alias(libs.plugins.quality)
+    alias(libs.plugins.license)
 }
 
 java {
