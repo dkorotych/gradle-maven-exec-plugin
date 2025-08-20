@@ -20,10 +20,13 @@ import org.gradle.testkit.runner.BuildResult;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,8 +50,20 @@ class MavenExecPluginFunctionalTest extends AbstractFunctionalTest {
 
     @Test
     void realUseCaseTest() {
+        realUseCaseTest(maximalSupportedGradleVersion());
+    }
+
+    @ParameterizedTest
+    @MethodSource("supportedGradleVersion")
+    void realUseCaseTestForSupportedVersions(String version) {
+        realUseCaseTest(version);
+    }
+
+    private void realUseCaseTest(String version) {
         final String task = "realUseCaseTest";
-        final String version = maximalSupportedGradleVersion();
+        final Path projectDirPath = projectDir.toPath();
+        delete(projectDirPath, "settings.gradle");
+        delete(projectDirPath, "simple.gradle");
         final BuildResult result = execute(projectDir, version, null, task);
 
         assertThat(result.getOutput())
@@ -56,6 +71,15 @@ class MavenExecPluginFunctionalTest extends AbstractFunctionalTest {
                 .contains("Validate work with Gradle: " + version)
                 .containsAnyOf("[INFO] >>> maven-archetype-plugin", "[INFO] >>> archetype:")
                 .contains("[INFO] BUILD SUCCESS")
-                .contains("> Task :" + task);
+                .contains("> Task :" + task)
+                .containsPattern("BUILD SUCCESSFUL in \\d+s")
+                .containsPattern("\\d+ actionable tasks: \\d+ executed");
+    }
+
+    private static void delete(Path path, String fileName) {
+        assertThat(path.resolve(fileName)
+                .toFile()
+                .delete()
+        ).isTrue();
     }
 }

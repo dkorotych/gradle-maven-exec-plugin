@@ -17,6 +17,8 @@ package com.github.dkorotych.gradle.maven.exec;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.plugins.ExtraPropertiesExtension;
+import org.gradle.util.internal.VersionNumber;
 
 /**
  * Implementation of the plugin to support the launch Maven tasks.
@@ -24,11 +26,19 @@ import org.gradle.api.Project;
  * @author Dmitry Korotych (dkorotych at gmail dot com)
  */
 public class MavenExecPlugin implements Plugin<Project> {
+    public static final String OPERATION_NAME = "exec-operations";
     private static final String CONVENTION_NAME = "mavenexec";
 
     @Override
+    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     public void apply(final Project project) {
-        project.getExtensions().getExtraProperties().set(MavenExec.class.getSimpleName(), MavenExec.class);
-        project.getConvention().getPlugins().put(CONVENTION_NAME, new MavenExecConvention(project));
+        final ExtraPropertiesExtension properties = project.getExtensions().getExtraProperties();
+        properties.set(MavenExec.class.getSimpleName(), MavenExec.class);
+        if (VersionNumber.parse(project.getGradle().getGradleVersion()).getMajor() < 9) {
+            project.getConvention().getPlugins().put(CONVENTION_NAME, new MavenExecConvention(project));
+        } else {
+            properties.set(CONVENTION_NAME, new MavenExecConvention(project));
+            properties.set(OPERATION_NAME, ExecOperationsInstanceHolder.getExecOperations(project));
+        }
     }
 }

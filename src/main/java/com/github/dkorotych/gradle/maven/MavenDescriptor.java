@@ -15,10 +15,12 @@
  */
 package com.github.dkorotych.gradle.maven;
 
+import com.github.dkorotych.gradle.maven.exec.ExecOperationsInstanceHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
+import org.gradle.process.ExecOperations;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -160,7 +162,7 @@ public final class MavenDescriptor {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         final ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
         try {
-            project.exec(execSpec -> {
+            getExecOperations().exec(execSpec -> {
                 execSpec.workingDir(workingDir);
                 execSpec.executable(getExecutable());
                 execSpec.setStandardOutput(outputStream);
@@ -175,6 +177,10 @@ public final class MavenDescriptor {
             throw new GradleException(description, e);
         }
         return new ByteArrayInputStream(outputStream.toByteArray());
+    }
+
+    private ExecOperations getExecOperations() {
+        return ExecOperationsInstanceHolder.getExecOperations(project);
     }
 
     private String readMessage(final ByteArrayOutputStream stream) {

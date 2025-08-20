@@ -5,16 +5,14 @@
 Gradle plugin which provides a Maven exec task
 
 image:https://img.shields.io/github/checks-status/dkorotych/gradle-maven-exec-plugin/master[GitHub branch status]
-image:https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin/graph/badge.svg?token=1zdFJxubOd["codecov", link="https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin"]
-image:https://app.codacy.com/project/badge/Grade/7c2907ecd1d749deb5c3765bd86cbf72["Codacy code quality", link="https://app.codacy.com/gh/dkorotych/gradle-maven-exec-plugin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"]
-image:https://app.codacy.com/project/badge/Coverage/7c2907ecd1d749deb5c3765bd86cbf72["Codacy code quality", link="https://app.codacy.com/gh/dkorotych/gradle-maven-exec-plugin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage"]
+image:https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin/graph/badge.svg?token=1zdFJxubOd["codecov",link="https://codecov.io/gh/dkorotych/gradle-maven-exec-plugin"]
+image:https://app.codacy.com/project/badge/Grade/7c2907ecd1d749deb5c3765bd86cbf72["Codacy code quality",link="https://app.codacy.com/gh/dkorotych/gradle-maven-exec-plugin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"]
+image:https://app.codacy.com/project/badge/Coverage/7c2907ecd1d749deb5c3765bd86cbf72["Codacy code quality",link="https://app.codacy.com/gh/dkorotych/gradle-maven-exec-plugin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage"]
 image:https://img.shields.io/github/license/dkorotych/gradle-maven-exec-plugin[GitHub License]
-
 
 == Installing
 
-Releases of this plugin are hosted
-on https://login.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec[Gradle's Plugin Repository].
+Releases of this plugin are hosted on https://login.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec[Gradle's Plugin Repository].
 Apply the plugin to your project using one of the two methods below.
 
 ==== Using the https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block[plugins DSL]:
@@ -135,17 +133,17 @@ task generateAndExecuteApplication {
 ----
 
 == Compatibility Matrix
+
 [cols="6*^.^"]
 |===
 .2+h|Plugin 1.2+h|Java 2+h|Gradle 2+h|Maven
 h|min h|max h|min h|max
 
-| 4.1.0  | 17  | 8.11 |         | 3.0 | 
+| 4.0.1  | 17  | 8.5 |         | 3.0 |
 | 4.0.0  | 17  | 8.5   | 8.14.3 | 3.0 | 3.9.10
 | 3.0.2  | 1.8 | 6.0.1 | 8.9    | 3.0 | 3.9.8
 |===
 
 == F.A.Q.
 
-If you run into any issues,
-consult the https://github.com/dkorotych/gradle-maven-exec-plugin/blob/master/FAQ.md[F.A.Q.] first.
+If you run into any issues, consult the https://github.com/dkorotych/gradle-maven-exec-plugin/blob/master/FAQ.md[F.A.Q.] first.

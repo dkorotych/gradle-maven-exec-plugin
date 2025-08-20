@@ -24,7 +24,9 @@ import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.internal.os.OperatingSystem;
+import org.gradle.process.ExecOperations;
 
+import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -80,7 +82,7 @@ public class PrepareMavenTask extends DefaultTask {
         final ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
-            getProject().exec(execSpec -> {
+            getExecOperations().exec(execSpec -> {
                 execSpec.executable(getLocalMavenExecutable())
                         .workingDir(outputDirectory);
                 execSpec.setStandardOutput(outputStream);
@@ -97,6 +99,11 @@ public class PrepareMavenTask extends DefaultTask {
             }
             throw new GradleException(description, e);
         }
+    }
+
+    @Inject
+    protected ExecOperations getExecOperations() {
+        throw new UnsupportedOperationException();
     }
 
     private Object getLocalMavenExecutable() {

@@ -4,6 +4,18 @@ plugins {
 
 println "Validate work with Gradle: ${gradle.gradleVersion}"
 
+def gradleVersionLessThen9 = false
+def mavenexec
+def operations
+if (gradle.gradleVersion < '9') {
+    gradleVersionLessThen9 = true
+    mavenexec = project.convention.plugins.get("mavenexec")
+    operations = null
+} else {
+    mavenexec = project.properties['mavenexec']
+    operations = project.properties['exec-operations']
+}
+
 tasks.register("realUseCaseTest") {
     group = "verification"
     dependsOn = ["checkMavenApplication", "checkMavenApplication2", "checkMavenApplication3"]
@@ -92,11 +104,16 @@ tasks.register('checkMavenApplication2') {
             threads '2C'
             quiet true
         }
-        javaexec {
+        def javaExecSpecification = {
             workingDir applicationDir
             classpath file("$applicationDir/target/$application-1.0-SNAPSHOT.jar")
             mainClass = "${groupId}.App"
             standardOutput new FileOutputStream(outputFile)
+        }
+        if (gradleVersionLessThen9) {
+            javaexec javaExecSpecification
+        } else {
+            operations.javaexec javaExecSpecification
         }
         assert outputFile.text.trim() == 'Hello World!'
     }

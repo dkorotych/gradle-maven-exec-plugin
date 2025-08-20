@@ -15,10 +15,10 @@
  */
 package com.github.dkorotych.gradle.maven;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.gradle.api.GradleException;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Exception with information about Maven installation or finding issue.
@@ -33,7 +33,7 @@ public class IncorrectMavenInstallationDirectoryException extends GradleExceptio
      */
     public IncorrectMavenInstallationDirectoryException(final File directory) {
         super("Maven home is set to: '"
-                + ObjectUtils.defaultIfNull(directory, "blank")
+                + Objects.toString(directory, "blank")
                 + "' which is not a correct Maven installation directory");
     }
 }

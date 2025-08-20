@@ -19,6 +19,7 @@ import groovy.lang.Closure;
 import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
+import org.gradle.process.ExecOperations;
 import org.gradle.process.ExecResult;
 
 import java.util.*;
@@ -51,7 +52,7 @@ public class MavenExecConvention {
         Objects.requireNonNull(configure, "Configure closure should not be null");
         final Logger logger = project.getLogger();
         try {
-            return project.exec(execSpec -> {
+            return getExecOperations().exec(execSpec -> {
                 final MavenExecSpecDelegate delegate = new MavenExecSpecDelegate(execSpec, project);
                 project.configure(delegate, configure);
                 final List<String> commandLine = delegate.getCommandLine();
@@ -66,6 +67,21 @@ public class MavenExecConvention {
             }
             throw exception;
         }
+    }
+
+    /**
+     * Execute Maven directly in any task.
+     *
+     * @param configure Configuration closure for execute action
+     * @return Result of execution
+     * @see #mavenexec(Closure)
+     */
+    public ExecResult call(final Closure<MavenExecSpec> configure) {
+        return mavenexec(configure);
+    }
+
+    private ExecOperations getExecOperations() {
+        return ExecOperationsInstanceHolder.getExecOperations(project);
     }
 
     @SuppressWarnings("common-java:DuplicatedBlocks")

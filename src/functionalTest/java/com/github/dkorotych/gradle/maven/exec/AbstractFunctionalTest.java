@@ -44,7 +44,8 @@ public abstract class AbstractFunctionalTest {
             "8.11.1",
             "8.12.1",
             "8.13",
-            "8.14.3"
+            "8.14.3",
+            "9.0.0"
     );
 
     private static final GradleVersion MINIMAL_SUPPORTED_GRADLE_VERSION = GradleVersion.version("8.5");
@@ -59,6 +60,7 @@ public abstract class AbstractFunctionalTest {
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_21, MINIMAL_SUPPORTED_GRADLE_VERSION);
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("22"), GradleVersion.version("8.7"));
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("23"), GradleVersion.version("8.10.2"));
+        MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.toVersion("25"), GradleVersion.version("9.0.0"));
     }
 
     public static Collection<String> supportedGradleVersion() {
@@ -127,7 +129,7 @@ public abstract class AbstractFunctionalTest {
     }
 
     protected static void prepareProject(final File projectDir) throws Exception {
-        final URL resource = MavenExecPluginFunctionalTest.class.getResource("/fixtures/versions");
+        final URL resource = AbstractFunctionalTest.class.getResource("/fixtures/versions");
         final File source = Path.of(requireNonNull(resource).toURI()).toFile();
         FileUtils.copyDirectory(source, projectDir);
     }
@@ -137,11 +139,20 @@ public abstract class AbstractFunctionalTest {
             System.setProperty("maven-home", mavenVersion);
         }
 
-        final boolean localRun = Boolean.parseBoolean(System.getenv("CI"));
+        final boolean localRun = !Boolean.parseBoolean(System.getenv("CI"));
         final ArrayList<String> arguments = new ArrayList<>(Arrays.asList(commandLine));
         if (localRun) {
             arguments.add("--warning-mode");
             arguments.add("all");
+        }
+
+        if (VersionNumber.parse(gradleVersion).getMajor() >= 9) {
+            final int i = arguments.indexOf("--build-file");
+            if (i >= 0) {
+                // remove --build-file argument and its value
+                arguments.remove(i + 1);
+                arguments.remove(i);
+            }
         }
 
         final GradleRunner runner = GradleRunner.create();
@@ -157,7 +168,7 @@ public abstract class AbstractFunctionalTest {
     private static String toString(Optional<VersionNumber> optionalVersionNumber) {
         return optionalVersionNumber
                 .map(number -> {
-                    if (number.getMicro() == 0) {
+                    if (number.getMajor() == 8 && number.getMicro() == 0) {
                         return number.getMajor() + "." + number.getMinor();
                     }
                     return number.toString();

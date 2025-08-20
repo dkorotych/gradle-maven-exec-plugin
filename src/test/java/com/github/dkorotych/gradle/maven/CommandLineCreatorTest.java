@@ -71,11 +71,11 @@ class CommandLineCreatorTest {
 
     @Test
     void nullProject() {
-        assertThatThrownBy(() ->
-                project.exec(execSpec ->
-                        new CommandLineCreator(new MavenExecSpecDelegate(execSpec, project), null)))
-                .isInstanceOf(NullPointerException.class)
-                .hasMessage("Project should be not null");
+        project.getProviders().exec(execSpec ->
+                assertThatThrownBy(() ->
+                        new CommandLineCreator(new MavenExecSpecDelegate(execSpec, project), null))
+                        .isInstanceOf(NullPointerException.class)
+                        .hasMessage("Project should be not null"));
     }
 
     @ParameterizedTest

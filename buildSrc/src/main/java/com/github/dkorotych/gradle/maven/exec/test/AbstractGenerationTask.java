@@ -17,12 +17,13 @@ package com.github.dkorotych.gradle.maven.exec.test;
 
 import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.GradleException;
-import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskContainer;
+import org.gradle.process.ExecOperations;
 
+import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
@@ -66,10 +67,9 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
 
     @TaskAction
     public void generate() {
-        final Project project = getProject();
         final ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
         try (OutputStream outputStream = Files.newOutputStream(outputFile.toPath())) {
-            project.exec(execSpec -> {
+            getExecOperations().exec(execSpec -> {
                 execSpec.executable(getMavenExecutable())
                         .workingDir(getMavenHome());
                 execSpec.setStandardOutput(outputStream);
@@ -88,6 +88,11 @@ abstract class AbstractGenerationTask extends MavenDependentTask {
             }
             throw new GradleException(description, e);
         }
+    }
+
+    @Inject
+    protected ExecOperations getExecOperations() {
+        throw new UnsupportedOperationException();
     }
 
     private Stream<String> buildCauseMessagesWithoutLast(final Exception e) {
