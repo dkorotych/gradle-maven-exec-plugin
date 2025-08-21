@@ -116,12 +116,21 @@ public class PrepareMavenTask extends DefaultTask {
                 .filter(properties -> properties.has(key))
                 .map(properties -> properties.get(key))
                 .orElse(null);
+        final String name = fileName();
+        if (maven == null) {
+            maven = OperatingSystem.current().getPath().stream()
+                    .map(file -> new File(file, name))
+                    .filter(File::exists)
+                    .findFirst()
+                    .map(File::getAbsolutePath)
+                    .orElse(null);
+        }
         if (maven == null) {
             maven = Optional.ofNullable(System.getenv("MAVEN_HOME"))
                     .filter(((Predicate<String>) s -> s.trim().isEmpty()).negate())
                     .map(Paths::get)
                     .map(path -> path.resolve("bin"))
-                    .map(path -> path.resolve("mvn" + (OperatingSystem.current().isWindows() ? ".cmd" : "")))
+                    .map(path -> path.resolve(name))
                     .map(Path::toAbsolutePath)
                     .map(Path::toString)
                     .orElseThrow(() -> new GradleException(
@@ -137,5 +146,9 @@ public class PrepareMavenTask extends DefaultTask {
         } catch (UnsupportedEncodingException e) {
             throw new GradleException("Can't read response from error stream", e);
         }
+    }
+
+    private String fileName() {
+        return "mvn" + (OperatingSystem.current().isWindows() ? ".cmd" : "");
     }
 }
