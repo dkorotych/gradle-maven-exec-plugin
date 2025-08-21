@@ -553,8 +553,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
                 noTransferProgress, offline, quiet, rawStreams, resumeFrom, settings, toolchains, threads,
                 updateSnapshots, updatePlugins, version, showVersion, debug);
         result = 31 * result + Arrays.hashCode(activateProfiles);
-        result = 31 * result + Arrays.hashCode(projects);
-        return result;
+        return 31 * result + Arrays.hashCode(projects);
     }
 
     @Override

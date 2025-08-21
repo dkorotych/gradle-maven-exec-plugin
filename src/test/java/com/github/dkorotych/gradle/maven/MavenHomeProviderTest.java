@@ -188,7 +188,7 @@ class MavenHomeProviderTest {
     @Test
     void findMavenHomeIfDirectoryAlreadySet() throws IOException {
         final File mavenHome = createTempDirectory().resolve("mvnw").toFile();
-        mavenHome.createNewFile();
+        assertThat(mavenHome.createNewFile()).isTrue();
         provider.setMavenHome(mavenHome.getParentFile().toPath());
         assertThat(provider.findMavenHome()).isTrue();
     }
