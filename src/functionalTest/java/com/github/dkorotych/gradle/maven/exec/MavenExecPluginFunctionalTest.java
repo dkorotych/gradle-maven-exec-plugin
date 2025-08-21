@@ -72,7 +72,7 @@ class MavenExecPluginFunctionalTest extends AbstractFunctionalTest {
                 .containsAnyOf("[INFO] >>> maven-archetype-plugin", "[INFO] >>> archetype:")
                 .contains("[INFO] BUILD SUCCESS")
                 .contains("> Task :" + task)
-                .containsPattern("BUILD SUCCESSFUL in \\d+s")
+                .containsPattern("BUILD SUCCESSFUL in \\d+[h|m|s]")
                 .containsPattern("\\d+ actionable tasks: \\d+ executed");
     }
 
