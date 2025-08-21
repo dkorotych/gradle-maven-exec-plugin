@@ -184,7 +184,7 @@ class MavenDescriptorTest {
                 .isNotEmpty()
                 .doesNotHaveDuplicates()
                 .allMatch(option -> option.startsWith("--"))
-                .doesNotContain("--color");
+                .contains("--color", "--version", "--offline", "--quiet");
     }
 
     private MavenDescriptor createMavenDescriptor(String options, String text) {
@@ -202,6 +202,6 @@ class MavenDescriptorTest {
         final MavenDescriptor descriptor = function.apply(project);
         assertThat(descriptor.getVersion())
                 .isNotBlank()
-                .isEqualTo("3.0");
+                .isEqualTo("3.9.9");
     }
 }
