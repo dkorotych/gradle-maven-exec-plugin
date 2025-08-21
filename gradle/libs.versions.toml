@@ -1,8 +1,8 @@
 [versions]
-commons-lang3 = "3.17.0"
-junit-jupiter = "5.13.2"
-assertj-core = "3.27.3"
-mockito-core = "5.18.0"
+commons-lang3 = "3.18.0"
+junit-jupiter = "5.13.4"
+assertj-core = "3.27.4"
+mockito-core = "5.19.0"
 bean-matchers = "0.14"
 
 [plugins]
@@ -12,7 +12,7 @@ license = { id = "com.github.hierynomus.license", version = "0.16.1" }
 versions = { id = "com.github.ben-manes.versions", version = "0.52.0" }
 quality = { id = "ru.vyarus.quality", version = "5.0.0" }
 info = { id = "ru.vyarus.github-info", version = "2.0.0" }
-rewrite = { id = "org.openrewrite.rewrite", version = "7.9.0" }
+rewrite = { id = "org.openrewrite.rewrite", version = "7.14.0" }
 sonarqube = { id = "org.sonarqube", version = "6.2.0.5505" }
 
 [libraries]
@@ -21,4 +21,4 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jun
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
 bean-matchers = { module = "com.google.code.bean-matchers:bean-matchers", version.ref = "bean-matchers" }
-rewrite = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.10.0" }
+rewrite = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.13.0" }
