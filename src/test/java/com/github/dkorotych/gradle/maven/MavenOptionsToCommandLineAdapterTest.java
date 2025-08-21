@@ -41,7 +41,9 @@ class MavenOptionsToCommandLineAdapterTest {
 
     static {
         try {
-            DESCRIPTORS = Introspector.getBeanInfo(DefaultMavenOptions.class).getPropertyDescriptors();
+            DESCRIPTORS = Arrays.stream(Introspector.getBeanInfo(DefaultMavenOptions.class).getPropertyDescriptors())
+                    .filter(descriptor -> descriptor.getReadMethod() != null)
+                    .toArray(PropertyDescriptor[]::new);
         } catch (IntrospectionException e) {
             throw new RuntimeException(e);
         }

@@ -58,6 +58,7 @@ public final class MavenOptionsToCommandLineAdapter {
             };
             descriptors = stream(getBeanInfo(DefaultMavenOptions.class, Object.class).getPropertyDescriptors())
                     .filter(predicate)
+                    .filter(descriptor -> descriptor.getReadMethod() != null)
                     .sorted(Comparator.comparing(PropertyDescriptor::getName))
                     .toList();
         } catch (IntrospectionException e) {
