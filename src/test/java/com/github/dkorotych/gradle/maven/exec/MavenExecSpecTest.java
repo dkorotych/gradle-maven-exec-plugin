@@ -23,7 +23,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -31,6 +30,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import static com.github.dkorotych.gradle.maven.TestUtility.getPropertyDescriptors;
 import static com.github.dkorotych.gradle.maven.TestUtility.randomAlphanumeric;
 import static java.util.Map.of;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +43,7 @@ class MavenExecSpecTest {
     private static final Supplier<List<PropertyDescriptor>> SPECIFICATION_DESCRIPTORS = MemoizedSupplier.of(() -> {
         final List<String> skip = Arrays.asList("mavenDir", "goals", "options");
         try {
-            return Arrays.stream(Introspector.getBeanInfo(MavenExecSpec.class).getPropertyDescriptors())
+            return getPropertyDescriptors(MavenExecSpec.class)
                     .filter(((Predicate<PropertyDescriptor>) d -> skip.contains(d.getName())).negate())
                     .toList();
         } catch (IntrospectionException e) {
@@ -52,7 +52,8 @@ class MavenExecSpecTest {
     });
     private static final Supplier<List<PropertyDescriptor>> OPTION_DESCRIPTORS = MemoizedSupplier.of(() -> {
         try {
-            return Arrays.asList(Introspector.getBeanInfo(MavenOptions.class).getPropertyDescriptors());
+            return getPropertyDescriptors(MavenOptions.class)
+                    .toList();
         } catch (IntrospectionException e) {
             throw new RuntimeException(e);
         }

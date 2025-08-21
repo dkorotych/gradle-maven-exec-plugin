@@ -23,13 +23,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static com.github.dkorotych.gradle.maven.TestUtility.getPropertyDescriptors;
 import static java.util.List.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -41,8 +41,7 @@ class MavenOptionsToCommandLineAdapterTest {
 
     static {
         try {
-            DESCRIPTORS = Arrays.stream(Introspector.getBeanInfo(DefaultMavenOptions.class).getPropertyDescriptors())
-                    .filter(descriptor -> descriptor.getReadMethod() != null)
+            DESCRIPTORS = getPropertyDescriptors(DefaultMavenOptions.class)
                     .toArray(PropertyDescriptor[]::new);
         } catch (IntrospectionException e) {
             throw new RuntimeException(e);

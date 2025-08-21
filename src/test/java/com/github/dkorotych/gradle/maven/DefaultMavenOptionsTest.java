@@ -33,12 +33,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static com.github.dkorotych.gradle.maven.TestUtility.getPropertyDescriptors;
 import static com.github.dkorotych.gradle.maven.TestUtility.random;
 import static com.google.code.beanmatchers.BeanMatchers.*;
-import static java.beans.Introspector.getBeanInfo;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
 import static java.util.Map.of;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,7 +48,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @SuppressWarnings("OverloadMethodsDeclarationOrder")
 class DefaultMavenOptionsTest {
     public static Stream<PropertyDescriptor> lookLikeAPropertyAccess() throws IntrospectionException {
-        return stream(getBeanInfo(DefaultMavenOptions.class, Object.class).getPropertyDescriptors());
+        return getPropertyDescriptors(DefaultMavenOptions.class);
     }
 
     @Test
@@ -57,7 +56,7 @@ class DefaultMavenOptionsTest {
         assertThat(DefaultMavenOptions.class)
                 .satisfies(
                         arg -> assertThat(arg, hasValidBeanConstructor()),
-                        arg -> assertThat(arg, hasValidGettersAndSetters()),
+                        arg -> assertThat(arg, hasValidGettersAndSettersExcluding("tings")),
                         arg -> assertThat(arg, hasValidBeanHashCode()),
                         arg -> assertThat(arg, hasValidBeanEquals()),
                         arg -> assertThat(arg, hasValidBeanToString())

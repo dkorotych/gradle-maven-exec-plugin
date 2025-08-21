@@ -24,6 +24,10 @@ import org.gradle.process.ExecSpec;
 import org.gradle.process.internal.ExecActionFactory;
 import org.junit.platform.commons.util.ReflectionUtils;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 import static org.gradle.internal.os.OperatingSystem.*;
@@ -63,6 +68,17 @@ public final class TestUtility {
                 path.resolve(name).toFile().setExecutable(true);
             }
         }
+    }
+
+    public static Stream<PropertyDescriptor> getPropertyDescriptors(Class<?> beanClass) throws IntrospectionException {
+        final BeanInfo beanInfo;
+        if (beanClass.isInterface()) {
+            beanInfo = Introspector.getBeanInfo(beanClass);
+        } else {
+            beanInfo = Introspector.getBeanInfo(beanClass, Object.class);
+        }
+        return Arrays.stream(beanInfo.getPropertyDescriptors())
+                .filter(descriptor -> descriptor.getReadMethod() != null);
     }
 
     public static List<OperatingSystem> operatingSystems() {
