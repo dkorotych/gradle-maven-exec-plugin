@@ -102,6 +102,7 @@ public class PrepareMavenTask extends DefaultTask {
     }
 
     @Inject
+    @SuppressWarnings("common-java:DuplicatedBlocks")
     protected ExecOperations getExecOperations() {
         throw new UnsupportedOperationException();
     }
