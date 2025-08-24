@@ -1,6 +1,6 @@
 = https://plugins.gradle.org/plugin/com.github.dkorotych.gradle-maven-exec[gradle-maven-exec-plugin]
 :table-stripes: none
-:plugin-version: 4.0.0
+:plugin-version: 4.0.1
 
 Gradle plugin which provides a Maven exec task
 
