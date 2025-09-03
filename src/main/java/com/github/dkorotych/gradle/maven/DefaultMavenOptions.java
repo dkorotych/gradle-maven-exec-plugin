@@ -28,8 +28,7 @@ import java.util.*;
 @SuppressWarnings({
         "PMD.ExcessivePublicCount",
         "PMD.CyclomaticComplexity",
-        "PMD.TooManyFields",
-        "PMD.GodClass"
+        "PMD.TooManyFields"
 })
 public class DefaultMavenOptions implements MavenOptions, Serializable {
     @Serial
@@ -490,8 +489,7 @@ public class DefaultMavenOptions implements MavenOptions, Serializable {
     @Override
     @SuppressWarnings({
             "checkstyle:CyclomaticComplexity",
-            "checkstyle:NPathComplexity",
-            "PMD.NPathComplexity"
+            "checkstyle:NPathComplexity"
     })
     public boolean equals(final Object o) {
         if (this == o) {

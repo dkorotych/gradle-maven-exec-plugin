@@ -49,7 +49,7 @@ public interface ExecOperationsInstanceHolder {
      * @param project The Gradle project object
      * @return An instance of {@code ExecOperations}
      */
-    static ExecOperations getExecOperations(Project project) {
+    static ExecOperations getExecOperations(final Project project) {
         final ExtraPropertiesExtension properties = project.getExtensions().getExtraProperties();
         if (properties.has(OPERATION_NAME)) {
             return (ExecOperations) properties.get(OPERATION_NAME);

@@ -30,7 +30,6 @@ public class MavenExecPlugin implements Plugin<Project> {
     private static final String CONVENTION_NAME = "mavenexec";
 
     @Override
-    @SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
     public void apply(final Project project) {
         final ExtraPropertiesExtension properties = project.getExtensions().getExtraProperties();
         properties.set(MavenExec.class.getSimpleName(), MavenExec.class);

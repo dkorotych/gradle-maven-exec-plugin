@@ -55,7 +55,7 @@ public class MavenExecutableProvider {
     private String build() {
         final boolean hasWrapper = Optional.ofNullable(mavenHome)
                 .flatMap(path -> {
-                    try (@SuppressWarnings({"checkstyle:EmptyCatchBlock", "PMD.EmptyCatchBlock"})
+                    try (@SuppressWarnings("checkstyle:EmptyCatchBlock")
                          Stream<Path> files = Files.list(path)) {
                         return files.map(Path::toFile)
                                 .filter(MavenDescriptor::isMavenExecutionWrapperFile)
@@ -66,7 +66,10 @@ public class MavenExecutableProvider {
                 })
                 .isPresent();
         final boolean windows = OperatingSystem.current().isWindows();
-        final StringBuilder command = new StringBuilder("mvn" + (hasWrapper ? 'w' : ""));
+        final StringBuilder command = new StringBuilder("mvn");
+        if (hasWrapper) {
+            command.append('w');
+        }
         if (windows) {
             final String extension = ".cmd";
             if (hasWrapper) {

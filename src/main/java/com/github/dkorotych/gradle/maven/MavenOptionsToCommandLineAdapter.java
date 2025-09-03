@@ -73,7 +73,7 @@ public final class MavenOptionsToCommandLineAdapter {
      */
     @SuppressWarnings({"PMD.CognitiveComplexity", "java:S3776"})
     public List<String> asCommandLine() {
-        final ArrayList<String> arguments = new ArrayList<>();
+        final List<String> arguments = new ArrayList<>();
         for (final PropertyDescriptor descriptor : descriptors) {
             final Method readMethod = descriptor.getReadMethod();
             final Class<?> type = descriptor.getPropertyType();
