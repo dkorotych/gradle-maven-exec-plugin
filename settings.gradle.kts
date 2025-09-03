@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 plugins {
-    id("com.gradle.develocity") version "3.19.2"
+    id("com.gradle.develocity") version "4.1.1"
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
