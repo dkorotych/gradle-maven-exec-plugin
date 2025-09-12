@@ -52,7 +52,6 @@ class MavenExecSpecDelegateTest extends AbstractMavenExecSpecTest<MavenExecSpecD
             assertThat(specification.getEnvironment()).isEqualTo(value);
         } else {
             assertThat(specification.getEnvironment())
-                    .isNotNull()
                     .isEmpty();
         }
     }
