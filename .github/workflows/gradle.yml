@@ -42,7 +42,7 @@ jobs:
         java:
           - 17
           - 21
-          - 25
+          - 24
         os:
           - 'ubuntu-latest'
           - 'macos-latest'
