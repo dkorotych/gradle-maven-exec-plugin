@@ -70,6 +70,8 @@ jobs:
         run: echo "MAVEN_HOME=$(mvn --version | grep 'Maven home:' | cut -d ":" -f 2 | cut -c 2-)" >> $GITHUB_ENV
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.14.3
       - name: Prepare test environment
         run: gradle clean prepareTestEnvironment --no-build-cache
       - name: Run plugin tests
