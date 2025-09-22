@@ -1,7 +1,7 @@
 [versions]
 commons-lang3 = "3.18.0"
 junit-jupiter = "5.13.4"
-assertj-core = "3.27.4"
+assertj-core = "3.27.6"
 mockito-core = "5.19.0"
 bean-matchers = "0.14"
 
