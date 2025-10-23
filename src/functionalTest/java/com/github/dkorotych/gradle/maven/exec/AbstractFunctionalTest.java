@@ -53,7 +53,7 @@ public abstract class AbstractFunctionalTest {
     private static final Map<JavaVersion, GradleVersion> MINIMAL_SUPPORTED_VERSIONS;
 
     static {
-        MINIMAL_SUPPORTED_VERSIONS = new HashMap<>();
+        MINIMAL_SUPPORTED_VERSIONS = new EnumMap<>(JavaVersion.class);
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_17, MINIMAL_SUPPORTED_GRADLE_VERSION);
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_18, MINIMAL_SUPPORTED_GRADLE_VERSION);
         MINIMAL_SUPPORTED_VERSIONS.put(JavaVersion.VERSION_19, MINIMAL_SUPPORTED_GRADLE_VERSION);
