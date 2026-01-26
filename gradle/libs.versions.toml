@@ -1,19 +1,19 @@
 [versions]
-commons-lang3 = "3.18.0"
-junit-jupiter = "5.13.4"
-assertj-core = "3.27.4"
-mockito-core = "5.19.0"
+commons-lang3 = "3.20.0"
+junit-jupiter = "6.0.2"
+assertj-core = "3.27.7"
+mockito-core = "5.21.0"
 bean-matchers = "0.14"
 
 [plugins]
 publish = { id = "com.gradle.plugin-publish", version = "2.0.0" }
 release = { id = "net.researchgate.release", version = "3.1.0" }
 license = { id = "com.github.hierynomus.license", version = "0.16.1" }
-versions = { id = "com.github.ben-manes.versions", version = "0.52.0" }
+versions = { id = "com.github.ben-manes.versions", version = "0.53.0" }
 quality = { id = "ru.vyarus.quality", version = "6.0.1" }
 info = { id = "ru.vyarus.github-info", version = "2.0.0" }
-rewrite = { id = "org.openrewrite.rewrite", version = "7.16.0" }
-sonarqube = { id = "org.sonarqube", version = "6.3.1.5724" }
+rewrite = { id = "org.openrewrite.rewrite", version = "7.25.0" }
+sonarqube = { id = "org.sonarqube", version = "7.2.2.6593" }
 
 [libraries]
 commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
@@ -21,4 +21,4 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jun
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
 bean-matchers = { module = "com.google.code.bean-matchers:bean-matchers", version.ref = "bean-matchers" }
-rewrite = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.14.1" }
+rewrite = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.23.0" }
