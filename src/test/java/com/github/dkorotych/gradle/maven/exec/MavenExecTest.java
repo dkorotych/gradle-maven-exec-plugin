@@ -181,7 +181,7 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
         mavenExec.setGoals(singleton(validate));
         mavenExec.exec();
         assertThat(mavenExec.getCommandLine())
-                .isEqualTo(TestUtility.commandLine(project.getProjectDir(), validate));
+                .containsExactlyElementsOf(TestUtility.commandLine(project.getProjectDir(), validate));
 
         mavenExec = createTask(project);
         mavenExec.setGoals(of("clean", validate));
@@ -190,7 +190,7 @@ class MavenExecTest extends AbstractMavenExecSpecTest<MavenExec> {
         mavenExec.getOptions().quiet(true);
         mavenExec.exec();
         assertThat(mavenExec.getCommandLine())
-                .isEqualTo(TestUtility.commandLine(project.getProjectDir(),
+                .containsExactlyElementsOf(TestUtility.commandLine(project.getProjectDir(),
                         "--batch-mode", "--fail-fast", "--quiet", "clean", validate));
     }
 }

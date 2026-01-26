@@ -215,6 +215,6 @@ class MavenOptionsToCommandLineAdapterTest {
         final MavenOptionsToCommandLineAdapter adapter
                 = new MavenOptionsToCommandLineAdapter(options, supportedOptions);
         assertThat(adapter.asCommandLine())
-                .isEqualTo(expected);
+                .containsExactlyElementsOf(expected);
     }
 }

@@ -63,7 +63,7 @@ class MavenExecSpecDelegateTest extends AbstractMavenExecSpecTest<MavenExecSpecD
             specification.setEnvironment(null);
             final Map.Entry<String, ?> first = value.entrySet().iterator().next();
             specification.environment(first.getKey(), first.getValue());
-            assertThat(specification.getEnvironment()).isEqualTo(Map.of(first.getKey(), first.getValue()));
+            assertThat(specification.getEnvironment()).containsExactlyInAnyOrderEntriesOf(Map.of(first.getKey(), first.getValue()));
         }
     }
 
@@ -71,7 +71,7 @@ class MavenExecSpecDelegateTest extends AbstractMavenExecSpecTest<MavenExecSpecD
     void getCommandLine() throws Exception {
         Pair<Project, MavenExecSpecDelegate> pair = create();
         assertThat(pair.getValue().getCommandLine())
-                .isEqualTo(commandLine(pair.getKey().getProjectDir()));
+                .containsExactlyElementsOf(commandLine(pair.getKey().getProjectDir()));
 
         pair = create();
         final MavenExecSpec delegate = pair.getValue();
@@ -81,7 +81,7 @@ class MavenExecSpecDelegateTest extends AbstractMavenExecSpecTest<MavenExecSpecD
         delegate.getOptions().quiet(true);
         final File projectDir = pair.getKey().getProjectDir();
         assertThat(delegate.getCommandLine())
-                .isEqualTo(commandLine(projectDir, "--debug", "--offline", "--quiet", "clean", "verify"));
+                .containsExactlyElementsOf(commandLine(projectDir, "--debug", "--offline", "--quiet", "clean", "verify"));
     }
 
     @Test
