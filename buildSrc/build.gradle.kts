@@ -1,5 +1,3 @@
-import java.util.*
-
 /*
  * Copyright 2022 Dmitry Korotych.
  *
@@ -15,6 +13,8 @@ import java.util.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import java.util.*
+
 plugins {
     alias(libs.plugins.quality)
     alias(libs.plugins.license)

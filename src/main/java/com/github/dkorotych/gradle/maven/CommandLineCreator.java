@@ -82,10 +82,12 @@ public final class CommandLineCreator {
 
     private void prepareCommandLine() {
         if (getMavenDir() == null) {
+            //CHECKSTYLE:OFF
             logger.info("""
                     The directory with the executable Maven file is not set. \
                     The plugin will try to find the installation by itself\
                     """);
+            //CHECKSTYLE:ON
             findMavenExecutable();
             if (getMavenDir() == null) {
                 throw new GradleException("Maven installation not found");

@@ -107,7 +107,7 @@ public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecS
     }
 
     @Override
-    public MavenExec setArgs(final @Nullable Iterable<?> arguments) {
+    public MavenExec setArgs(@Nullable final Iterable<?> arguments) {
         throw new UnsupportedOperationException();
     }
 
@@ -127,7 +127,7 @@ public class MavenExec extends AbstractExecTask<MavenExec> implements MavenExecS
     }
 
     @Override
-    public void setExecutable(final @Nullable String executable) {
+    public void setExecutable(@Nullable final String executable) {
         throw new UnsupportedOperationException();
     }
 
