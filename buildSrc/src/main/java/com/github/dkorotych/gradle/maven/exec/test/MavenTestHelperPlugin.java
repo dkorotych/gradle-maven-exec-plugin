@@ -42,7 +42,11 @@ public class MavenTestHelperPlugin implements Plugin<Project> {
             "3.9.9",
             "3.9.10",
             "3.9.11",
-            "3.9.12"
+            "3.9.12",
+            "3.9.13",
+            "3.9.14",
+            "3.9.15",
+            "3.9.16"
     };
 
     @Override

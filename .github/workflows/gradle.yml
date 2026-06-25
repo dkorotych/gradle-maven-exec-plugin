@@ -42,7 +42,8 @@ jobs:
         java:
           - 17
           - 21
-          - 24
+          - 25
+          - 26
         os:
           - 'ubuntu-latest'
           - 'macos-latest'
