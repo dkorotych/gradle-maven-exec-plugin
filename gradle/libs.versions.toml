@@ -6,7 +6,7 @@ mockito-core = "5.23.0"
 bean-matchers = "0.14"
 
 [plugins]
-publish = { id = "com.gradle.plugin-publish", version = "2.0.0" }
+publish = { id = "com.gradle.plugin-publish", version = "2.1.1" }
 release = { id = "net.researchgate.release", version = "3.1.0" }
 license = { id = "com.github.hierynomus.license", version = "0.16.1" }
 versions = { id = "com.github.ben-manes.versions", version = "0.54.0" }
