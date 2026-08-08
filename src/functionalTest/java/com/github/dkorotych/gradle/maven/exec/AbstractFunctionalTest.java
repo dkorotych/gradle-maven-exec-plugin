@@ -51,7 +51,8 @@ public abstract class AbstractFunctionalTest {
             "9.3.1",
             "9.4.1",
             "9.5.1",
-            "9.6.1"
+            "9.6.1",
+            "9.7.0"
     );
 
     private static final GradleVersion MINIMAL_SUPPORTED_GRADLE_VERSION = GradleVersion.version("8.5");
