@@ -110,7 +110,7 @@ class MavenDescriptorTest {
     }
 
     private static Collection<String> getOptions(File directory) throws Exception {
-        try (Stream<String> lines = Files.lines(resolve(directory, "options.txt").toPath(), UTF_8)) {
+        try (Stream<String> lines = Files.lines(resolve(directory, "options.txt").toPath())) {
             return lines.toList();
         }
     }

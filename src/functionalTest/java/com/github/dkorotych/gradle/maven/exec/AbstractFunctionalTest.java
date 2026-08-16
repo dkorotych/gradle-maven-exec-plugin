@@ -28,7 +28,6 @@ import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 import static java.util.Objects.requireNonNull;
@@ -123,7 +122,7 @@ public abstract class AbstractFunctionalTest {
 
     public static String latestMavenVersion() {
         final String latestVersion = supportedMavenVersion().stream()
-                .map(Paths::get)
+                .map(Path::of)
                 .map(Path::toFile)
                 .map(File::getName)
                 .map(VersionNumber::parse)

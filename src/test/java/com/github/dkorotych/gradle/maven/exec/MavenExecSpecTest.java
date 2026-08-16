@@ -44,7 +44,7 @@ class MavenExecSpecTest {
         final List<String> skip = Arrays.asList("mavenDir", "goals", "options");
         try {
             return getPropertyDescriptors(MavenExecSpec.class)
-                    .filter(((Predicate<PropertyDescriptor>) d -> skip.contains(d.getName())).negate())
+                    .filter(Predicate.not(d -> skip.contains(d.getName())))
                     .toList();
         } catch (IntrospectionException e) {
             throw new RuntimeException(e);

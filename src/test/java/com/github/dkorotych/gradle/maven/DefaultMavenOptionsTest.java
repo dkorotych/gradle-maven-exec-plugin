@@ -36,7 +36,6 @@ import java.util.stream.Stream;
 import static com.github.dkorotych.gradle.maven.TestUtility.getPropertyDescriptors;
 import static com.github.dkorotych.gradle.maven.TestUtility.random;
 import static com.google.code.beanmatchers.BeanMatchers.*;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Map.of;
 import static java.util.Objects.requireNonNull;
@@ -70,7 +69,7 @@ class DefaultMavenOptionsTest {
         final Set<String> allOptions = new HashSet<>();
         try (DirectoryStream<Path> paths = Files.newDirectoryStream(dir, entry -> entry.toFile().isDirectory())) {
             for (Path path : paths) {
-                try (Stream<String> lines = Files.lines(path.resolve("options.txt"), UTF_8)) {
+                try (Stream<String> lines = Files.lines(path.resolve("options.txt"))) {
                     lines.forEach(allOptions::add);
                 } catch (IOException e) {
                     throw new RuntimeException(e);

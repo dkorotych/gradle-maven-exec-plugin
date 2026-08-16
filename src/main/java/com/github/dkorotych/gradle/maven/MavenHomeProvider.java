@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -128,8 +127,8 @@ public class MavenHomeProvider {
     public void setMavenHome(final String path) {
         final File directory = Optional.ofNullable(path)
                 .map(String::trim)
-                .filter(((Predicate<String>) String::isEmpty).negate())
-                .map(Paths::get)
+                .filter(Predicate.not(String::isEmpty))
+                .map(Path::of)
                 .map(Path::toFile)
                 .orElse(null);
         setMavenHome(directory);
